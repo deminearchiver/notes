@@ -1,0 +1,160 @@
+{
+  "locale_name": "{locale, select, other{Unknown} en{English} ru{Russian}}",
+  "@locale_name": {
+    "description": "Localized name of all locales",
+    "placeholders": {
+      "locale": {
+        "description": "Locale",
+        "type":"String",
+        "example": "en" 
+      }
+    }
+  },
+  "design_system": "Design system",
+  "icons": "Icons",
+  "font": "Font",
+  "framework": "Framework",
+  "search_no_results": "No results!",
+  "delete": "Delete",
+  "share": "Share",
+  "sort_ascending": "Ascending",
+  "sort_descending": "Descending",
+  "scroll_to_top": "Back to top",
+
+  "theme_auto": "Auto",
+  "theme_auto_tooltip": "Uses the default theme of your system",
+  "theme_light": "Light",
+  "theme_light_tooltip": "Uses the light color scheme",
+  "theme_dark": "Dark",
+  "theme_dark_tooltip": "Uses the dark color scheme",
+
+  "app_name": "Notes",
+  "app_author": "deminearchiver",
+
+  "about_app": "About app",
+  "about_author": "About author",
+
+
+  "about_view_technologies": "Technologies",
+  "about_view_links": "Links",
+  "about_view_licenses": "Open-source licenses",
+
+  "close": "Close",
+  "cancel": "Cancel",
+  "ok": "OK",
+
+  "current_language": "Current language",
+  "pick_language": "Choose a language",
+
+
+  "app_home_view": "Home",
+  "app_home_view_search": "Search your notes and to-dos",
+  "app_home_view_overdue": "Overdue ({count})",
+  "@app_home_view_overdue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "app_home_view_recent": "Recent ({count})",
+  "@app_home_view_recent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "app_home_view_todos": "To-dos ({count})",
+  "@app_home_view_todos": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "app_home_view_notes": "Notes ({count})",
+  "@app_home_view_notes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "app_home_view_completed": "Completed ({count})",
+  "@app_home_view_completed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "app_notes_view": "Notes",
+  "app_notes_view_search": "Search your notes",
+  "app_notes_view_create": "Note",
+  "app_notes_view_sort_title": "Title",
+  "app_notes_view_sort_created": "Date created",
+  "app_notes_view_sort_modified": "Date modified",
+
+  "app_todos_view": "To-dos",
+  "app_todos_view_search": "Search your to-dos",
+  "app_todos_view_create": "To-do",
+  "app_todos_view_sort_label": "Label",
+  "app_todos_view_sort_date": "Date",
+
+  "note_view_title_hint": "Title",
+  "todo_view_label_hint": "Label",
+  "todo_view_details_hint": "Details",
+  "todo_view_options": "Options",
+  "todo_view_completed": "Done",
+  "todo_view_important": "Important",
+  "todo_view_reminder": "Reminder",
+  "todo_view_reminder_date": "Date",
+  "todo_view_reminder_time": "Time",
+
+  "settings_view": "Settings",
+  "settings_view_options": "Options",
+  "settings_general_view": "General",
+  "settings_general_view_description": "Behavioural parameters",
+  "settings_appearance_view": "Appearance",
+  "settings_appearance_view_description": "App appearance parameters",
+  "settings_appearance_view_language": "Language",
+  "settings_appearance_view_language_system": "System language",
+  "settings_appearance_view_theme_mode": "Theme mode",
+  "settings_view_other": "Other",
+  "settings_view_about": "About",
+  "settings_view_about_description": "Information about the app",
+  "settings_view_developer_mode": "Developer mode",
+  "settings_view_developer_mode_description": "Functionality useful for developers",
+  "settings_view_demo_mode": "Demo mode",
+  "settings_view_demo_mode_description": "For presentations",
+  "settings_view_demo_mode_action": "Enable",
+  "settings_view_clear_database": "Clear database",
+  "settings_view_clear_database_description": "This action is irreversible",
+  "settings_view_clear_database_action": "Clear",
+
+  "reset_settings": "Reset settings",
+  "reset_settings_confirmation": "Are you sure you want to reset ALL settings? This action CANNOT be undone.",
+  "reset_settings_success": "Settings reset successfully",
+
+  "reminder_view_dismiss": "Dismiss",
+  "reminder_view_done": "Done",
+
+  "onboarding_back": "Back",
+  "onboarding_next": "Next",
+  
+  "onboarding_welcome_view_title": "Welcome!",
+  "onboarding_welcome_view_subtitle": "\"Notes\" is a note-taking and to-do app",
+  
+  "onboarding_setup_view_title": "Set up",
+  "onboarding_setup_view_subtitle": "Let's get you set up!",
+  "onboarding_setup_view_permissions": "Permissions",
+  "onboarding_setup_view_permission": "Send notifications",
+  "onboarding_setup_view_permission_description": "Tap to request permission",
+  "onboarding_setup_view_appearance": "Appearance",
+  "onboarding_setup_view_theme": "Choose a theme",
+
+  "onboarding_done_view_title": "Congrats!",
+  "onboarding_done_view_subtitle": "You are set up and ready to go!",
+  "onboarding_done_view_action": "Let's go!"
+}

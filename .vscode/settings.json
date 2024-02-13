@@ -1,0 +1,5 @@
+{
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "cmake.sourceDirectory": "${workspaceFolder}/windows",
+  "cmake.configureOnOpen": false
+}
