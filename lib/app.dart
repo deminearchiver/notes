@@ -1,18 +1,17 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:intl/intl.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/todo.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:notes/native.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
+import 'package:notes/theme.dart';
 import 'package:notes/views/app/app.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/reminder/reminder.dart';
 import 'package:notes/widgets/title_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class App extends StatefulWidget {
   const App({
@@ -57,7 +56,7 @@ class _AppState extends State<App> {
           if (mounted) {
             _navigatorKey.currentState?.push(
               MaterialRoute.zoom(
-                child: ReminderView(
+                builder: (context) => ReminderView(
                   todo: todo,
                 ),
               ),
@@ -85,21 +84,13 @@ class _AppState extends State<App> {
           onGenerateTitle: (context) => AppLocalizations.of(context).app_name,
 
           // Theme
-          theme: ThemeData(
-            platform: TargetPlatform.android,
-            splashFactory: InkSparkle.splashFactory,
-            brightness: Brightness.light,
-            // fontFamily: GoogleFonts.notoSans().fontFamily,
-          ),
-          darkTheme: ThemeData(
-            platform: TargetPlatform.android,
-            splashFactory: InkSparkle.splashFactory,
-            brightness: Brightness.dark,
-          ),
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+
           themeAnimationCurve: Easing.standard,
           themeAnimationDuration: Durations.medium4,
           themeMode: settings.themeMode,
-          // themeMode: ThemeMode.light,
+          // themeMode: ThemeMode.dark,
 
           builder: (context, child) => TitleBar(
             backgroundColor: Theme.of(context).colorScheme.surface,
@@ -114,19 +105,19 @@ class _AppState extends State<App> {
 
             results.add(
               MaterialRoute.zoom(
-                child: const AppView(),
+                builder: (context) => const AppView(),
               ),
             );
             if (settings.firstRun) {
               results.add(
                 MaterialRoute.zoom(
-                  child: const OnboardingScope(),
+                  builder: (context) => const OnboardingScope(),
                 ),
               );
             } else if (widget.todo != null) {
               results.add(
                 MaterialRoute.zoom(
-                  child: ReminderView(
+                  builder: (context) => ReminderView(
                     todo: widget.todo!,
                   ),
                 ),
@@ -136,7 +127,7 @@ class _AppState extends State<App> {
           },
           onGenerateRoute: (settings) {
             return MaterialRoute.zoom(
-              child: const AppView(),
+              builder: (context) => const AppView(),
             );
           },
         );

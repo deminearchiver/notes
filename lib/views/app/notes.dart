@@ -12,7 +12,7 @@ import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class AppViewNotesPage extends StatefulWidget {
   const AppViewNotesPage({
@@ -260,15 +260,7 @@ class _NoteCardState extends State<NoteCard> {
     final formatter = DateFormat.yMMMEd(localizations.localeName);
     return ViewCard(
       key: _cardKey,
-      well: WellEvents(
-        // onTap: () => Navigator.push(
-        //   context,
-        //   MaterialRoute.zoom(
-        //     child: NoteView(
-        //       note: _note,
-        //     ),
-        //   ),
-        // ),
+      child: InkWell(
         onTap: () {
           _cardKey.currentState?.openView(
             (context) => NoteView(
@@ -277,42 +269,42 @@ class _NoteCardState extends State<NoteCard> {
           );
         },
         onLongPress: () => _showBottomSheet(context),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Text(
-                    _note.title,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      _note.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ),
+                  Text(
+                    formatter.format(
+                      _note.updatedAt,
+                    ),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
-                ),
-                Text(
-                  formatter.format(
-                    _note.updatedAt,
-                  ),
-                  maxLines: 1,
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              _note.content.toPlainText().trim().split("\n").reduce(
-                  (value, element) =>
-                      value.length > element.length ? value : element),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _note.content.toPlainText().trim().split("\n").reduce(
+                    (value, element) =>
+                        value.length > element.length ? value : element),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
+          ),
         ),
       ),
     );

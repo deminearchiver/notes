@@ -1,5 +1,5 @@
 import 'package:notes/widgets/switcher/switcher.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class TopLevelSwitcher extends Switcher {
   const TopLevelSwitcher({

@@ -39,7 +39,7 @@ abstract class Database {
 
     final now = DateTime.now();
     final notes = <Note>[
-      Note(
+      createNote(
         title: "Добро пожаловать!",
         content: markdownDocument("""
 В приложении "Заметки" вы можете управлять вашими заметками и задачами.
@@ -65,7 +65,7 @@ abstract class Database {
         createdAt: DateTime(2024, 1, 31, 13, 47),
         updatedAt: DateTime(2024, 1, 31, 13, 47),
       ),
-      Note(
+      createNote(
         title: "Фреймворки",
         content: markdownDocument(
           """
@@ -84,7 +84,7 @@ abstract class Database {
         createdAt: now.subtract(const Duration(days: 90)),
         updatedAt: now.subtract(const Duration(days: 25)),
       ),
-      Note(
+      createNote(
         title: "Список покупок",
         content: documentFromOperations([
           Operation.insert("Продукты:\n"),
@@ -125,7 +125,7 @@ abstract class Database {
       ),
       ...List.generate(
         5,
-        (index) => Note(
+        (index) => createNote(
           title: "Заметка №${index + 1}",
           content: markdownDocument("""
 Демо-заметка
@@ -136,7 +136,7 @@ abstract class Database {
           updatedAt: now.subtract(const Duration(days: 200)),
         ),
       ),
-      Note(
+      createNote(
         title: "Форматирование",
         content: markdownDocument("""
 Текст в заметках может быть отформатирован. Ниже представлено большинство возможностей форматирования.
@@ -178,20 +178,20 @@ abstract class Database {
     await addNotes(notes);
 
     final todos = <Todo>[
-      Todo(
+      createTodo(
         label: "Рассказать о задачах",
         details:
             "Не забыть рассказать о задачах и напоминаниях во время презентации",
         important: true,
         date: now.add(const Duration(minutes: 10)),
       ),
-      Todo(
+      createTodo(
         label: "Демо-напоминание",
         details: "Так выглядит напоминание о задаче",
         completed: false,
         date: now.add(const Duration(seconds: 5)),
       ),
-      Todo(
+      createTodo(
         label: "Сделать уроки",
         details: "Информатика и английский язык",
         completed: false,
@@ -204,7 +204,7 @@ abstract class Database {
   static Future<void> init() async {
     final supportDir = await getApplicationSupportDirectory();
     isar = await Isar.open(
-      [
+      schemas: [
         NoteSchema,
         TodoSchema,
       ],
@@ -213,12 +213,12 @@ abstract class Database {
   }
 
   static Future<void> clear() async {
-    await isar.writeTxn(() => isar.clear());
+    await isar.writeAsync((isar) => isar.clear());
     await NotificationService.cancelAll();
   }
 
-  static int get notesCount => isar.notes.countSync();
-  static int get todosCount => isar.todos.countSync();
+  static int get notesCount => isar.notes.count();
+  static int get todosCount => isar.todos.count();
 
   static Future<List<Note>> getAllNotes({
     NotesSortBy sort = NotesSortBy.updatedAt,
@@ -261,38 +261,15 @@ abstract class Database {
     NotesSortBy sort = NotesSortBy.updatedAt,
     Sort order = Sort.desc,
   }) {
-    final words = Isar.splitWords(query);
-    if (words.isEmpty) return watchAllNotes(sort: sort, order: order);
+    if (query.isEmpty) return watchAllNotes(sort: sort, order: order);
 
-    final firstWord = words.removeAt(0);
     final filter = isar.notes
-        .filter()
+        .where()
         .titleContains(query, caseSensitive: false)
-        .or()
-        .group(
-          (q) => words.fold(
-            q.titleWordsElementContains(firstWord, caseSensitive: false),
-            (q, word) =>
-                q.titleWordsElementContains(word, caseSensitive: false),
-          ),
-        )
         .or()
         .contentTextContains(
           query,
           caseSensitive: false,
-        )
-        .or()
-        .group(
-          (q) => words.fold(
-            q.contentWordsElementContains(
-              firstWord,
-              caseSensitive: false,
-            ),
-            (q, word) => q.contentWordsElementContains(
-              word,
-              caseSensitive: false,
-            ),
-          ),
         );
     final notes = switch (sort) {
       NotesSortBy.title =>
@@ -308,15 +285,15 @@ abstract class Database {
   }
 
   static Future<void> addNote(Note note) async {
-    await isar.writeTxn(() => isar.notes.put(note));
+    await isar.writeAsync((isar) => isar.notes.put(note));
   }
 
   static Future<void> addNotes(List<Note> notes) async {
-    await isar.writeTxn(() => isar.notes.putAll(notes));
+    await isar.writeAsync((isar) => isar.notes.putAll(notes));
   }
 
-  static Future<void> deleteNote(Id id) async {
-    await isar.writeTxn(() => isar.notes.delete(id));
+  static Future<void> deleteNote(int id) async {
+    await isar.writeAsync((isar) => isar.notes.delete(id));
   }
 
   static Future<List<Todo>> getAllTodos({
@@ -352,31 +329,13 @@ abstract class Database {
     TodosSortBy sort = TodosSortBy.date,
     Sort order = Sort.asc,
   }) {
-    final words = Isar.splitWords(query);
-    if (words.isEmpty) return watchAllTodos(sort: sort, order: order);
+    if (query.isEmpty) return watchAllTodos(sort: sort, order: order);
 
-    final firstWord = words.removeAt(0);
     final filter = isar.todos
-        .filter()
+        .where()
         .labelContains(query, caseSensitive: false)
         .or()
-        .group((q) => words.fold(
-            q.labelWordsElementContains(firstWord, caseSensitive: false),
-            (q, word) =>
-                q.labelWordsElementContains(word, caseSensitive: false)))
-        .or()
-        .detailsContains(query, caseSensitive: false)
-        .or()
-        .group((q) => words.fold(
-              q.detailsWordsElementContains(
-                firstWord,
-                caseSensitive: false,
-              ),
-              (q, word) => q.detailsWordsElementContains(
-                word,
-                caseSensitive: false,
-              ),
-            ));
+        .detailsContains(query, caseSensitive: false);
 
     final todos = switch (sort) {
       TodosSortBy.label =>
@@ -392,7 +351,7 @@ abstract class Database {
   }
 
   static Future<void> addTodo(Todo todo) async {
-    await isar.writeTxn(() => isar.todos.put(todo));
+    await isar.writeAsync((isar) => isar.todos.put(todo));
     // TODO: move this logic somewhere else
 
     await NotificationService.cancel(todo.id);
@@ -411,7 +370,7 @@ abstract class Database {
   // }
 
   static Future<void> addTodos(List<Todo> todos) async {
-    await isar.writeTxn(() => isar.todos.putAll(todos));
+    await isar.writeAsync((isar) => isar.todos.putAll(todos));
     for (final todo in todos) {
       await NotificationService.scheduleTodoNotification(todo);
     }
@@ -423,6 +382,43 @@ abstract class Database {
 
     await NotificationService.cancel(todo.id);
 
-    await isar.writeTxn(() => isar.todos.delete(id));
+    await isar.writeAsync((isar) => isar.todos.delete(id));
+  }
+
+  static Note createNote({
+    int? id,
+    required String title,
+    ParchmentDocument? content,
+    bool favorite = false,
+    DateTime? updatedAt,
+    DateTime? createdAt,
+  }) {
+    if (updatedAt != null) {
+      assert(updatedAt.compareTo(createdAt ?? DateTime.now()) >= 0);
+    }
+    return Note()
+      ..id = id ?? isar.notes.autoIncrement()
+      ..title = title
+      ..content = content ?? ParchmentDocument()
+      ..favorite = favorite
+      ..createdAt = createdAt ?? DateTime.now()
+      ..updatedAt = updatedAt ?? DateTime.now();
+  }
+
+  static Todo createTodo({
+    int? id,
+    required String label,
+    required DateTime date,
+    String? details,
+    bool important = false,
+    bool completed = false,
+  }) {
+    return Todo()
+      ..id = id ?? isar.todos.autoIncrement()
+      ..label = label
+      ..details = details ?? ""
+      ..date = date
+      ..important = important
+      ..completed = completed;
   }
 }

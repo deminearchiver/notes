@@ -1,6 +1,6 @@
 import 'package:fleather/fleather.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 Widget customToggleStyleButtonBuilder(
   BuildContext context,
@@ -31,9 +31,9 @@ Widget customToggleStyleButtonBuilder(
 class FleatherToggleStyleButton extends ToggleStyleButton {
   const FleatherToggleStyleButton({
     super.key,
+    required super.controller,
     required super.attribute,
     required super.icon,
-    required super.controller,
     super.childBuilder = customToggleStyleButtonBuilder,
   });
 }

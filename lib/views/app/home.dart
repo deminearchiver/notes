@@ -10,7 +10,7 @@ import 'package:notes/views/app/notes.dart';
 import 'package:notes/views/app/todos.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/section_header.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class AppViewHomePage extends StatefulWidget {
   const AppViewHomePage({
@@ -253,6 +253,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                               ),
                             ),
                           ),
+                          const SizedBox(height: 16),
                         ],
                       );
                     },

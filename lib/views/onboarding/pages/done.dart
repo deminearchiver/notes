@@ -4,7 +4,7 @@ import 'package:notes/settings/settings.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/onboarding/scaffold.dart';
 import 'package:provider/provider.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class OnboardingDone extends StatelessWidget {
   const OnboardingDone({super.key});

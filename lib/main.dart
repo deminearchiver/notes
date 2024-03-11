@@ -2,14 +2,15 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:notes/app.dart';
 import 'package:notes/constants/images.dart';
 import 'package:notes/database/database.dart';
-import 'package:notes/native.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:flutter_timezone_plus/flutter_timezone_plus.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:window_manager/window_manager.dart';
 
 Future<void> loadTimezone() async {
   tz.initializeTimeZones();
@@ -23,6 +24,8 @@ Future<void> loadTimezone() async {
   }
 }
 
+late String appVersion;
+
 void main() async {
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
@@ -33,6 +36,21 @@ void main() async {
   await Settings.instance.reload();
   await Database.init();
   await Images.init();
+
+  final packageInfo = await PackageInfo.fromPlatform();
+  appVersion = packageInfo.version;
+
+  // await windowManager.ensureInitialized();
+
+  // const windowOptions = WindowOptions(
+  //   size: Size(800, 600),
+  //   center: true,
+  //   titleBarStyle: TitleBarStyle.hidden,
+  // );
+  // await windowManager.waitUntilReadyToShow(windowOptions, () async {
+  //   await windowManager.show();
+  //   await windowManager.focus();
+  // });
 
   if (!Settings.instance.firstRun) {
     await NotificationService.requestPermission();

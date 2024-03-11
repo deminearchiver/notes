@@ -1,17 +1,14 @@
 import 'dart:ui';
 
 import 'package:notes/widgets/safe_area.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class ViewCard extends StatefulWidget {
   const ViewCard({
     super.key,
-    this.well,
     this.shape,
     required this.child,
   });
-
-  final WellEvents? well;
 
   final ShapeBorder? shape;
 
@@ -53,7 +50,6 @@ class ViewCardState extends State<ViewCard> {
   Widget build(BuildContext context) {
     return Card.outlined(
       key: _cardKey,
-      well: widget.well,
       shape: widget.shape,
       child: widget.child,
     );
@@ -83,7 +79,7 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   final WidgetBuilder viewBuilder;
 
   @override
-  Color? get barrierColor => Colors.black.withOpacity(0.5);
+  Color? get barrierColor => Colors.black.withOpacity(0.32);
 
   @override
   String? get barrierLabel => null;

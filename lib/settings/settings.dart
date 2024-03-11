@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:notes/utils/utils.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<T> sharedPreferences<T>(

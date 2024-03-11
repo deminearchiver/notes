@@ -1,6 +1,5 @@
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:notes/database/database.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/settings/pages/developer.dart';
@@ -9,8 +8,8 @@ import 'package:notes/views/settings/widgets.dart';
 import 'package:notes/views/about/about.dart';
 import 'package:notes/widgets/dialog/language_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:true_material/material.dart';
+
+import 'package:material/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:markdown/markdown.dart' as md;
 import 'package:url_launcher/url_launcher.dart';
@@ -114,7 +113,7 @@ class _SettingsViewState extends State<SettingsView> {
             onTap: () => Navigator.push(
               context,
               MaterialRoute.sharedAxis(
-                child: const SettingsViewGeneralPage(),
+                builder: (context) => const SettingsViewGeneralPage(),
               ),
             ),
             leading: const Icon(Symbols.settings_rounded),
@@ -126,7 +125,7 @@ class _SettingsViewState extends State<SettingsView> {
           onTap: () => Navigator.push(
             context,
             MaterialRoute.sharedAxis(
-              child: const SettingsViewAppearancePage(),
+              builder: (context) => const SettingsViewAppearancePage(),
             ),
           ),
           leading: const Icon(
@@ -141,7 +140,7 @@ class _SettingsViewState extends State<SettingsView> {
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialRoute.sharedAxis(child: const AboutView()),
+            MaterialRoute.sharedAxis(builder: (context) => const AboutView()),
           ),
           leading: const Icon(Symbols.info_rounded),
           title: Text(localizations.settings_view_about),
@@ -183,7 +182,8 @@ class _SettingsViewState extends State<SettingsView> {
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialRoute.sharedAxis(child: const SettingsViewDeveloperPage()),
+            MaterialRoute.sharedAxis(
+                builder: (context) => const SettingsViewDeveloperPage()),
           ),
           leading: const Icon(Symbols.code_rounded),
           title: Text("Для разработчиков"),

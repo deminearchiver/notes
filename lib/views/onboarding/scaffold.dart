@@ -1,5 +1,5 @@
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 enum OnboardingActionsLayout { column, row }
 
@@ -38,16 +38,17 @@ class OnboardingScaffold extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (icon != null) ...[
-            IconTheme.merge(
-              data: IconThemeData(
-                size: 36,
-                color: theme.colorScheme.secondary,
+          if (icon != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: IconTheme.merge(
+                data: IconThemeData(
+                  size: 36,
+                  color: theme.colorScheme.primary,
+                ),
+                child: icon!,
               ),
-              child: icon!,
             ),
-            const SizedBox(height: 16),
-          ],
           Text(
             title,
             textAlign: TextAlign.center,

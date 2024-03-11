@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:notes/utils/utils.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 sealed class Images {
   static Future<void> init() async {

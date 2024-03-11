@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class ScrollToTop extends StatefulWidget {
   const ScrollToTop({
@@ -136,7 +136,7 @@ class _ScrollToTopState extends State<ScrollToTop>
                     height: MediaQuery.paddingOf(context).top + widget.top,
                   ),
                   Center(
-                    child: FilledButton.icon(
+                    child: FilledButton.tonalIcon(
                       onPressed: _scrollToTop,
                       icon: const Icon(Symbols.north_rounded),
                       label: Text(localizations.scroll_to_top),

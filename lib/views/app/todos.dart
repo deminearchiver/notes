@@ -13,7 +13,7 @@ import 'package:notes/widgets/safe_area.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class AppViewTodosPage extends StatefulWidget {
   const AppViewTodosPage({
@@ -271,7 +271,15 @@ class _TodoCardState extends State<TodoCard> {
 
     return ViewCard(
       key: _cardKey,
-      well: WellEvents(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: _todo.completed
+              ? theme.colorScheme.outline.withOpacity(0.12)
+              : theme.colorScheme.outlineVariant,
+        ),
+      ),
+      child: InkWell(
         onTap: () => _cardKey.currentState?.openView(
           (context) => TodoView(
             todo: _todo,
@@ -287,76 +295,68 @@ class _TodoCardState extends State<TodoCard> {
         // ),
         onLongPress: () => _showBottomSheet(context),
         onSecondaryTap: () => _showBottomSheet(context),
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: _todo.completed
-              ? theme.colorScheme.outlineVariant
-              : theme.colorScheme.outline,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-        child: Row(
-          children: [
-            Checkbox(
-              onChanged: (value) => _setTodo(completed: value),
-              value: _todo.completed,
-            ),
-            const SizedBox(width: 8),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _todo.label,
-                  style: _todo.completed
-                      ? titleTextStyle?.copyWith(
-                          color: theme.disabledColor,
-                        )
-                      : titleTextStyle,
-                ),
-                Text.rich(
-                  TextSpan(children: [
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Symbols.calendar_month_rounded,
-                        opticalSize: 20,
-                        size: 16,
-                        color: iconColor,
-                      ),
-                    ),
-                    TextSpan(
-                      text: " ${dateFormat.format(_todo.date)} ",
-                    ),
-                    WidgetSpan(
-                      alignment: PlaceholderAlignment.middle,
-                      child: Icon(
-                        Symbols.schedule_rounded,
-                        opticalSize: 20,
-                        size: 16,
-                        color: iconColor,
-                      ),
-                    ),
-                    TextSpan(
-                      text: " ${timeFormat.format(_todo.date)}",
-                    ),
-                  ]),
-                  style: subtitleTextStyle,
-                )
-              ],
-            ),
-            const Spacer(),
-            if (_todo.important) ...[
-              const SizedBox(width: 8),
-              Icon(
-                Symbols.priority_high_rounded,
-                color: _todo.completed ? theme.disabledColor : Colors.red,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+          child: Row(
+            children: [
+              Checkbox(
+                onChanged: (value) => _setTodo(completed: value),
+                value: _todo.completed,
               ),
+              const SizedBox(width: 8),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _todo.label,
+                    style: _todo.completed
+                        ? titleTextStyle?.copyWith(
+                            color: theme.disabledColor,
+                          )
+                        : titleTextStyle,
+                  ),
+                  Text.rich(
+                    TextSpan(children: [
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Symbols.calendar_month_rounded,
+                          opticalSize: 20,
+                          size: 16,
+                          color: iconColor,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " ${dateFormat.format(_todo.date)} ",
+                      ),
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Symbols.schedule_rounded,
+                          opticalSize: 20,
+                          size: 16,
+                          color: iconColor,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " ${timeFormat.format(_todo.date)}",
+                      ),
+                    ]),
+                    style: subtitleTextStyle,
+                  )
+                ],
+              ),
+              const Spacer(),
+              if (_todo.important) ...[
+                const SizedBox(width: 8),
+                Icon(
+                  Symbols.priority_high_rounded,
+                  color: _todo.completed ? theme.disabledColor : Colors.red,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

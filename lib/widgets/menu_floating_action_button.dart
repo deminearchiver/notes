@@ -1,6 +1,6 @@
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/widgets/intrinsic_align.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 enum _MenuFloatingActionButtonVariant {
   regular,
@@ -56,7 +56,7 @@ class _MenuFloatingActionButtonState extends State<MenuFloatingActionButton> {
   Widget build(BuildContext context) {
     return Visibility.maintain(
       visible: _visible,
-      maintainInteractivity: false,
+      // maintainInteractivity: false,
       child: FloatingActionButton.large(
         key: _key,
         onPressed: _openMenu,
@@ -183,11 +183,11 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                         alignment: Alignment.bottomCenter,
                         widthFactor: linearTween.evaluate(animation),
                         heightFactor: linearTween.evaluate(animation),
-                        child: Well(
+                        child: InkWell(
                           onTap: () => Navigator.pushReplacement(
                             context,
                             MaterialRoute.zoom(
-                              child: Scaffold(
+                              builder: (context) => Scaffold(
                                 appBar: AppBar(),
                               ),
                             ),
@@ -217,7 +217,7 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                     Card.filled(
                       color: theme.colorScheme.primaryContainer,
                       shape: RoundedRectangleBorder(borderRadius: borderRadius),
-                      child: Well(
+                      child: InkWell(
                         onTap: () => Navigator.pop(context),
                         child: Padding(
                           padding: EdgeInsetsGeometryTween(

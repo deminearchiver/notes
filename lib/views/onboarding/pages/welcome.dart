@@ -3,7 +3,7 @@ import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/onboarding/pages/setup.dart';
 import 'package:notes/views/onboarding/scaffold.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class OnboardingWelcome extends StatelessWidget {
   const OnboardingWelcome({super.key});
@@ -17,7 +17,7 @@ class OnboardingWelcome extends StatelessWidget {
       title: localizations.onboarding_welcome_view_title,
       subtitle: localizations.onboarding_welcome_view_subtitle,
       actions: [
-        FilledButton(
+        FilledButton.tonal(
           onPressed: () => OnboardingScope.of(context).next(
             const OnboardingSetup(),
           ),

@@ -3,39 +3,17 @@ part 'todo.g.dart';
 
 @collection
 class Todo {
-  Todo({
-    this.id = Isar.autoIncrement,
-    required this.label,
-    this.details = "",
-    required this.date,
-    this.important = false,
-    this.completed = false,
-  });
-  Todo.empty({
-    this.id = Isar.autoIncrement,
-    this.label = "",
-    this.details = "",
-    this.important = false,
-    this.completed = false,
-    DateTime? date,
-  }) : date = date ?? DateTime.now().add(const Duration(days: 1));
+  late int id;
 
-  Id id;
+  @index
+  late String label;
+  @index
+  late String details;
 
-  String label;
+  late bool important;
+  late bool completed;
 
-  @Index(caseSensitive: false)
-  List<String> get labelWords => Isar.splitWords(label);
-
-  String details;
-
-  @Index(caseSensitive: false)
-  List<String> get detailsWords => Isar.splitWords(details);
-
-  bool important;
-  bool completed;
-
-  DateTime date;
+  late DateTime date;
 
   @ignore
   @override

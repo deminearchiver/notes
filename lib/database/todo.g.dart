@@ -3,821 +3,363 @@
 part of 'todo.dart';
 
 // **************************************************************************
-// IsarCollectionGenerator
+// _IsarCollectionGenerator
 // **************************************************************************
 
 // coverage:ignore-file
-// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
 
 extension GetTodoCollection on Isar {
-  IsarCollection<Todo> get todos => this.collection();
+  IsarCollection<int, Todo> get todos => this.collection();
 }
 
-const TodoSchema = CollectionSchema(
-  name: r'Todo',
-  id: -505491818817781703,
-  properties: {
-    r'completed': PropertySchema(
-      id: 0,
-      name: r'completed',
-      type: IsarType.bool,
-    ),
-    r'date': PropertySchema(
-      id: 1,
-      name: r'date',
-      type: IsarType.dateTime,
-    ),
-    r'details': PropertySchema(
-      id: 2,
-      name: r'details',
-      type: IsarType.string,
-    ),
-    r'detailsWords': PropertySchema(
-      id: 3,
-      name: r'detailsWords',
-      type: IsarType.stringList,
-    ),
-    r'important': PropertySchema(
-      id: 4,
-      name: r'important',
-      type: IsarType.bool,
-    ),
-    r'label': PropertySchema(
-      id: 5,
-      name: r'label',
-      type: IsarType.string,
-    ),
-    r'labelWords': PropertySchema(
-      id: 6,
-      name: r'labelWords',
-      type: IsarType.stringList,
-    )
-  },
-  estimateSize: _todoEstimateSize,
-  serialize: _todoSerialize,
-  deserialize: _todoDeserialize,
-  deserializeProp: _todoDeserializeProp,
-  idName: r'id',
-  indexes: {
-    r'labelWords': IndexSchema(
-      id: -5220249449812548321,
-      name: r'labelWords',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'labelWords',
-          type: IndexType.hash,
-          caseSensitive: false,
-        )
-      ],
-    ),
-    r'detailsWords': IndexSchema(
-      id: 2320191511250828924,
-      name: r'detailsWords',
-      unique: false,
-      replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'detailsWords',
-          type: IndexType.hash,
-          caseSensitive: false,
-        )
-      ],
-    )
-  },
-  links: {},
-  embeddedSchemas: {},
-  getId: _todoGetId,
-  getLinks: _todoGetLinks,
-  attach: _todoAttach,
-  version: '3.1.0+1',
+const TodoSchema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'Todo',
+    idName: 'id',
+    embedded: false,
+    properties: [
+      IsarPropertySchema(
+        name: 'label',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'details',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'important',
+        type: IsarType.bool,
+      ),
+      IsarPropertySchema(
+        name: 'completed',
+        type: IsarType.bool,
+      ),
+      IsarPropertySchema(
+        name: 'date',
+        type: IsarType.dateTime,
+      ),
+    ],
+    indexes: [
+      IsarIndexSchema(
+        name: 'label',
+        properties: [
+          "label",
+        ],
+        unique: false,
+        hash: false,
+      ),
+      IsarIndexSchema(
+        name: 'details',
+        properties: [
+          "details",
+        ],
+        unique: false,
+        hash: false,
+      ),
+    ],
+  ),
+  converter: IsarObjectConverter<int, Todo>(
+    serialize: serializeTodo,
+    deserialize: deserializeTodo,
+    deserializeProperty: deserializeTodoProp,
+  ),
+  embeddedSchemas: [],
 );
 
-int _todoEstimateSize(
-  Todo object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  var bytesCount = offsets.last;
-  bytesCount += 3 + object.details.length * 3;
-  bytesCount += 3 + object.detailsWords.length * 3;
-  {
-    for (var i = 0; i < object.detailsWords.length; i++) {
-      final value = object.detailsWords[i];
-      bytesCount += value.length * 3;
-    }
-  }
-  bytesCount += 3 + object.label.length * 3;
-  bytesCount += 3 + object.labelWords.length * 3;
-  {
-    for (var i = 0; i < object.labelWords.length; i++) {
-      final value = object.labelWords[i];
-      bytesCount += value.length * 3;
-    }
-  }
-  return bytesCount;
-}
-
-void _todoSerialize(
-  Todo object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  writer.writeBool(offsets[0], object.completed);
-  writer.writeDateTime(offsets[1], object.date);
-  writer.writeString(offsets[2], object.details);
-  writer.writeStringList(offsets[3], object.detailsWords);
-  writer.writeBool(offsets[4], object.important);
-  writer.writeString(offsets[5], object.label);
-  writer.writeStringList(offsets[6], object.labelWords);
-}
-
-Todo _todoDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
-  final object = Todo(
-    completed: reader.readBoolOrNull(offsets[0]) ?? false,
-    date: reader.readDateTime(offsets[1]),
-    details: reader.readStringOrNull(offsets[2]) ?? "",
-    id: id,
-    important: reader.readBoolOrNull(offsets[4]) ?? false,
-    label: reader.readString(offsets[5]),
-  );
-  return object;
-}
-
-P _todoDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
-  switch (propertyId) {
-    case 0:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 1:
-      return (reader.readDateTime(offset)) as P;
-    case 2:
-      return (reader.readStringOrNull(offset) ?? "") as P;
-    case 3:
-      return (reader.readStringList(offset) ?? []) as P;
-    case 4:
-      return (reader.readBoolOrNull(offset) ?? false) as P;
-    case 5:
-      return (reader.readString(offset)) as P;
-    case 6:
-      return (reader.readStringList(offset) ?? []) as P;
-    default:
-      throw IsarError('Unknown property with id $propertyId');
-  }
-}
-
-Id _todoGetId(Todo object) {
+@isarProtected
+int serializeTodo(IsarWriter writer, Todo object) {
+  IsarCore.writeString(writer, 1, object.label);
+  IsarCore.writeString(writer, 2, object.details);
+  IsarCore.writeBool(writer, 3, object.important);
+  IsarCore.writeBool(writer, 4, object.completed);
+  IsarCore.writeLong(writer, 5, object.date.toUtc().microsecondsSinceEpoch);
   return object.id;
 }
 
-List<IsarLinkBase<dynamic>> _todoGetLinks(Todo object) {
-  return [];
-}
-
-void _todoAttach(IsarCollection<dynamic> col, Id id, Todo object) {
-  object.id = id;
-}
-
-extension TodoQueryWhereSort on QueryBuilder<Todo, Todo, QWhere> {
-  QueryBuilder<Todo, Todo, QAfterWhere> anyId() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(const IdWhereClause.any());
-    });
+@isarProtected
+Todo deserializeTodo(IsarReader reader) {
+  final object = Todo();
+  object.id = IsarCore.readId(reader);
+  object.label = IsarCore.readString(reader, 1) ?? '';
+  object.details = IsarCore.readString(reader, 2) ?? '';
+  object.important = IsarCore.readBool(reader, 3);
+  object.completed = IsarCore.readBool(reader, 4);
+  {
+    final value = IsarCore.readLong(reader, 5);
+    if (value == -9223372036854775808) {
+      object.date =
+          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true).toLocal();
+    } else {
+      object.date =
+          DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true).toLocal();
+    }
   }
+  return object;
 }
 
-extension TodoQueryWhere on QueryBuilder<Todo, Todo, QWhereClause> {
-  QueryBuilder<Todo, Todo, QAfterWhereClause> idEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterWhereClause> idNotEqualTo(Id id) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
-      } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
+@isarProtected
+dynamic deserializeTodoProp(IsarReader reader, int property) {
+  switch (property) {
+    case 0:
+      return IsarCore.readId(reader);
+    case 1:
+      return IsarCore.readString(reader, 1) ?? '';
+    case 2:
+      return IsarCore.readString(reader, 2) ?? '';
+    case 3:
+      return IsarCore.readBool(reader, 3);
+    case 4:
+      return IsarCore.readBool(reader, 4);
+    case 5:
+      {
+        final value = IsarCore.readLong(reader, 5);
+        if (value == -9223372036854775808) {
+          return DateTime.fromMillisecondsSinceEpoch(0, isUtc: true).toLocal();
+        } else {
+          return DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true)
+              .toLocal();
+        }
       }
-    });
+    default:
+      throw ArgumentError('Unknown property: $property');
   }
+}
 
-  QueryBuilder<Todo, Todo, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
-    });
-  }
+sealed class _TodoUpdate {
+  bool call({
+    required int id,
+    String? label,
+    String? details,
+    bool? important,
+    bool? completed,
+    DateTime? date,
+  });
+}
 
-  QueryBuilder<Todo, Todo, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
-    });
-  }
+class _TodoUpdateImpl implements _TodoUpdate {
+  const _TodoUpdateImpl(this.collection);
 
-  QueryBuilder<Todo, Todo, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
+  final IsarCollection<int, Todo> collection;
+
+  @override
+  bool call({
+    required int id,
+    Object? label = ignore,
+    Object? details = ignore,
+    Object? important = ignore,
+    Object? completed = ignore,
+    Object? date = ignore,
   }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
-    });
+    return collection.updateProperties([
+          id
+        ], {
+          if (label != ignore) 1: label as String?,
+          if (details != ignore) 2: details as String?,
+          if (important != ignore) 3: important as bool?,
+          if (completed != ignore) 4: completed as bool?,
+          if (date != ignore) 5: date as DateTime?,
+        }) >
+        0;
   }
+}
 
-  QueryBuilder<Todo, Todo, QAfterWhereClause> labelWordsEqualTo(
-      List<String> labelWords) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'labelWords',
-        value: [labelWords],
-      ));
-    });
-  }
+sealed class _TodoUpdateAll {
+  int call({
+    required List<int> id,
+    String? label,
+    String? details,
+    bool? important,
+    bool? completed,
+    DateTime? date,
+  });
+}
 
-  QueryBuilder<Todo, Todo, QAfterWhereClause> labelWordsNotEqualTo(
-      List<String> labelWords) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'labelWords',
-              lower: [],
-              upper: [labelWords],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'labelWords',
-              lower: [labelWords],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'labelWords',
-              lower: [labelWords],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'labelWords',
-              lower: [],
-              upper: [labelWords],
-              includeUpper: false,
-            ));
-      }
-    });
-  }
+class _TodoUpdateAllImpl implements _TodoUpdateAll {
+  const _TodoUpdateAllImpl(this.collection);
 
-  QueryBuilder<Todo, Todo, QAfterWhereClause> detailsWordsEqualTo(
-      List<String> detailsWords) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IndexWhereClause.equalTo(
-        indexName: r'detailsWords',
-        value: [detailsWords],
-      ));
-    });
-  }
+  final IsarCollection<int, Todo> collection;
 
-  QueryBuilder<Todo, Todo, QAfterWhereClause> detailsWordsNotEqualTo(
-      List<String> detailsWords) {
-    return QueryBuilder.apply(this, (query) {
-      if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'detailsWords',
-              lower: [],
-              upper: [detailsWords],
-              includeUpper: false,
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'detailsWords',
-              lower: [detailsWords],
-              includeLower: false,
-              upper: [],
-            ));
-      } else {
-        return query
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'detailsWords',
-              lower: [detailsWords],
-              includeLower: false,
-              upper: [],
-            ))
-            .addWhereClause(IndexWhereClause.between(
-              indexName: r'detailsWords',
-              lower: [],
-              upper: [detailsWords],
-              includeUpper: false,
-            ));
-      }
+  @override
+  int call({
+    required List<int> id,
+    Object? label = ignore,
+    Object? details = ignore,
+    Object? important = ignore,
+    Object? completed = ignore,
+    Object? date = ignore,
+  }) {
+    return collection.updateProperties(id, {
+      if (label != ignore) 1: label as String?,
+      if (details != ignore) 2: details as String?,
+      if (important != ignore) 3: important as bool?,
+      if (completed != ignore) 4: completed as bool?,
+      if (date != ignore) 5: date as DateTime?,
     });
   }
+}
+
+extension TodoUpdate on IsarCollection<int, Todo> {
+  _TodoUpdate get update => _TodoUpdateImpl(this);
+
+  _TodoUpdateAll get updateAll => _TodoUpdateAllImpl(this);
+}
+
+sealed class _TodoQueryUpdate {
+  int call({
+    String? label,
+    String? details,
+    bool? important,
+    bool? completed,
+    DateTime? date,
+  });
+}
+
+class _TodoQueryUpdateImpl implements _TodoQueryUpdate {
+  const _TodoQueryUpdateImpl(this.query, {this.limit});
+
+  final IsarQuery<Todo> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? label = ignore,
+    Object? details = ignore,
+    Object? important = ignore,
+    Object? completed = ignore,
+    Object? date = ignore,
+  }) {
+    return query.updateProperties(limit: limit, {
+      if (label != ignore) 1: label as String?,
+      if (details != ignore) 2: details as String?,
+      if (important != ignore) 3: important as bool?,
+      if (completed != ignore) 4: completed as bool?,
+      if (date != ignore) 5: date as DateTime?,
+    });
+  }
+}
+
+extension TodoQueryUpdate on IsarQuery<Todo> {
+  _TodoQueryUpdate get updateFirst => _TodoQueryUpdateImpl(this, limit: 1);
+
+  _TodoQueryUpdate get updateAll => _TodoQueryUpdateImpl(this);
+}
+
+class _TodoQueryBuilderUpdateImpl implements _TodoQueryUpdate {
+  const _TodoQueryBuilderUpdateImpl(this.query, {this.limit});
+
+  final QueryBuilder<Todo, Todo, QOperations> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? label = ignore,
+    Object? details = ignore,
+    Object? important = ignore,
+    Object? completed = ignore,
+    Object? date = ignore,
+  }) {
+    final q = query.build();
+    try {
+      return q.updateProperties(limit: limit, {
+        if (label != ignore) 1: label as String?,
+        if (details != ignore) 2: details as String?,
+        if (important != ignore) 3: important as bool?,
+        if (completed != ignore) 4: completed as bool?,
+        if (date != ignore) 5: date as DateTime?,
+      });
+    } finally {
+      q.close();
+    }
+  }
+}
+
+extension TodoQueryBuilderUpdate on QueryBuilder<Todo, Todo, QOperations> {
+  _TodoQueryUpdate get updateFirst =>
+      _TodoQueryBuilderUpdateImpl(this, limit: 1);
+
+  _TodoQueryUpdate get updateAll => _TodoQueryBuilderUpdateImpl(this);
 }
 
 extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> completedEqualTo(bool value) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> idEqualTo(
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'completed',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateEqualTo(DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'date',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'date',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'date',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'date',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'details',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'details',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'details',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'details',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'details',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'details',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsContains(String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'details',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsMatches(String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'details',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'details',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'details',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'detailsWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition>
-      detailsWordsElementGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'detailsWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementLessThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'detailsWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementBetween(
-    String lower,
-    String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'detailsWords',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'detailsWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'detailsWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'detailsWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'detailsWords',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'detailsWords',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition>
-      detailsWordsElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'detailsWords',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'detailsWords',
-        length,
-        true,
-        length,
-        true,
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 0,
+          value: value,
+        ),
       );
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'detailsWords',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'detailsWords',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'detailsWords',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'detailsWords',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsWordsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'detailsWords',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> idEqualTo(Id value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 0,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> idGreaterThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
+    int value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 0,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> idLessThanOrEqualTo(
+    int value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 0,
+          value: value,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+    int lower,
+    int upper,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> importantEqualTo(bool value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'important',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 0,
+          lower: lower,
+          upper: upper,
+        ),
+      );
     });
   }
 
@@ -826,60 +368,90 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'label',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'label',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelLessThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'label',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'label',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -888,11 +460,13 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'label',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -901,265 +475,336 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'label',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'label',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'label',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'label',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'label',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementEqualTo(
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'labelWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementGreaterThan(
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsGreaterThan(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'labelWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementLessThan(
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsGreaterThanOrEqualTo(
     String value, {
-    bool include = false,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'labelWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementBetween(
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsBetween(
     String lower,
     String upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'labelWords',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementStartsWith(
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'labelWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementEndsWith(
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'labelWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementContains(
-      String value,
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsContains(String value,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'labelWords',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementMatches(
-      String pattern,
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsMatches(String pattern,
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'labelWords',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsElementIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'labelWords',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition>
-      labelWordsElementIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'labelWords',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'labelWords',
-        length,
-        true,
-        length,
-        true,
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 2,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsIsEmpty() {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'labelWords',
-        0,
-        true,
-        0,
-        true,
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 2,
+          value: '',
+        ),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsIsNotEmpty() {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'labelWords',
-        0,
-        false,
-        999999,
-        true,
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 2,
+          value: '',
+        ),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> importantEqualTo(
+    bool value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'labelWords',
-        0,
-        true,
-        length,
-        include,
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 3,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> completedEqualTo(
+    bool value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'labelWords',
-        length,
-        include,
-        999999,
-        true,
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 4,
+          value: value,
+        ),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelWordsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateEqualTo(
+    DateTime value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'labelWords',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 5,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateGreaterThan(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 5,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateGreaterThanOrEqualTo(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 5,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateLessThan(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 5,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateLessThanOrEqualTo(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 5,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateBetween(
+    DateTime lower,
+    DateTime upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 5,
+          lower: lower,
+          upper: upper,
+        ),
       );
     });
   }
@@ -1167,236 +812,321 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
 
 extension TodoQueryObject on QueryBuilder<Todo, Todo, QFilterCondition> {}
 
-extension TodoQueryLinks on QueryBuilder<Todo, Todo, QFilterCondition> {}
-
 extension TodoQuerySortBy on QueryBuilder<Todo, Todo, QSortBy> {
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByCompleted() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'completed', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByCompletedDesc() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'completed', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDate() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabel(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.asc);
+      return query.addSortBy(
+        1,
+        caseSensitive: caseSensitive,
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDateDesc() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabelDesc(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.desc);
+      return query.addSortBy(
+        1,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetails() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetails(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'details', Sort.asc);
+      return query.addSortBy(
+        2,
+        caseSensitive: caseSensitive,
+      );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetailsDesc() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetailsDesc(
+      {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'details', Sort.desc);
+      return query.addSortBy(
+        2,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterSortBy> sortByImportant() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'important', Sort.asc);
+      return query.addSortBy(3);
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterSortBy> sortByImportantDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'important', Sort.desc);
+      return query.addSortBy(3, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabel() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByCompleted() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'label', Sort.asc);
+      return query.addSortBy(4);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabelDesc() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByCompletedDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'label', Sort.desc);
+      return query.addSortBy(4, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, sort: Sort.desc);
     });
   }
 }
 
 extension TodoQuerySortThenBy on QueryBuilder<Todo, Todo, QSortThenBy> {
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByCompleted() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'completed', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByCompletedDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'completed', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'date', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetails() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'details', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetailsDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'details', Sort.desc);
-    });
-  }
-
   QueryBuilder<Todo, Todo, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.asc);
+      return query.addSortBy(0);
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterSortBy> thenByIdDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'id', Sort.desc);
+      return query.addSortBy(0, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabel(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(1, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabelDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetails(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetailsDesc(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterSortBy> thenByImportant() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'important', Sort.asc);
+      return query.addSortBy(3);
     });
   }
 
   QueryBuilder<Todo, Todo, QAfterSortBy> thenByImportantDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'important', Sort.desc);
+      return query.addSortBy(3, sort: Sort.desc);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabel() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByCompleted() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'label', Sort.asc);
+      return query.addSortBy(4);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabelDesc() {
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByCompletedDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'label', Sort.desc);
+      return query.addSortBy(4, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, sort: Sort.desc);
     });
   }
 }
 
 extension TodoQueryWhereDistinct on QueryBuilder<Todo, Todo, QDistinct> {
-  QueryBuilder<Todo, Todo, QDistinct> distinctByCompleted() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'completed');
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QDistinct> distinctByDate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'date');
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QDistinct> distinctByDetails(
+  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByLabel(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'details', caseSensitive: caseSensitive);
+      return query.addDistinctBy(1, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QDistinct> distinctByDetailsWords() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'detailsWords');
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QDistinct> distinctByImportant() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'important');
-    });
-  }
-
-  QueryBuilder<Todo, Todo, QDistinct> distinctByLabel(
+  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByDetails(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'label', caseSensitive: caseSensitive);
+      return query.addDistinctBy(2, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QDistinct> distinctByLabelWords() {
+  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByImportant() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'labelWords');
+      return query.addDistinctBy(3);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByCompleted() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(4);
+    });
+  }
+
+  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(5);
     });
   }
 }
 
-extension TodoQueryProperty on QueryBuilder<Todo, Todo, QQueryProperty> {
-  QueryBuilder<Todo, int, QQueryOperations> idProperty() {
+extension TodoQueryProperty1 on QueryBuilder<Todo, Todo, QProperty> {
+  QueryBuilder<Todo, int, QAfterProperty> idProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'id');
+      return query.addProperty(0);
     });
   }
 
-  QueryBuilder<Todo, bool, QQueryOperations> completedProperty() {
+  QueryBuilder<Todo, String, QAfterProperty> labelProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'completed');
+      return query.addProperty(1);
     });
   }
 
-  QueryBuilder<Todo, DateTime, QQueryOperations> dateProperty() {
+  QueryBuilder<Todo, String, QAfterProperty> detailsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'date');
+      return query.addProperty(2);
     });
   }
 
-  QueryBuilder<Todo, String, QQueryOperations> detailsProperty() {
+  QueryBuilder<Todo, bool, QAfterProperty> importantProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'details');
+      return query.addProperty(3);
     });
   }
 
-  QueryBuilder<Todo, List<String>, QQueryOperations> detailsWordsProperty() {
+  QueryBuilder<Todo, bool, QAfterProperty> completedProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'detailsWords');
+      return query.addProperty(4);
     });
   }
 
-  QueryBuilder<Todo, bool, QQueryOperations> importantProperty() {
+  QueryBuilder<Todo, DateTime, QAfterProperty> dateProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'important');
+      return query.addProperty(5);
+    });
+  }
+}
+
+extension TodoQueryProperty2<R> on QueryBuilder<Todo, R, QAfterProperty> {
+  QueryBuilder<Todo, (R, int), QAfterProperty> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
     });
   }
 
-  QueryBuilder<Todo, String, QQueryOperations> labelProperty() {
+  QueryBuilder<Todo, (R, String), QAfterProperty> labelProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'label');
+      return query.addProperty(1);
     });
   }
 
-  QueryBuilder<Todo, List<String>, QQueryOperations> labelWordsProperty() {
+  QueryBuilder<Todo, (R, String), QAfterProperty> detailsProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'labelWords');
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<Todo, (R, bool), QAfterProperty> importantProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<Todo, (R, bool), QAfterProperty> completedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<Todo, (R, DateTime), QAfterProperty> dateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+}
+
+extension TodoQueryProperty3<R1, R2>
+    on QueryBuilder<Todo, (R1, R2), QAfterProperty> {
+  QueryBuilder<Todo, (R1, R2, int), QOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(0);
+    });
+  }
+
+  QueryBuilder<Todo, (R1, R2, String), QOperations> labelProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<Todo, (R1, R2, String), QOperations> detailsProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<Todo, (R1, R2, bool), QOperations> importantProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<Todo, (R1, R2, bool), QOperations> completedProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<Todo, (R1, R2, DateTime), QOperations> dateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
     });
   }
 }

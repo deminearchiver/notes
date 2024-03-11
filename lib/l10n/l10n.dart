@@ -1,5 +1,5 @@
 import "package:flutter_gen/gen_l10n/app_localizations.dart" as l10n;
-import "package:true_material/material.dart";
+import "package:material/material.dart";
 
 export "package:flutter_gen/gen_l10n/app_localizations.dart"
     show lookupAppLocalizations;

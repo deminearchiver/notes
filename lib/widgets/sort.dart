@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/utils/extensions.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:isar/isar.dart';
 import 'package:material_symbols_icons/symbols.dart';
 

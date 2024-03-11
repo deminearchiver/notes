@@ -5,7 +5,7 @@ import 'package:notes/database/database.dart';
 import 'package:notes/database/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/widgets/section_header.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class TodoView extends StatefulWidget {
   const TodoView({
@@ -34,7 +34,11 @@ class _TodoViewState extends State<TodoView> {
   void initState() {
     super.initState();
 
-    _todo = widget.todo ?? Todo.empty();
+    _todo = widget.todo ??
+        Database.createTodo(
+          label: "",
+          date: _now,
+        );
 
     _labelNode = FocusNode();
     _detailsNode = FocusNode();

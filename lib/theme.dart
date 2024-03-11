@@ -1,5 +1,5 @@
 import 'package:fleather/fleather.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomFleatherThemeData extends FleatherThemeData {
@@ -82,7 +82,7 @@ class CustomFleatherThemeData extends FleatherThemeData {
       ),
       lists: TextBlockTheme(
         style: TextStyle(),
-        lineSpacing: const VerticalSpacing(top: 8, bottom: 8),
+        lineSpacing: const VerticalSpacing(top: 16, bottom: 16),
         spacing: const VerticalSpacing(),
       ),
       quote: TextBlockTheme(
@@ -106,3 +106,23 @@ class CustomFleatherThemeData extends FleatherThemeData {
 const appBarTheme = AppBarTheme(
   toolbarHeight: 64,
 );
+
+class AppTheme {
+  static ThemeData createTheme({
+    required Brightness brightness,
+  }) {
+    return ThemeData(
+      brightness: brightness,
+      splashFactory: InkSparkle.splashFactory,
+      // visualDensity: VisualDensity.standard,
+      platform: TargetPlatform.android,
+      searchBarTheme: const SearchBarThemeData(
+        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
+        shadowColor: MaterialStateColor.transparent,
+      ),
+    );
+  }
+
+  static ThemeData light() => createTheme(brightness: Brightness.light);
+  static ThemeData dark() => createTheme(brightness: Brightness.dark);
+}

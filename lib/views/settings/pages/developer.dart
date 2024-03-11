@@ -6,7 +6,7 @@ import 'package:notes/views/settings/scaffold.dart';
 import 'package:notes/views/settings/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class SettingsViewDeveloperPage extends StatefulWidget {
   const SettingsViewDeveloperPage({super.key});

@@ -3,7 +3,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/todo.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class ReminderView extends StatefulWidget {
   const ReminderView({

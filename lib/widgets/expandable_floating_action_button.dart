@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:notes/widgets/safe_area.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class ExpandableFloatingActionButton extends StatefulWidget {
   const ExpandableFloatingActionButton({

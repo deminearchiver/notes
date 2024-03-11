@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 Future<Locale?> showLanguagePickerDialog({
   Key? key,

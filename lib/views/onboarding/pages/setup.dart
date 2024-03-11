@@ -5,7 +5,7 @@ import 'package:notes/widgets/dialog/language_picker.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
 import 'package:provider/provider.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/onboarding/scaffold.dart';

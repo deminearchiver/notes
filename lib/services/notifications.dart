@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notes/database/todo.dart';
 import 'package:timezone/timezone.dart' as tz;
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 //? TODO: the notification channel name is shown in android Settings > Apps > Notes > Notifications > Other
 

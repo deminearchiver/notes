@@ -1,7 +1,7 @@
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/utils/extensions.dart';
 import 'package:notes/views/app/home.dart';
-import 'package:notes/views/app/new/expanded.dart';
+import 'package:notes/views/app/expanded/expanded.dart';
 import 'package:notes/views/app/notes.dart';
 import 'package:notes/views/app/todos.dart';
 import 'package:notes/views/note/note.dart';
@@ -10,7 +10,7 @@ import 'package:notes/views/todo/todo.dart';
 import 'package:notes/widgets/expandable_floating_action_button.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
 
@@ -89,6 +89,7 @@ class _AppViewState extends State<AppView> {
     void Function(String value) onQueryChanged,
   ) {
     final media = MediaQuery.of(context);
+    final theme = Theme.of(context);
 
     final localizations = AppLocalizations.of(context);
     return SliverAppBar(
@@ -97,8 +98,10 @@ class _AppViewState extends State<AppView> {
       floating: true,
       toolbarHeight: 64,
       leadingWidth: 64,
+      backgroundColor: theme.colorScheme.surface,
+      surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
-      leading: !media.windowClass.isCompact
+      leading: media.windowClass != WindowClass.compact
           ? IconButton(
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
               icon: const Icon(Symbols.menu_rounded),
@@ -121,7 +124,7 @@ class _AppViewState extends State<AppView> {
           onPressed: () => Navigator.push(
             context,
             MaterialRoute.zoom(
-              child: const SettingsView(),
+              builder: (context) => const SettingsView(),
             ),
           ),
           icon: const Icon(
@@ -138,26 +141,23 @@ class _AppViewState extends State<AppView> {
           child: SearchBar(
             onChanged: onQueryChanged,
             focusNode: _searchNode,
-            shadowColor: const MaterialStatePropertyAll(Colors.transparent),
-            elevation: const MaterialStatePropertyAll(6),
-            padding: const MaterialStatePropertyAll(EdgeInsets.only(
-              right: 16, // TODO: make 4 when using trailing
-            )),
+            // padding: const MaterialStatePropertyAll(EdgeInsets.only(
+            //   right: 16, // TODO: make 4 when using trailing
+            // )),
             leading: Switcher.fadeThrough(
               duration: Durations.short4,
               alignment: Alignment.centerRight,
               child: KeyedSubtree(
                 key: ValueKey(_searchFocused),
                 child: _searchFocused
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 4),
-                        child: IconButton(
-                          onPressed: _unfocusSearch,
-                          icon: const Icon(Symbols.arrow_back_rounded),
-                        ),
+                    ? IconButton(
+                        onPressed: _unfocusSearch,
+                        icon: const Icon(Symbols.arrow_back_rounded),
                       )
-                    : const Padding(
-                        padding: EdgeInsets.fromLTRB(16, 8, 12, 8),
+                    : SizedBox.square(
+                        dimension: 48 +
+                            theme.visualDensity.horizontal +
+                            theme.visualDensity.baseSizeAdjustment.dx,
                         child: Icon(Symbols.search_rounded),
                       ),
               ),
@@ -173,11 +173,12 @@ class _AppViewState extends State<AppView> {
             // trailing: [
             //   IconButton(
             //     onPressed: () => Navigator.push(
-            //       context,
-            //       MaterialRoute.zoom(child: const SettingsView()),
-            //     ),
-            //     icon: const Icon(Symbols.settings_rounded),
-            //   ),
+            //         context,
+            //         MaterialRoute.zoom(
+            //           builder: (context) => const SettingsView(),
+            //         )),
+            //     icon: const Icon.filled(Symbols.settings_rounded),
+            //   )
             // ],
           ),
         ),
@@ -200,10 +201,10 @@ class _AppViewState extends State<AppView> {
     final media = MediaQuery.of(context);
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
-    // return ExpandedTest();
+    // return ExpandedApp();
     return Scaffold(
       key: _scaffoldKey,
-      drawer: !media.windowClass.isCompact
+      drawer: media.windowClass != WindowClass.compact
           ? NavigationDrawer(
               onDestinationSelected: _goToPage,
               selectedIndex: _page,
@@ -284,7 +285,7 @@ class _AppViewState extends State<AppView> {
             onPressed: () => Navigator.push(
               context,
               MaterialRoute.zoom(
-                child: const NoteView(),
+                builder: (context) => const NoteView(),
               ),
             ),
             icon: Switcher.fadeThrough(
@@ -313,7 +314,7 @@ class _AppViewState extends State<AppView> {
             onPressed: () => Navigator.push(
               context,
               MaterialRoute.zoom(
-                child: const TodoView(),
+                builder: (context) => const TodoView(),
               ),
             ),
             icon: Switcher.fadeThrough(
@@ -340,7 +341,7 @@ class _AppViewState extends State<AppView> {
           ),
         _ => null,
       },
-      bottomNavigationBar: media.windowClass.isCompact
+      bottomNavigationBar: media.windowClass <= WindowClass.medium
           ? NavigationBar(
               // onDestinationSelected: (value) => setState(() => _page = value),
               onDestinationSelected: _goToPage,

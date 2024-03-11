@@ -2,11 +2,13 @@ import 'package:flutter/services.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/constants/images.dart';
 import 'package:notes/l10n/l10n.dart';
+import 'package:notes/main.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -69,7 +71,6 @@ class _AboutViewState extends State<AboutView> {
             floating: true,
             toolbarHeight: 64,
             leadingWidth: 64,
-            scrolledUnderElevation: 0,
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(Symbols.arrow_back_rounded),
@@ -166,7 +167,7 @@ class _AboutViewState extends State<AboutView> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          "1.0.0",
+                          appVersion,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyLarge,
                         ),
@@ -220,7 +221,7 @@ class _AboutViewState extends State<AboutView> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialRoute.zoom(
-                              child: LicensePage(
+                              builder: (context) => LicensePage(
                                 applicationIcon: Padding(
                                   padding: const EdgeInsets.all(8),
                                   child: SizedBox.square(
@@ -229,7 +230,7 @@ class _AboutViewState extends State<AboutView> {
                                   ),
                                 ),
                                 applicationName: localizations.app_name,
-                                applicationVersion: "0.0.1",
+                                applicationVersion: appVersion,
                               ),
                             ),
                           ),

@@ -1,5 +1,5 @@
 import 'package:material_symbols_icons/symbols.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 enum _SettingsScaffoldVariant {
   sliver,
@@ -42,7 +42,6 @@ class SettingsScaffold extends StatelessWidget {
       slivers: [
         SliverAppBar.large(
           pinned: true,
-          scrolledUnderElevation: 0,
           toolbarHeight: 64,
           expandedHeight: 152,
           leadingWidth: 64,

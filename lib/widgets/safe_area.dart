@@ -4,7 +4,7 @@
 
 import 'dart:ui';
 
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 class RemoveSafeArea extends StatelessWidget {
   const RemoveSafeArea({

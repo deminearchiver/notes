@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 
 import 'package:intl/locale.dart' as intl;
 import 'package:url_launcher/url_launcher.dart';

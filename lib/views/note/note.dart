@@ -6,7 +6,7 @@ import 'package:notes/theme.dart';
 import 'package:notes/utils/utils.dart';
 import 'package:notes/views/settings/settings.dart';
 import 'package:notes/widgets/fleather/buttons.dart';
-import 'package:true_material/material.dart';
+import 'package:material/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class NoteView extends StatefulWidget {
@@ -40,7 +40,7 @@ class _NoteViewState extends State<NoteView> {
   void initState() {
     super.initState();
     _new = widget.note == null;
-    _note = widget.note ?? Note.empty();
+    _note = widget.note ?? Database.createNote(title: "");
 
     _scrollController = ScrollController();
     _toolbarController = ScrollController();
@@ -77,7 +77,7 @@ class _NoteViewState extends State<NoteView> {
     _note.title = _titleController.text;
     if (_note.title.isEmpty) {
       if (_new) return;
-      _note.title = "... (${_note.id})";
+      _note.title = "New note (${_note.id})";
     }
     _note.content = _contentController.document;
     _note.updatedAt = DateTime.now();
