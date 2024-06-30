@@ -8,6 +8,7 @@ class SectionHeader extends StatelessWidget {
     this.icon,
     this.enabled = true,
     this.padding,
+    this.showDivider = false,
   });
 
   final Widget? icon;
@@ -16,27 +17,31 @@ class SectionHeader extends StatelessWidget {
   final bool enabled;
   final EdgeInsets? padding;
 
+  final bool showDivider;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (showDivider) const Divider(),
         Padding(
-          padding: padding ?? const EdgeInsets.fromLTRB(16, 12, 16, 8),
+          padding: padding ?? const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: Row(
             children: [
               if (icon != null)
                 IconTheme.merge(
-                  data: IconThemeData(color: theme.colorScheme.primary),
+                  data: IconThemeData(color: theme.colorScheme.secondary),
                   child: icon!,
                 ),
               if (icon != null) const SizedBox(width: 8),
               Text(
                 text,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color:
-                      enabled ? theme.colorScheme.primary : theme.disabledColor,
+                  color: enabled
+                      ? theme.colorScheme.secondary
+                      : theme.disabledColor,
                 ),
               ),
             ],

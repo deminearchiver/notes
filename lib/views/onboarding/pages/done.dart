@@ -17,12 +17,21 @@ class OnboardingDone extends StatelessWidget {
       title: localizations.onboarding_done_view_title,
       subtitle: localizations.onboarding_done_view_subtitle,
       actions: [
-        FilledButton(
-          onPressed: () {
-            context.read<Settings>().firstRun = false;
-            OnboardingScope.of(context).close();
-          },
-          child: Text(localizations.onboarding_done_view_action),
+        Expanded(
+          child: TextButton(
+            onPressed: OnboardingScope.of(context).back,
+            child: Text(localizations.onboarding_back),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: FilledButton(
+            onPressed: () {
+              context.read<Settings>().firstRun = false;
+              OnboardingScope.of(context).close();
+            },
+            child: Text(localizations.onboarding_done_view_action),
+          ),
         ),
       ],
     );

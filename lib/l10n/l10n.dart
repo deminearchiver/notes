@@ -1,7 +1,7 @@
-import "package:flutter_gen/gen_l10n/app_localizations.dart" as l10n;
+import "package:notes/gen/l10n/app_localizations.dart" as l10n;
 import "package:material/material.dart";
 
-export "package:flutter_gen/gen_l10n/app_localizations.dart"
+export "package:notes/gen/l10n/app_localizations.dart"
     show lookupAppLocalizations;
 
 abstract class AppLocalizations {

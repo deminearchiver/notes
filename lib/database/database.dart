@@ -1,7 +1,7 @@
 import 'package:fleather/fleather.dart';
 import 'package:isar/isar.dart';
-import 'package:notes/database/note.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/models/note.dart';
+import 'package:notes/database/models/todo.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:parchment/codecs.dart';
 import 'package:path_provider/path_provider.dart';

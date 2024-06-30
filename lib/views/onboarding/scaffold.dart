@@ -1,22 +1,18 @@
+import 'package:flutter/services.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:material/material.dart';
-
-enum OnboardingActionsLayout { column, row }
+import 'package:notes/widgets/back_button.dart';
 
 class OnboardingScaffold extends StatelessWidget {
   const OnboardingScaffold({
     super.key,
-    this.supportsBackAction = true,
     this.icon,
     required this.title,
     required this.subtitle,
     this.content,
     this.disclaimer,
-    this.actionsLayout = OnboardingActionsLayout.column,
     this.actions = const [],
   });
-
-  final bool supportsBackAction;
 
   final Widget? icon;
   final String title;
@@ -25,7 +21,6 @@ class OnboardingScaffold extends StatelessWidget {
 
   final String? disclaimer;
 
-  final OnboardingActionsLayout actionsLayout;
   final List<Widget> actions;
 
   @override
@@ -65,20 +60,14 @@ class OnboardingScaffold extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 64,
-        leadingWidth: 64,
-        automaticallyImplyLeading: false,
-        leading: supportsBackAction && Navigator.canPop(context)
-            ? IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: const Icon(Symbols.arrow_back_rounded),
-              )
-            : null,
-      ),
+      // appBar: AppBar(
+      //   toolbarHeight: 64,
+      //   leadingWidth: 64,
+      //   automaticallyImplyLeading: false,
+      // ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 16, bottom: 16),
+          padding: EdgeInsets.only(top: content != null ? 64 : 16, bottom: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -106,12 +95,7 @@ class OnboardingScaffold extends StatelessWidget {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: actionsLayout == OnboardingActionsLayout.column
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: actions,
-                      )
-                    : Row(children: actions),
+                child: Row(children: actions),
               ),
             ],
           ),

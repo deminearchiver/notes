@@ -1,7 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:notes/database/database.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/models/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
@@ -55,7 +55,7 @@ class _AppState extends State<App> {
         default:
           if (mounted) {
             _navigatorKey.currentState?.push(
-              MaterialRoute.zoom(
+              MaterialRoute.adaptive(
                 builder: (context) => ReminderView(
                   todo: todo,
                 ),
@@ -90,7 +90,7 @@ class _AppState extends State<App> {
           themeAnimationCurve: Easing.standard,
           themeAnimationDuration: Durations.medium4,
           themeMode: settings.themeMode,
-          // themeMode: ThemeMode.dark,
+          // themeMode: ThemeMode.light,
 
           builder: (context, child) => TitleBar(
             backgroundColor: Theme.of(context).colorScheme.surface,
@@ -104,19 +104,19 @@ class _AppState extends State<App> {
             final results = <Route>[];
 
             results.add(
-              MaterialRoute.zoom(
+              MaterialRoute.adaptive(
                 builder: (context) => const AppView(),
               ),
             );
             if (settings.firstRun) {
               results.add(
-                MaterialRoute.zoom(
+                MaterialRoute.adaptive(
                   builder: (context) => const OnboardingScope(),
                 ),
               );
             } else if (widget.todo != null) {
               results.add(
-                MaterialRoute.zoom(
+                MaterialRoute.adaptive(
                   builder: (context) => ReminderView(
                     todo: widget.todo!,
                   ),
@@ -126,7 +126,7 @@ class _AppState extends State<App> {
             return results;
           },
           onGenerateRoute: (settings) {
-            return MaterialRoute.zoom(
+            return MaterialRoute.adaptive(
               builder: (context) => const AppView(),
             );
           },

@@ -127,7 +127,7 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
       TweenSequenceItem(
         tween: Tween<double>(begin: 1, end: 0).chain(
           CurveTween(
-            curve: const Interval(0, 1 / 3),
+            const Interval(0, 1 / 3),
           ),
         ),
         weight: 1,
@@ -135,7 +135,7 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
       TweenSequenceItem(
         tween: Tween<double>(begin: 1 / 3, end: 1).chain(
           CurveTween(
-            curve: const Interval(0.5, 1),
+            const Interval(0.5, 1),
           ),
         ),
         weight: 1,

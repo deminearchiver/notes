@@ -115,7 +115,7 @@ class Switcher extends StatelessWidget {
   ) {
     final opacityTween = Tween<double>(begin: 0, end: 1).chain(
       CurveTween(
-        curve: const Interval(0.5, 1),
+        const Interval(0.5, 1),
       ),
     );
     return AnimatedBuilder(
@@ -145,7 +145,7 @@ class Switcher extends StatelessWidget {
       layoutBuilder: layoutBuilder ?? defaultLayoutBuilder,
       transitionBuilder: switch (_variant) {
         _SwitcherVariant.fadeThrough => fadeThoughTransitionBuilder,
-        _SwitcherVariant.fade => AnimatedSwitcher.defaultTransitionBuilder,
+        _SwitcherVariant.fade => fadeTransitionBuilder,
       },
       child: child,
     );

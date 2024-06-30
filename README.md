@@ -18,7 +18,8 @@ Just download the installation package from the [**latest release**](https://git
 - [**Puro**](https://puro.dev), fast and performant Flutter installation manager
 
 ## Contributing
-> TBA (to-be-added)
+
+### Building
 
 ## License
 

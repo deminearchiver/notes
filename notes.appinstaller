@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+    xmlns="http://schemas.microsoft.com/appx/appinstaller/2021"
+    Version="1.1.0.0"
+    Uri="https://github.com/deminearchiver/notes/releases/latest/download/notes.appinstaller" >
+
+    <MainBundle
+        Name="Contoso.MainApp"
+        Publisher="CN=Contoso"
+        Version="2.23.12.43"
+        Uri="http://mywebservice.azurewebsites.net/mainapp.msixbundle" />
+
+    <!-- <OptionalPackages>
+        <Bundle
+            Name="Contoso.OptionalApp1"
+            Publisher="CN=Contoso"
+            Version="2.23.12.43"
+            Uri="http://mywebservice.azurewebsites.net/OptionalApp1.msixbundle" />
+
+        <Bundle
+            Name="Contoso.OptionalApp2"
+            Publisher="CN=Contoso"
+            Version="2.23.12.43"
+            Uri="http://mywebservice.azurewebsites.net/OptionalApp2.msixbundle" />
+
+        <Package
+            Name="Fabrikam.OptionalApp3"
+            Publisher="CN=Fabrikam"
+            Version="10.34.54.23"
+            Uri="http://mywebservice.azurewebsites.net/OptionalApp3.msix"
+            ProcessorArchitecture="x64" />
+    </OptionalPackages> -->
+
+    <UpdateURIs>
+        <UpdateURI>https://github.com/deminearchiver/notes/releases/latest/download/notes.appinstaller</UpdateURI>
+    </UpdateURIs>
+<!-- 
+    <RepairURIs>
+        <RepairURI>http://mywebservice.azurewebsites.net/appset.appinstaller</RepairURI>
+        <RepairURI>http://mywebservice2.azurewebsites.net/appset.appinstaller</RepairURI>
+    </RepairURIs> -->
+
+    <!-- <UpdateSettings>
+        <OnLaunch HoursBetweenUpdateChecks="0"/>   
+    </UpdateSettings> -->
+
+</AppInstaller>

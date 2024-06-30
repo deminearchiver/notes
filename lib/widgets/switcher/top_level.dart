@@ -7,13 +7,13 @@ class TopLevelSwitcher extends Switcher {
     super.alignment,
     required super.child,
   }) : super.fadeThrough(
-          duration: Durations.short4,
+          duration: Durations.short3,
         );
   const TopLevelSwitcher.sliver({
     super.key,
     super.alignment,
     required super.sliver,
   }) : super.sliverFadeThrough(
-          duration: Durations.short4,
+          duration: Durations.short3,
         );
 }

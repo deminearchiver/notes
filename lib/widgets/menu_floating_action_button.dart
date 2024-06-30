@@ -151,8 +151,8 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
     final iconSizeTween = Tween<double>(begin: 36, end: 24);
     final linearTween = Tween<double>(begin: 0, end: 1);
 
-    final enterInterval = CurveTween(curve: const Interval(0, 0.5));
-    final exitInterval = CurveTween(curve: const Interval(0.5, 1));
+    final enterInterval = CurveTween(const Interval(0, 0.5));
+    final exitInterval = CurveTween(const Interval(0.5, 1));
     final enterOpacityTween =
         Tween<double>(begin: 1, end: 0).chain(enterInterval);
     final exitOpacityTween =
@@ -186,7 +186,7 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                         child: InkWell(
                           onTap: () => Navigator.pushReplacement(
                             context,
-                            MaterialRoute.zoom(
+                            MaterialRoute.adaptive(
                               builder: (context) => Scaffold(
                                 appBar: AppBar(),
                               ),

@@ -35,7 +35,6 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
     return OnboardingScaffold(
-      supportsBackAction: false,
       icon: const Icon(Symbols.settings_rounded),
       title: localizations.onboarding_setup_view_title,
       subtitle: localizations.onboarding_setup_view_subtitle,
@@ -138,11 +137,10 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
           ),
         ],
       ),
-      actionsLayout: OnboardingActionsLayout.row,
       actions: [
         Expanded(
           child: OutlinedButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: OnboardingScope.of(context).back,
             child: Text(localizations.onboarding_back),
           ),
         ),

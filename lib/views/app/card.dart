@@ -33,17 +33,22 @@ class ViewCardState extends State<ViewCard> {
   void openView(WidgetBuilder builder) {
     final navigator = Navigator.of(context);
     navigator.push(
-      _ItemCardRoute(
-        capturedThemes: InheritedTheme.capture(
-          from: context,
-          to: navigator.context,
-        ),
-        cardKey: _cardKey,
-        shape: widget.shape,
-        contentBuilder: (context) => widget.child,
-        viewBuilder: builder,
+      MaterialRoute.sharedAxis(
+        builder: builder,
       ),
     );
+    // navigator.push(
+    //   _ItemCardRoute(
+    //     capturedThemes: InheritedTheme.capture(
+    //       from: context,
+    //       to: navigator.context,
+    //     ),
+    //     cardKey: _cardKey,
+    //     shape: widget.shape,
+    //     contentBuilder: (context) => widget.child,
+    //     viewBuilder: builder,
+    //   ),
+    // );
   }
 
   @override
@@ -105,8 +110,7 @@ class _ItemCardRoute<T> extends PageRoute<T> {
           end:
               barrierColor, // changedInternalState is called if barrierColor updates
         ).chain(CurveTween(
-            curve:
-                barrierCurve)), // changedInternalState is called if barrierCurve updates
+            barrierCurve)), // changedInternalState is called if barrierCurve updates
       );
       barrier = AnimatedModalBarrier(
         color: color,
@@ -144,12 +148,12 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   final opacitySequence = TweenSequence([
     TweenSequenceItem(
       tween: Tween<double>(begin: 1, end: 0)
-          .chain(CurveTween(curve: const Interval(0, 0.5))),
+          .chain(CurveTween(const Interval(0, 0.5))),
       weight: 1,
     ),
     TweenSequenceItem(
       tween: Tween<double>(begin: 0, end: 1)
-          .chain(CurveTween(curve: const Interval(0.5, 1))),
+          .chain(CurveTween(const Interval(0.5, 1))),
       weight: 1,
     ),
   ]);

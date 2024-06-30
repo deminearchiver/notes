@@ -1,11 +1,25 @@
 import 'package:collection/collection.dart';
 import 'package:isar/isar.dart';
 import 'package:fleather/fleather.dart';
+import 'package:parchment/parchment.dart';
 
 part 'note.g.dart';
 
 @collection
 class Note {
+  Note();
+
+  Note.withId({
+    required this.id,
+    required this.title,
+    ParchmentDocument? content,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    this.favorite = false,
+  })  : content = content ?? ParchmentDocument(),
+        createdAt = createdAt ?? DateTime.now(),
+        updatedAt = updatedAt ?? DateTime.now();
+
   late int id;
 
   @index

@@ -12,16 +12,17 @@ class OnboardingWelcome extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     return OnboardingScaffold(
-      supportsBackAction: false,
-      icon: const Icon(Symbols.handshake_rounded),
+      icon: const Icon(Symbols.waving_hand_rounded),
       title: localizations.onboarding_welcome_view_title,
       subtitle: localizations.onboarding_welcome_view_subtitle,
       actions: [
-        FilledButton.tonal(
-          onPressed: () => OnboardingScope.of(context).next(
-            const OnboardingSetup(),
+        Expanded(
+          child: FilledButton.tonal(
+            onPressed: () => OnboardingScope.of(context).next(
+              const OnboardingSetup(),
+            ),
+            child: Text(localizations.onboarding_next),
           ),
-          child: Text(localizations.onboarding_next),
         ),
       ],
     );

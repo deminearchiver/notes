@@ -37,7 +37,7 @@
 
   "about_view_technologies": "Technologies",
   "about_view_links": "Links",
-  "about_view_licenses": "Open-source licenses",
+  "about_view_licenses": "Open source licenses",
 
   "close": "Close",
   "cancel": "Cancel",
@@ -48,7 +48,7 @@
 
 
   "app_home_view": "Home",
-  "app_home_view_search": "Search your notes and to-dos",
+  "app_home_view_search": "Search",
   "app_home_view_overdue": "Overdue ({count})",
   "@app_home_view_overdue": {
     "placeholders": {
@@ -155,6 +155,6 @@
   "onboarding_setup_view_theme": "Choose a theme",
 
   "onboarding_done_view_title": "Congrats!",
-  "onboarding_done_view_subtitle": "You are set up and ready to go!",
+  "onboarding_done_view_subtitle": "You are set up and ready to go",
   "onboarding_done_view_action": "Let's go!"
 }

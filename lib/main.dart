@@ -1,3 +1,4 @@
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:notes/app.dart';
 import 'package:notes/constants/images.dart';
@@ -27,6 +28,8 @@ Future<void> loadTimezone() async {
 late String appVersion;
 
 void main() async {
+  // timeDilation = 5;
+
   final binding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: binding);
 

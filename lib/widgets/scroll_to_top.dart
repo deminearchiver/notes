@@ -136,7 +136,7 @@ class _ScrollToTopState extends State<ScrollToTop>
                     height: MediaQuery.paddingOf(context).top + widget.top,
                   ),
                   Center(
-                    child: FilledButton.tonalIcon(
+                    child: ElevatedButton.icon(
                       onPressed: _scrollToTop,
                       icon: const Icon(Symbols.north_rounded),
                       label: Text(localizations.scroll_to_top),

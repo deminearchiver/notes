@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/constants/constants.dart';
 import 'package:notes/database/database.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/models/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:material/material.dart';

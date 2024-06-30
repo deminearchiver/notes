@@ -108,19 +108,19 @@ class _SettingsViewState extends State<SettingsView> {
         //   ),
         // ),
         SettingsSectionHeader(localizations.settings_view_options),
-        if (settings.developerMode)
-          SettingsListTile.topLevel(
-            onTap: () => Navigator.push(
-              context,
-              MaterialRoute.sharedAxis(
-                builder: (context) => const SettingsViewGeneralPage(),
-              ),
-            ),
-            leading: const Icon(Symbols.settings_rounded),
-            title: Text(localizations.settings_general_view),
-            subtitle: Text(localizations.settings_general_view_description),
-            trailing: const Icon(Symbols.navigate_next_rounded),
-          ),
+        // if (settings.developerMode)
+        //   SettingsListTile.topLevel(
+        //     onTap: () => Navigator.push(
+        //       context,
+        //       MaterialRoute.sharedAxis(
+        //         builder: (context) => const SettingsViewGeneralPage(),
+        //       ),
+        //     ),
+        //     leading: const Icon(Symbols.settings_rounded),
+        //     title: Text(localizations.settings_general_view),
+        //     subtitle: Text(localizations.settings_general_view_description),
+        //     trailing: const Icon(Symbols.navigate_next_rounded),
+        //   ),
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,

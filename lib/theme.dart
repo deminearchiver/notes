@@ -2,6 +2,26 @@ import 'package:fleather/fleather.dart';
 import 'package:material/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+class AppTheme {
+  static ThemeData createTheme({
+    required Brightness brightness,
+  }) {
+    return ThemeData(
+      brightness: brightness,
+      splashFactory: InkSparkle.splashFactory,
+      // visualDensity: VisualDensity.standard,
+      // platform: kDebugMode ? TargetPlatform.android : null,
+      searchBarTheme: const SearchBarThemeData(
+        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
+        shadowColor: MaterialStateColor.transparent,
+      ),
+    );
+  }
+
+  static ThemeData light() => createTheme(brightness: Brightness.light);
+  static ThemeData dark() => createTheme(brightness: Brightness.dark);
+}
+
 class CustomFleatherThemeData extends FleatherThemeData {
   CustomFleatherThemeData({
     required super.bold,
@@ -101,28 +121,4 @@ class CustomFleatherThemeData extends FleatherThemeData {
       ),
     );
   }
-}
-
-const appBarTheme = AppBarTheme(
-  toolbarHeight: 64,
-);
-
-class AppTheme {
-  static ThemeData createTheme({
-    required Brightness brightness,
-  }) {
-    return ThemeData(
-      brightness: brightness,
-      splashFactory: InkSparkle.splashFactory,
-      // visualDensity: VisualDensity.standard,
-      platform: TargetPlatform.android,
-      searchBarTheme: const SearchBarThemeData(
-        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
-        shadowColor: MaterialStateColor.transparent,
-      ),
-    );
-  }
-
-  static ThemeData light() => createTheme(brightness: Brightness.light);
-  static ThemeData dark() => createTheme(brightness: Brightness.dark);
 }

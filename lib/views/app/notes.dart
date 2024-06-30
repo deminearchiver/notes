@@ -4,10 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
-import 'package:notes/database/note.dart';
+import 'package:notes/database/models/note.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/app/card.dart';
 import 'package:notes/views/note/note.dart';
+import 'package:notes/widgets/nothing_found.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:share_plus/share_plus.dart';
@@ -100,8 +101,8 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
       onRefresh: _reload,
       child: ScrollToTop(
         controller: widget.scrollController,
-        top: 96,
-        minOffset: 120,
+        top: 72 + 16 + 32 + 8,
+        minOffset: 160,
         child: CustomScrollView(
           key: widget.scrollableKey,
           controller: widget.scrollController,
@@ -114,15 +115,15 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
               ),
             widget.contentBuilder(
               context,
-              SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                sliver: MultiSliver(
-                  children: [
-                    SliverToBoxAdapter(
+              MultiSliver(
+                children: [
+                  SliverPinnedHeader(
+                    child: Material(
                       child: SortRow(
                         onSortChanged: _setSort,
                         selected: _sortBy,
                         order: _sortOrder,
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                         types: [
                           SortType(
                             value: NotesSortBy.title,
@@ -142,10 +143,10 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                         ],
                       ),
                     ),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 16),
-                    ),
-                    StreamBuilder(
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    sliver: StreamBuilder(
                       stream: _notes.stream,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
@@ -155,12 +156,11 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                         }
                         final notes = snapshot.data!;
                         return notes.isEmpty
-                            ? SliverToBoxAdapter(
+                            ? const SliverFillRemaining(
+                                hasScrollBody: false,
                                 child: Center(
-                                  child: Text(
-                                    localizations.search_no_results,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                  child: NothingFound(
+                                    icon: Icon(Symbols.find_in_page_rounded),
                                   ),
                                 ),
                               )
@@ -175,8 +175,8 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                               );
                       },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -296,9 +296,8 @@ class _NoteCardState extends State<NoteCard> {
               ),
               const SizedBox(height: 8),
               Text(
-                _note.content.toPlainText().trim().split("\n").reduce(
-                    (value, element) =>
-                        value.length > element.length ? value : element),
+                _note.contentText.trim().split("\n").reduce((value, element) =>
+                    value.length > element.length ? value : element),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall,

@@ -5,10 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/models/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/app/card.dart';
 import 'package:notes/views/todo/todo.dart';
+import 'package:notes/widgets/nothing_found.dart';
 import 'package:notes/widgets/safe_area.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
@@ -95,15 +96,15 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
 
   Widget _buildContent(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    return SliverPadding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      sliver: MultiSliver(
-        children: [
-          SliverToBoxAdapter(
+    return MultiSliver(
+      children: [
+        SliverPinnedHeader(
+          child: Material(
             child: SortRow(
               onSortChanged: _setSort,
               selected: _sortBy,
               order: _sortOrder,
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
               types: [
                 SortType(
                   value: TodosSortBy.label,
@@ -118,10 +119,10 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
               ],
             ),
           ),
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 16),
-          ),
-          StreamBuilder(
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+          sliver: StreamBuilder(
             stream: _todos.stream,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -131,11 +132,11 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
               }
               final todos = snapshot.data!;
               return todos.isEmpty
-                  ? SliverToBoxAdapter(
+                  ? const SliverFillRemaining(
+                      hasScrollBody: false,
                       child: Center(
-                        child: Text(
-                          localizations.search_no_results,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        child: NothingFound(
+                          icon: Icon(Symbols.document_scanner_rounded),
                         ),
                       ),
                     )
@@ -150,8 +151,8 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
                     );
             },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -161,8 +162,8 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
       onRefresh: _reload,
       child: ScrollToTop(
         controller: widget.scrollController,
-        top: 96,
-        minOffset: 120,
+        top: 72 + 16 + 32 + 8,
+        minOffset: 160,
         child: CustomScrollView(
           key: widget.scrollableKey,
           controller: widget.scrollController,
@@ -287,7 +288,7 @@ class _TodoCardState extends State<TodoCard> {
         ),
         // onTap: () => Navigator.push(
         //   context,
-        //   MaterialRoute.zoom(
+        //   (
         //     child: TodoView(
         //       todo: _todo,
         //     ),

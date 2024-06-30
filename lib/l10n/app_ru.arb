@@ -49,7 +49,7 @@
 
 
   "app_home_view": "Обзор",
-  "app_home_view_search": "Поиск в заметках и задачах",
+  "app_home_view_search": "Поиск",
   "app_home_view_overdue": "Просроченные ({count})",
   "@app_home_view_overdue": {
     "placeholders": {
@@ -156,6 +156,6 @@
   "onboarding_setup_view_theme": "Выберите тему",
 
   "onboarding_done_view_title": "Поздравляем!",
-  "onboarding_done_view_subtitle": "Всё настроено и готово к работе!",
+  "onboarding_done_view_subtitle": "Всё настроено и готово к работе",
   "onboarding_done_view_action": "Поехали!"
 }

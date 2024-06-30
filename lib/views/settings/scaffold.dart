@@ -1,5 +1,6 @@
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:material/material.dart';
+import 'package:notes/widgets/back_button.dart';
 
 enum _SettingsScaffoldVariant {
   sliver,
@@ -38,6 +39,7 @@ class SettingsScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final body = CustomScrollView(
       slivers: [
         SliverAppBar.large(
@@ -45,12 +47,7 @@ class SettingsScaffold extends StatelessWidget {
           toolbarHeight: 64,
           expandedHeight: 152,
           leadingWidth: 64,
-          leading: Navigator.canPop(context)
-              ? IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Symbols.arrow_back_rounded),
-                )
-              : null,
+          leading: Navigator.canPop(context) ? const BackIconButton() : null,
           title: title,
           actions: actions,
         ),

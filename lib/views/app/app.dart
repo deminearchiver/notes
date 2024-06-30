@@ -1,18 +1,16 @@
 import 'package:notes/l10n/l10n.dart';
-import 'package:notes/utils/extensions.dart';
-import 'package:notes/views/app/home.dart';
 import 'package:notes/views/app/expanded/expanded.dart';
+import 'package:notes/views/app/home.dart';
 import 'package:notes/views/app/notes.dart';
 import 'package:notes/views/app/todos.dart';
 import 'package:notes/views/note/note.dart';
 import 'package:notes/views/settings/settings.dart';
 import 'package:notes/views/todo/todo.dart';
-import 'package:notes/widgets/expandable_floating_action_button.dart';
-import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
 import 'package:material/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 class AppView extends StatefulWidget {
   const AppView({super.key});
@@ -30,7 +28,7 @@ class _AppViewState extends State<AppView> {
   late ScrollController _scrollController;
 
   late FocusNode _searchNode;
-  bool _searchFocused = false;
+  late TextEditingController _searchController;
 
   int _page = 0;
 
@@ -39,10 +37,15 @@ class _AppViewState extends State<AppView> {
     super.initState();
     _scrollController = ScrollController()..addListener(_scrollListener);
     _searchNode = FocusNode()..addListener(_searchFocusListener);
+    _searchController = TextEditingController()
+      ..addListener(
+        () => setState(() {}),
+      );
   }
 
   @override
   void dispose() {
+    _searchController.dispose();
     _searchNode.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -66,11 +69,10 @@ class _AppViewState extends State<AppView> {
 
   void _searchFocusListener() {
     if (_searchNode.hasFocus) {
-      _scrollTo(64);
+      _scrollTo(0);
     }
-    if (_searchFocused != _searchNode.hasFocus) {
-      setState(() => _searchFocused = _searchNode.hasFocus);
-    }
+
+    setState(() {});
   }
 
   void _unfocusSearch() {
@@ -78,7 +80,6 @@ class _AppViewState extends State<AppView> {
     _scrollTo(0);
   }
 
-  // TODO: find a use for this
   void _goToPage(int value) {
     setState(() => _page = value);
     _scrollTo(0);
@@ -92,73 +93,32 @@ class _AppViewState extends State<AppView> {
     final theme = Theme.of(context);
 
     final localizations = AppLocalizations.of(context);
+
     return SliverAppBar(
       key: _appBarKey,
-      pinned: true,
-      floating: true,
-      toolbarHeight: 64,
-      leadingWidth: 64,
-      backgroundColor: theme.colorScheme.surface,
-      surfaceTintColor: Colors.transparent,
-      scrolledUnderElevation: 0,
-      leading: media.windowClass != WindowClass.compact
-          ? IconButton(
-              onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-              icon: const Icon(Symbols.menu_rounded),
-            )
-          : null,
-      title: Switcher.fadeThrough(
-        duration: Durations.medium2,
-        child: Text(
-          switch (_page) {
-            0 => localizations.app_home_view,
-            1 => localizations.app_notes_view,
-            2 => localizations.app_todos_view,
-            _ => "",
-          },
-          key: ValueKey(_page),
-        ),
-      ),
-      actions: [
-        IconButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialRoute.zoom(
-              builder: (context) => const SettingsView(),
-            ),
-          ),
-          icon: const Icon(
-            Symbols.settings_rounded,
-            fill: 1,
-          ),
-        ),
-        const SizedBox(width: 16),
-      ],
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+      automaticallyImplyLeading: false,
+      toolbarHeight: 72,
+      flexibleSpace: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        child: Center(
           child: SearchBar(
+            controller: _searchController,
             onChanged: onQueryChanged,
             focusNode: _searchNode,
-            // padding: const MaterialStatePropertyAll(EdgeInsets.only(
-            //   right: 16, // TODO: make 4 when using trailing
-            // )),
             leading: Switcher.fadeThrough(
               duration: Durations.short4,
               alignment: Alignment.centerRight,
               child: KeyedSubtree(
-                key: ValueKey(_searchFocused),
-                child: _searchFocused
+                key: ValueKey(_searchNode.hasFocus),
+                child: _searchNode.hasFocus
                     ? IconButton(
                         onPressed: _unfocusSearch,
                         icon: const Icon(Symbols.arrow_back_rounded),
                       )
                     : SizedBox.square(
-                        dimension: 48 +
-                            theme.visualDensity.horizontal +
-                            theme.visualDensity.baseSizeAdjustment.dx,
-                        child: Icon(Symbols.search_rounded),
+                        dimension:
+                            48 + theme.visualDensity.baseSizeAdjustment.dx,
+                        child: const Icon(Symbols.search_rounded),
                       ),
               ),
             ),
@@ -168,18 +128,24 @@ class _AppViewState extends State<AppView> {
               2 => localizations.app_todos_view_search,
               _ => null,
             },
-            // TODO: add functonality to hide app bar title, and when enabled move the settings button here
-            // TODO: when searching replace with an "advanced search" button here (Symbols.tune_rounded)
-            // trailing: [
-            //   IconButton(
-            //     onPressed: () => Navigator.push(
-            //         context,
-            //         MaterialRoute.zoom(
-            //           builder: (context) => const SettingsView(),
-            //         )),
-            //     icon: const Icon.filled(Symbols.settings_rounded),
-            //   )
-            // ],
+            trailing: [
+              _searchController.text.isNotEmpty
+                  ? IconButton(
+                      onPressed: _searchController.text.isNotEmpty
+                          ? _searchController.clear
+                          : null,
+                      icon: const Icon(Symbols.clear_rounded),
+                    )
+                  : IconButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialRoute.sharedAxis(
+                          builder: (context) => const SettingsView(),
+                        ),
+                      ),
+                      icon: const Icon.filled(Symbols.settings_rounded),
+                    ),
+            ],
           ),
         ),
       ),
@@ -198,191 +164,143 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context);
-    final theme = Theme.of(context);
+    // return const ExpandedApp();
     final localizations = AppLocalizations.of(context);
-    // return ExpandedApp();
-    return Scaffold(
+    return AdaptiveScaffold(
       key: _scaffoldKey,
-      drawer: media.windowClass != WindowClass.compact
-          ? NavigationDrawer(
-              onDestinationSelected: _goToPage,
-              selectedIndex: _page,
-              children: [
-                // const SizedBox(height: 12),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 12),
-                //   child: ListTile(
-                //     onTap: () => _scaffoldKey.currentState?.closeDrawer(),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(28),
-                //     ),
-                //     leading: Icon(
-                //       Symbols.menu_open_rounded,
-                //       color: theme.colorScheme.onSurfaceVariant,
-                //     ),
-                //     title: Text("Закрыть"),
-                //     titleTextStyle: theme.textTheme.labelLarge
-                //         ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
-                //   ),
-                // ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 20,
-                  ),
-                  child: Text(
-                    "Страницы",
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-                NavigationDrawerDestination(
-                  icon: const Icon(
-                    Symbols.home_rounded,
-                    fill: 0,
-                  ),
-                  selectedIcon: const Icon(
-                    Symbols.home_rounded,
-                    fill: 1,
-                  ),
-                  label: Text(localizations.app_home_view),
-                ),
-                NavigationDrawerDestination(
-                  icon: const Icon(
-                    Symbols.notes_rounded,
-                    fill: 0,
-                  ),
-                  selectedIcon: const Icon(
-                    Symbols.notes_rounded,
-                    fill: 1,
-                  ),
-                  label: Text(localizations.app_notes_view),
-                ),
-                NavigationDrawerDestination(
-                  icon: const Icon(
-                    Symbols.task_alt_rounded,
-                    fill: 0,
-                  ),
-                  selectedIcon: const Icon(
-                    Symbols.task_alt_rounded,
-                    fill: 1,
-                  ),
-                  label: Text(localizations.app_todos_view),
-                ),
-                Divider(
-                  color: theme.colorScheme.outline,
-                  indent: 28,
-                  endIndent: 28,
-                ),
-              ],
-            )
-          : null,
+      topLevelDelegate: AdaptiveTopLevelDelegate(
+        onDestinationSelected: _goToPage,
+        selectedIndex: _page,
+        destinations: [
+          AdaptiveDestination(
+            icon: const Icon.outlined(Symbols.home_rounded),
+            selectedIcon: const Icon.filled(Symbols.home_rounded),
+            label: localizations.app_home_view,
+          ),
+          AdaptiveDestination(
+            icon: const Icon.outlined(Symbols.notes_rounded),
+            selectedIcon: const Icon.filled(Symbols.notes_rounded),
+            label: localizations.app_notes_view,
+          ),
+          AdaptiveDestination(
+            icon: const Icon.outlined(Symbols.task_alt_rounded),
+            selectedIcon: const Icon.filled(Symbols.task_alt_rounded),
+            label: localizations.app_todos_view,
+          ),
+        ],
+      ),
+      // floatingActionButton: switch (_page) {
+      //   // 0 => const _FloatingActionButtonTest(),
+      //   1 => FloatingActionButton.extended(
+      //       onPressed: () => Navigator.push(
+      //         context,
+      //         MaterialRoute.adaptive(
+      //           builder: (context) => const NoteView(),
+      //         ),
+      //       ),
+      //       icon: const Icon(
+      //         Symbols.note_add_rounded,
+      //       ),
+      //       label: AnimatedSize(
+      //         key: const ValueKey("fab_size"),
+      //         duration: Durations.medium4,
+      //         curve: Easing.emphasized,
+      //         child: Switcher.fadeThrough(
+      //           duration: Durations.short4,
+      //           layoutBuilder: minimumSizeLayoutBuilder,
+      //           child: Text(
+      //             localizations.app_notes_view_create,
+      //             key: ValueKey(_page),
+      //           ),
+      //         ),
+      //       ),
+      //     ),
+      //   2 => FloatingActionButton.extended(
+      //       onPressed: () => Navigator.push(
+      //         context,
+      //         MaterialRoute.adaptive(
+      //           builder: (context) => const TodoView(),
+      //         ),
+      //       ),
+      //       icon: const Icon(
+      //         Symbols.add_task_rounded,
+      //       ),
+      //       label: AnimatedSize(
+      //         key: const ValueKey("fab_size"),
+      //         duration: Durations.medium4,
+      //         curve: Easing.emphasized,
+      //         child: Text(
+      //           localizations.app_todos_view_create,
+      //         ),
+      //       ),
+      //     ),
+      //   _ => null,
+      // },
       floatingActionButton: switch (_page) {
-        // 0 => const _FloatingActionButtonTest(),
-        1 => FloatingActionButton.extended(
+        1 => FloatingActionButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialRoute.zoom(
+              MaterialRoute.adaptive(
                 builder: (context) => const NoteView(),
               ),
             ),
-            icon: Switcher.fadeThrough(
-              key: const ValueKey("fab_icon"),
-              duration: Durations.short4,
-              child: Icon(
-                Symbols.note_add_rounded,
-                key: ValueKey(_page),
-              ),
-            ),
-            label: AnimatedSize(
-              key: const ValueKey("fab_size"),
-              duration: Durations.medium4,
-              curve: Easing.emphasized,
-              child: Switcher.fadeThrough(
-                duration: Durations.short4,
-                layoutBuilder: minimumSizeLayoutBuilder,
-                child: Text(
-                  localizations.app_notes_view_create,
-                  key: ValueKey(_page),
-                ),
-              ),
+            child: const Icon(
+              Symbols.note_add_rounded,
             ),
           ),
-        2 => FloatingActionButton.extended(
+        2 => FloatingActionButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialRoute.zoom(
+              MaterialRoute.adaptive(
                 builder: (context) => const TodoView(),
               ),
             ),
-            icon: Switcher.fadeThrough(
-              key: const ValueKey("fab_icon"),
-              duration: Durations.short4,
-              child: Icon(
-                Symbols.add_task_rounded,
-                key: ValueKey(_page),
-              ),
-            ),
-            label: AnimatedSize(
-              key: const ValueKey("fab_size"),
-              duration: Durations.medium4,
-              curve: Easing.emphasized,
-              child: Switcher.fadeThrough(
-                duration: Durations.short4,
-                layoutBuilder: minimumSizeLayoutBuilder,
-                child: Text(
-                  localizations.app_todos_view_create,
-                  key: ValueKey(_page),
-                ),
-              ),
+            child: const Icon(
+              Symbols.add_task_rounded,
             ),
           ),
         _ => null,
       },
-      bottomNavigationBar: media.windowClass <= WindowClass.medium
-          ? NavigationBar(
-              // onDestinationSelected: (value) => setState(() => _page = value),
-              onDestinationSelected: _goToPage,
-              selectedIndex: _page,
-              destinations: [
-                NavigationDestination(
-                  icon: const Icon(
-                    Symbols.home_rounded,
-                    fill: 0,
-                  ),
-                  selectedIcon: const Icon(
-                    Symbols.home_rounded,
-                    fill: 1,
-                  ),
-                  label: localizations.app_home_view,
-                ),
-                NavigationDestination(
-                  icon: const Icon(
-                    Symbols.notes_rounded,
-                    fill: 0,
-                  ),
-                  selectedIcon: const Icon(
-                    Symbols.notes_rounded,
-                    fill: 1,
-                  ),
-                  label: localizations.app_notes_view,
-                ),
-                NavigationDestination(
-                  icon: const Icon(
-                    Symbols.task_alt_rounded,
-                    fill: 0,
-                  ),
-                  selectedIcon: const Icon(
-                    Symbols.task_alt_rounded,
-                    fill: 1,
-                  ),
-                  label: localizations.app_todos_view,
-                ),
-              ],
-            )
-          : null,
+      // bottomNavigationBar: NavigationBar(
+      //         // onDestinationSelected: (value) => setState(() => _page = value),
+      //         onDestinationSelected: _goToPage,
+      //         selectedIndex: _page,
+      //         destinations: [
+      //           NavigationDestination(
+      //             icon: const Icon(
+      //               Symbols.home_rounded,
+      //               fill: 0,
+      //             ),
+      //             selectedIcon: const Icon(
+      //               Symbols.home_rounded,
+      //               fill: 1,
+      //             ),
+      //             label: localizations.app_home_view,
+      //           ),
+      //           NavigationDestination(
+      //             icon: const Icon(
+      //               Symbols.notes_rounded,
+      //               fill: 0,
+      //             ),
+      //             selectedIcon: const Icon(
+      //               Symbols.notes_rounded,
+      //               fill: 1,
+      //             ),
+      //             label: localizations.app_notes_view,
+      //           ),
+      //           NavigationDestination(
+      //             icon: const Icon(
+      //               Symbols.task_alt_rounded,
+      //               fill: 0,
+      //             ),
+      //             selectedIcon: const Icon(
+      //               Symbols.task_alt_rounded,
+      //               fill: 1,
+      //             ),
+      //             label: localizations.app_todos_view,
+      //           ),
+      //         ],
+      //       ),
       body: switch (_page) {
         0 => AppViewHomePage(
             scrollableKey: _scrollableKey,
@@ -404,34 +322,6 @@ class _AppViewState extends State<AppView> {
           ),
         _ => throw Error(),
       },
-    );
-  }
-}
-
-class _FloatingActionButtonTest extends StatefulWidget {
-  const _FloatingActionButtonTest({
-    super.key,
-  });
-
-  @override
-  State<_FloatingActionButtonTest> createState() =>
-      __FloatingActionButtonTestState();
-}
-
-class __FloatingActionButtonTestState extends State<_FloatingActionButtonTest> {
-  final _buttonKey = GlobalKey<ExpandableFloatingActionButtonState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return ExpandableFloatingActionButton(
-      key: _buttonKey,
-      onPressed: () => _buttonKey.currentState?.openView(
-        Scaffold(
-          appBar: AppBar(),
-        ),
-      ),
-      icon: const Icon(Symbols.add_rounded),
-      label: const Text("New"),
     );
   }
 }

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
-import 'package:notes/database/note.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/models/note.dart';
+import 'package:notes/database/models/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/app/notes.dart';
 import 'package:notes/views/app/todos.dart';
+import 'package:notes/widgets/nothing_found.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:material/material.dart';
@@ -120,8 +121,8 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
       onRefresh: _refresh,
       child: ScrollToTop(
         controller: widget.scrollController,
-        top: 96,
-        minOffset: kToolbarHeight + 28,
+        top: 72,
+        minOffset: 72 + 28,
         child: CustomScrollView(
           key: widget.scrollableKey,
           controller: widget.scrollController,
@@ -144,11 +145,11 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                       final todos = todosSnapshot.data!;
 
                       if (notes.isEmpty && todos.isEmpty) {
-                        return SliverToBoxAdapter(
+                        return const SliverFillRemaining(
+                          hasScrollBody: false,
                           child: Center(
-                            child: Text(
-                              localizations.search_no_results,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                            child: NothingFound(
+                              icon: Icon(Symbols.receipt_long_rounded),
                             ),
                           ),
                         );

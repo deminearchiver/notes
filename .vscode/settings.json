@@ -1,8 +1,5 @@
 {
-  "java.configuration.updateBuildConfiguration": "disabled",
-  "cmake.sourceDirectory": "${workspaceFolder}/windows",
-  "cmake.configureOnOpen": false,
     "dart.flutterSdkPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter",
     "dart.sdkPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter\\bin\\cache\\dart-sdk",
-    "dotnet.defaultSolution": "disable"
+    "build-runner.flutterPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter"
 }

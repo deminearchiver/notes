@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:material/material.dart';
 
 import 'pages/welcome.dart';
@@ -19,7 +20,25 @@ class OnboardingScope extends StatefulWidget {
 }
 
 class OnboardingState extends State<OnboardingScope> {
+  late HeroController _heroController;
+
   final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp],
+    );
+    _heroController = HeroController();
+  }
+
+  @override
+  void dispose() {
+    _heroController.dispose();
+    SystemChrome.setPreferredOrientations([]);
+    super.dispose();
+  }
 
   Future<T?> next<T>(Widget child) {
     return _navigatorKey.currentState!.push<T>(
@@ -27,7 +46,7 @@ class OnboardingState extends State<OnboardingScope> {
     );
   }
 
-  void back<T>(T? result) {
+  void back<T>([T? result]) {
     return _navigatorKey.currentState!.pop(result);
   }
 
@@ -37,14 +56,18 @@ class OnboardingState extends State<OnboardingScope> {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: _navigatorKey,
-      onGenerateInitialRoutes: (navigator, initialRoute) {
-        return [
-          MaterialRoute.sharedAxis(
-              builder: (context) => const OnboardingWelcome()),
-        ];
-      },
+    return HeroControllerScope(
+      controller: _heroController,
+      child: Navigator(
+        key: _navigatorKey,
+        observers: [_heroController],
+        onGenerateInitialRoutes: (navigator, initialRoute) {
+          return [
+            MaterialRoute.sharedAxis(
+                builder: (context) => const OnboardingWelcome()),
+          ];
+        },
+      ),
     );
   }
 }

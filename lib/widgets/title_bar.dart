@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes/native.dart';
 
-class TitleBar extends StatelessWidget {
+class TitleBar extends StatefulWidget {
   const TitleBar({
     super.key,
     required this.backgroundColor,
@@ -12,9 +12,32 @@ class TitleBar extends StatelessWidget {
   final Widget child;
 
   @override
+  State<TitleBar> createState() => _TitleBarState();
+}
+
+class _TitleBarState extends State<TitleBar> {
+  @override
+  void initState() {
+    super.initState();
+    NativeService.setWindowCaptionColor(widget.backgroundColor);
+  }
+
+  @override
+  void didUpdateWidget(covariant TitleBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.backgroundColor != widget.backgroundColor) {
+      NativeService.setWindowCaptionColor(widget.backgroundColor);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    NativeService.setWindowCaptionColor(backgroundColor);
-    return child;
+    return widget.child;
   }
 }
 
