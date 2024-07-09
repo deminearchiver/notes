@@ -1,25 +1,20 @@
+> [!IMPORTANT]  
+> ### Announcement
+> This repository was archived. I'm working on a complete rewrite of the app at [**deminearchiver/...**](https://github.com/deminearchiver) (looking for a new name for the app).
+>
+> ### Why?
+> This project was made a part of my journey learning Flutter. I want to give it a new life using all the experience I gained since I started this project.
+> 
+> ### What's being done?
+> I'm currently working on the following:
+> - a new name for the app (If you have a suggestion, please message me on Discord: `@deminearchiver`)
+> - a website for the app (documentation, discussions, etc.)
+> - publishing the app on Google Play
+> - CI / CD support
+> - new features, including **full cross-platform support**, **accounts and synchronization**, **multiple editors support**, **embeds support**, **unified text format** and many more!
+
 # Notes
-
-A note-taking and to-dos app built with Flutter, supporting all major platforms.
-
-## Installation
-
-Just download the installation package from the [**latest release**](https://github.com/deminearchiver/notes/releases/latest), install and enjoy!
-
-## Special thanks
-
-### Awesome technologies
-
-- [**Flutter**](https://flutter.dev), an open-source framework for building natively compiled multi-platform applications
-- [**Material You**](https://m3.material.io), a design system which enables personal, adaptive and expressive experiences
-- [**Fleather**](https://pub.dev/packages/fleather), a production-ready rich text editor
-- [**Isar Database**](https://isar-community.dev), the fastest local database for Flutter
-- [**flutter_local_notifications**](https://pub.dev/packages/flutter_local_notifications), a Flutter plugin for sending and scheduling notifications
-- [**Puro**](https://puro.dev), fast and performant Flutter installation manager
-
-## Contributing
-
-### Building
+A note-taking and to-do app built with Flutter.
 
 ## License
 
