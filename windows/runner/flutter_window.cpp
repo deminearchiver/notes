@@ -1,15 +1,6 @@
 #include "flutter_window.h"
 
 #include <optional>
-#include <utility>
-#include <flutter/event_channel.h>
-#include <flutter/event_sink.h>
-#include <flutter/event_stream_handler_functions.h>
-#include <flutter/method_channel.h>
-#include <flutter/standard_method_codec.h>
-
-#include <windows.h>
-#include <dwmapi.h>
 
 #include "flutter/generated_plugin_registrant.h"
 
@@ -34,37 +25,6 @@ bool FlutterWindow::OnCreate() {
     return false;
   }
   RegisterPlugins(flutter_controller_->engine());
-   
-  flutter::MethodChannel<> channel(
-    flutter_controller_->engine()->messenger(),
-    "dev.deminearchiver.notes/native",
-    &flutter::StandardMethodCodec::GetInstance()
-  );
-  channel.SetMethodCallHandler(
-    [&](const flutter::MethodCall<>& call,
-      std::unique_ptr<flutter::MethodResult<>> result) {
-        if (call.method_name() == "setWindowCaptionColor") {
-          HWND hwnd = GetHandle();
-
-          const auto* arguments = std::get_if<std::vector<uint8_t>>(call.arguments());
-          if (arguments) {
-            auto color = (COLORREF)(arguments->at(0) | (arguments->at(1) << 8) | (arguments->at(2) << 16));
-
-            bool use_immersive_dark_mode = false;
-            DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &use_immersive_dark_mode, sizeof(bool));
-            DwmSetWindowAttribute(hwnd, DWMWA_CAPTION_COLOR, &color, sizeof(color));
-            result->Success();
-          }
-          else {
-            result->Error("ArgumentError", "");
-          }
-        }
-        else {
-          result->NotImplemented();
-        }
-    }
-  );
-
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
 
   flutter_controller_->engine()->SetNextFrameCallback([&]() {

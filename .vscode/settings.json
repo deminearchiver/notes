@@ -1,5 +1,21 @@
 {
-    "dart.flutterSdkPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter",
-    "dart.sdkPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter\\bin\\cache\\dart-sdk",
-    "build-runner.flutterPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter"
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true,
+    "**/.dart_tool": true,
+    "**/.git": true
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  }
 }

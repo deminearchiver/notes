@@ -93,7 +93,7 @@ BEGIN
             VALUE "FileDescription", "notes" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "notes" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 dev.deminearchiver. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 dev.deminearchiver. All rights reserved." "\0"
             VALUE "OriginalFilename", "notes.exe" "\0"
             VALUE "ProductName", "notes" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
