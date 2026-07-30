@@ -10,15 +10,6 @@ class ViewCard extends StatefulWidget {
 
   final Widget child;
 
-  static ViewCardState? maybeOf(BuildContext context) {
-    return context.findAncestorStateOfType<ViewCardState>();
-  }
-
-  static ViewCardState of(BuildContext context) {
-    final result = maybeOf(context);
-    return result!;
-  }
-
   @override
   State<ViewCard> createState() => ViewCardState();
 }
@@ -26,36 +17,59 @@ class ViewCard extends StatefulWidget {
 class ViewCardState extends State<ViewCard> {
   final _cardKey = GlobalKey();
 
-  void openView(WidgetBuilder builder) {
+  final _layoutLink = SingleLeaderLayoutLink();
+
+  _ViewCardRoute? _route;
+
+  Future<void> openView(WidgetBuilder builder) async {
+    if (!mounted) return;
+
+    if (_route != null) return;
+
     final navigator = Navigator.of(context);
-    unawaited(
-      navigator.push(
-        _ItemCardRoute(
-          capturedThemes: InheritedTheme.capture(
-            from: context,
-            to: navigator.context,
-          ),
-          cardKey: _cardKey,
-          shape: widget.shape,
-          contentBuilder: (context) => widget.child,
-          viewBuilder: builder,
-        ),
+    final route = _ViewCardRoute(
+      state: this,
+      capturedThemes: InheritedTheme.capture(
+        from: context,
+        to: navigator.context,
       ),
+      cardKey: _cardKey,
+      shape: widget.shape,
+      contentBuilder: (context) => widget.child,
+      viewBuilder: builder,
     );
+    setState(() => _route = route);
+    await navigator.push(route);
+  }
+
+  void _markNeedsBuild() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    // if (_route case final route?) {
+    //   route.navigator?.removeRoute(route);
+    // }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card.outlined(
-      key: _cardKey,
-      shape: widget.shape,
-      child: widget.child,
+    return SingleLayoutLeader(
+      layoutLink: _layoutLink,
+      child: Card.outlined(
+        key: _cardKey,
+        shape: widget.shape,
+        child: widget.child,
+      ),
     );
   }
 }
 
-class _ItemCardRoute<T extends Object?> extends PageRoute<T> {
-  _ItemCardRoute({
+class _ViewCardRoute<T extends Object?> extends PageRoute<T> {
+  _ViewCardRoute({
+    required this.state,
     required this.capturedThemes,
     required this.cardKey,
     this.shape,
@@ -67,6 +81,8 @@ class _ItemCardRoute<T extends Object?> extends PageRoute<T> {
     super.settings,
   });
 
+  final ViewCardState state;
+
   final CapturedThemes capturedThemes;
 
   final GlobalKey cardKey;
@@ -77,13 +93,19 @@ class _ItemCardRoute<T extends Object?> extends PageRoute<T> {
   final WidgetBuilder viewBuilder;
 
   @override
-  Color? get barrierColor => Colors.black.withOpacity(0.32);
+  Color? get barrierColor => Colors.black.withValues(alpha: 0.32);
 
   @override
   String? get barrierLabel => null;
 
   @override
   final bool maintainState;
+
+  @override
+  void dispose() {
+    state._route = null;
+    super.dispose();
+  }
 
   @override
   Widget buildModalBarrier() {
@@ -279,5 +301,28 @@ class _ItemCardRoute<T extends Object?> extends PageRoute<T> {
         );
       },
     );
+  }
+}
+
+class _ViewCardRouteLayout extends SingleChildRenderObjectWidget {
+  const _ViewCardRouteLayout({super.key, required Widget super.child});
+
+  @override
+  _RenderViewCardRouteLayout createRenderObject(BuildContext context) => .new();
+}
+
+class _RenderViewCardRouteLayout extends RenderShiftedBox {
+  _RenderViewCardRouteLayout({RenderBox? child}) : super(child);
+
+  @override
+  bool get sizedByParent => true;
+
+  @override
+  Size computeDryLayout(covariant BoxConstraints constraints) =>
+      constraints.biggest;
+
+  @override
+  void performLayout() {
+    child?.layout(constraints);
   }
 }

@@ -8,11 +8,9 @@ import 'package:notes/database/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
-import 'package:notes/theme.dart';
 import 'package:notes/views/app/app.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/reminder/reminder.dart';
-import 'package:notes/widgets/title_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:notes/flutter.dart';
 

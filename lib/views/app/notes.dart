@@ -255,6 +255,7 @@ class _NoteCardState extends State<NoteCard> {
       key: _cardKey,
       child: InkWell(
         onTap: () {
+          print("${_cardKey.currentState}");
           _cardKey.currentState?.openView((context) => NoteView(note: _note));
         },
         onLongPress: () => _showBottomSheet(context),
