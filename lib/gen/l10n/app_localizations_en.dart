@@ -8,14 +8,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String locale_name(String locale) {
-    String _temp0 = intl.Intl.selectLogic(
-      locale,
-      {
-        'other': 'Unknown',
-        'en': 'English',
-        'ru': 'Russian',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(locale, {
+      'other': 'Unknown',
+      'en': 'English',
+      'ru': 'Russian',
+    });
     return '$_temp0';
   }
 
@@ -210,7 +207,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_appearance_view => 'Appearance';
 
   @override
-  String get settings_appearance_view_description => 'App appearance parameters';
+  String get settings_appearance_view_description =>
+      'App appearance parameters';
 
   @override
   String get settings_appearance_view_language => 'Language';
@@ -234,7 +232,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_view_developer_mode => 'Developer mode';
 
   @override
-  String get settings_view_developer_mode_description => 'Functionality useful for developers';
+  String get settings_view_developer_mode_description =>
+      'Functionality useful for developers';
 
   @override
   String get settings_view_demo_mode => 'Demo mode';
@@ -249,7 +248,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_view_clear_database => 'Clear database';
 
   @override
-  String get settings_view_clear_database_description => 'This action is irreversible';
+  String get settings_view_clear_database_description =>
+      'This action is irreversible';
 
   @override
   String get settings_view_clear_database_action => 'Clear';
@@ -258,7 +258,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reset_settings => 'Reset settings';
 
   @override
-  String get reset_settings_confirmation => 'Are you sure you want to reset ALL settings? This action CANNOT be undone.';
+  String get reset_settings_confirmation =>
+      'Are you sure you want to reset ALL settings? This action CANNOT be undone.';
 
   @override
   String get reset_settings_success => 'Settings reset successfully';
@@ -279,7 +280,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboarding_welcome_view_title => 'Welcome!';
 
   @override
-  String get onboarding_welcome_view_subtitle => '\"Notes\" is a note-taking and to-do app';
+  String get onboarding_welcome_view_subtitle =>
+      '\"Notes\" is a note-taking and to-do app';
 
   @override
   String get onboarding_setup_view_title => 'Set up';
@@ -294,7 +296,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onboarding_setup_view_permission => 'Send notifications';
 
   @override
-  String get onboarding_setup_view_permission_description => 'Tap to request permission';
+  String get onboarding_setup_view_permission_description =>
+      'Tap to request permission';
 
   @override
   String get onboarding_setup_view_appearance => 'Appearance';

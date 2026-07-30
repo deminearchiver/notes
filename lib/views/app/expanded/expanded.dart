@@ -210,15 +210,13 @@ class __NotesBodyState extends State<_NotesBody> {
     _refreshCompleter = Completer();
 
     _notesSubscription?.cancel();
-    _notesSubscription = notes.listen(
-      (event) {
-        _notesController.add(event);
-        if (_refreshCompleter?.isCompleted == false) {
-          _refreshCompleter!.complete();
-          _refreshCompleter = null;
-        }
-      },
-    );
+    _notesSubscription = notes.listen((event) {
+      _notesController.add(event);
+      if (_refreshCompleter?.isCompleted == false) {
+        _refreshCompleter!.complete();
+        _refreshCompleter = null;
+      }
+    });
 
     await _refreshCompleter?.future;
   }
@@ -267,11 +265,8 @@ class __NotesBodyState extends State<_NotesBody> {
                           itemCount: 32,
                           separatorBuilder: (context, index) =>
                               const SizedBox(height: 8),
-                          itemBuilder: (context, index) => Card.filled(
-                            child: SizedBox(
-                              height: 10,
-                            ),
-                          ),
+                          itemBuilder: (context, index) =>
+                              Card.filled(child: SizedBox(height: 10)),
                         ),
                       );
                     }
@@ -291,7 +286,9 @@ class __NotesBodyState extends State<_NotesBody> {
                             onTap: () => _setSelected(note),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
+                                horizontal: 16,
+                                vertical: 8,
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
@@ -332,10 +329,7 @@ class __NotesBodyState extends State<_NotesBody> {
             padding: const EdgeInsets.fromLTRB(8, 16, 24, 24),
             child: Card.surface(
               child: _selected != null
-                  ? NoteView(
-                      key: ValueKey(_selected!.id),
-                      note: _selected,
-                    )
+                  ? NoteView(key: ValueKey(_selected!.id), note: _selected)
                   : const SizedBox.shrink(),
             ),
           ),

@@ -1,10 +1,7 @@
 import 'package:material/material.dart';
 
 class SearchAppBar extends StatefulWidget {
-  const SearchAppBar({
-    super.key,
-    this.bottom,
-  });
+  const SearchAppBar({super.key, this.bottom});
 
   final PreferredSizeWidget? bottom;
 
@@ -15,16 +12,12 @@ class SearchAppBar extends StatefulWidget {
 class _SearchAppBarState extends State<SearchAppBar> {
   @override
   Widget build(BuildContext context) {
-    return SliverPersistentHeader(
-      delegate: _SearchAppBarDelegate(),
-    );
+    return SliverPersistentHeader(delegate: _SearchAppBarDelegate());
   }
 }
 
 class _SearchAppBarDelegate extends SliverPersistentHeaderDelegate {
-  const _SearchAppBarDelegate({
-    this.bottom,
-  });
+  const _SearchAppBarDelegate({this.bottom});
 
   final PreferredSizeWidget? bottom;
 
@@ -44,12 +37,10 @@ class _SearchAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Column(
-      children: [
-        SearchBar(),
-        if (bottom != null) bottom!,
-      ],
-    );
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Column(children: [SearchBar(), if (bottom != null) bottom!]);
   }
 }

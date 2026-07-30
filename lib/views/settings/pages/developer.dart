@@ -33,11 +33,14 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
             child: Card.filled(
               color: theme.colorScheme.secondaryContainer,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(28)),
+                borderRadius: BorderRadius.circular(28),
+              ),
               child: ListTile(
                 onTap: () => settings.developerMode = !settings.developerMode,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 8,
+                ),
                 leading: Icon(
                   Symbols.code_rounded,
                   color: theme.colorScheme.onSecondaryContainer,
@@ -59,8 +62,10 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
         SliverClip(
           child: SliverList.list(
             children: [
-              SettingsSectionHeader("Демо-режим",
-                  enabled: settings.developerMode),
+              SettingsSectionHeader(
+                "Демо-режим",
+                enabled: settings.developerMode,
+              ),
               SettingsListTile(
                 enabled: settings.developerMode,
                 leading: Icon(Symbols.podium_rounded),

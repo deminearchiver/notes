@@ -130,12 +130,8 @@ class _WindowsTitleBarControlState extends State<WindowsTitleBarControl> {
     return InkWell(
       statesController: _statesController,
       onTap: widget.onPressed,
-      hoverColor: backgroundColor.resolve({
-        MaterialState.hovered,
-      }),
-      highlightColor: backgroundColor.resolve({
-        MaterialState.pressed,
-      }),
+      hoverColor: backgroundColor.resolve({MaterialState.hovered}),
+      highlightColor: backgroundColor.resolve({MaterialState.pressed}),
       child: SizedBox(
         width: 46,
         height: widget.compact ? 32 : 48,
@@ -151,11 +147,7 @@ class _WindowsTitleBarControlState extends State<WindowsTitleBarControl> {
   }
 }
 
-enum ControlType {
-  minimize,
-  maximize,
-  close,
-}
+enum ControlType { minimize, maximize, close }
 
 class WindowsTitleBarControls extends StatefulWidget {
   const WindowsTitleBarControls({
@@ -168,18 +160,12 @@ class WindowsTitleBarControls extends StatefulWidget {
     },
   }) : assert(controls.length > 0);
 
-  const WindowsTitleBarControls.minimize({
-    super.key,
-    this.compact = true,
-  }) : controls = const {ControlType.minimize};
-  const WindowsTitleBarControls.maximize({
-    super.key,
-    this.compact = true,
-  }) : controls = const {ControlType.maximize};
-  const WindowsTitleBarControls.close({
-    super.key,
-    this.compact = true,
-  }) : controls = const {ControlType.close};
+  const WindowsTitleBarControls.minimize({super.key, this.compact = true})
+    : controls = const {ControlType.minimize};
+  const WindowsTitleBarControls.maximize({super.key, this.compact = true})
+    : controls = const {ControlType.maximize};
+  const WindowsTitleBarControls.close({super.key, this.compact = true})
+    : controls = const {ControlType.close};
 
   final bool compact;
   final Set<ControlType> controls;
@@ -192,15 +178,9 @@ class WindowsTitleBarControls extends StatefulWidget {
 class _WindowsTitleBarControlsState extends State<WindowsTitleBarControls> {
   Widget _controlFor(ControlType type) {
     return switch (type) {
-      ControlType.minimize => _MinimizeControl(
-          compact: widget.compact,
-        ),
-      ControlType.maximize => _MaximizeControl(
-          compact: widget.compact,
-        ),
-      ControlType.close => _CloseControl(
-          compact: widget.compact,
-        ),
+      ControlType.minimize => _MinimizeControl(compact: widget.compact),
+      ControlType.maximize => _MaximizeControl(compact: widget.compact),
+      ControlType.close => _CloseControl(compact: widget.compact),
     };
   }
 
@@ -222,10 +202,7 @@ class _WindowsTitleBarControlsState extends State<WindowsTitleBarControls> {
 }
 
 class _MinimizeControl extends StatelessWidget {
-  const _MinimizeControl({
-    super.key,
-    required this.compact,
-  });
+  const _MinimizeControl({super.key, required this.compact});
 
   final bool compact;
 
@@ -240,10 +217,7 @@ class _MinimizeControl extends StatelessWidget {
 }
 
 class _MaximizeControl extends StatefulWidget {
-  const _MaximizeControl({
-    super.key,
-    this.compact = true,
-  });
+  const _MaximizeControl({super.key, this.compact = true});
 
   final bool compact;
 
@@ -290,10 +264,7 @@ class __MaximizeControlState extends State<_MaximizeControl>
 }
 
 class _CloseControl extends StatelessWidget {
-  const _CloseControl({
-    super.key,
-    required this.compact,
-  });
+  const _CloseControl({super.key, required this.compact});
 
   final bool compact;
 

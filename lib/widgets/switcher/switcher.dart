@@ -2,7 +2,9 @@ import 'package:sliver_tools/sliver_tools.dart';
 import 'package:material/material.dart';
 
 Widget minimumSizeLayoutBuilder(
-    Widget? currentChild, List<Widget> previousChildren) {
+  Widget? currentChild,
+  List<Widget> previousChildren,
+) {
   return Stack(
     children: [
       ...previousChildren.map(
@@ -18,10 +20,7 @@ Widget minimumSizeLayoutBuilder(
   );
 }
 
-enum _SwitcherVariant {
-  fade,
-  fadeThrough,
-}
+enum _SwitcherVariant { fade, fadeThrough }
 
 class Switcher extends StatelessWidget {
   const Switcher.fade({
@@ -30,8 +29,8 @@ class Switcher extends StatelessWidget {
     this.alignment = Alignment.topLeft,
     this.layoutBuilder,
     required this.child,
-  })  : _variant = _SwitcherVariant.fade,
-        _isSliver = false;
+  }) : _variant = _SwitcherVariant.fade,
+       _isSliver = false;
 
   const Switcher.fadeThrough({
     super.key,
@@ -39,8 +38,8 @@ class Switcher extends StatelessWidget {
     this.alignment = Alignment.topLeft,
     this.layoutBuilder,
     required this.child,
-  })  : _variant = _SwitcherVariant.fadeThrough,
-        _isSliver = false;
+  }) : _variant = _SwitcherVariant.fadeThrough,
+       _isSliver = false;
 
   const Switcher.sliverFade({
     super.key,
@@ -48,9 +47,9 @@ class Switcher extends StatelessWidget {
     this.alignment = Alignment.topLeft,
     this.layoutBuilder,
     required Widget sliver,
-  })  : _variant = _SwitcherVariant.fade,
-        _isSliver = true,
-        child = sliver;
+  }) : _variant = _SwitcherVariant.fade,
+       _isSliver = true,
+       child = sliver;
 
   const Switcher.sliverFadeThrough({
     super.key,
@@ -58,9 +57,9 @@ class Switcher extends StatelessWidget {
     this.alignment = Alignment.topLeft,
     this.layoutBuilder,
     required Widget sliver,
-  })  : _variant = _SwitcherVariant.fadeThrough,
-        _isSliver = true,
-        child = sliver;
+  }) : _variant = _SwitcherVariant.fadeThrough,
+       _isSliver = true,
+       child = sliver;
 
   final _SwitcherVariant _variant;
   final bool _isSliver;
@@ -74,7 +73,9 @@ class Switcher extends StatelessWidget {
   final Widget child;
 
   Widget defaultLayoutBuilder(
-      Widget? currentChild, List<Widget> previousChildren) {
+    Widget? currentChild,
+    List<Widget> previousChildren,
+  ) {
     return _isSliver
         ? SliverStack(
             // positionedAlignment: alignment,
@@ -92,10 +93,7 @@ class Switcher extends StatelessWidget {
           );
   }
 
-  Widget fadeTransitionBuilder(
-    Widget child,
-    Animation<double> animation,
-  ) {
+  Widget fadeTransitionBuilder(Widget child, Animation<double> animation) {
     return _isSliver
         ? SliverFadeTransition(
             key: ValueKey<Key?>(child.key),
@@ -113,27 +111,21 @@ class Switcher extends StatelessWidget {
     Widget child,
     Animation<double> animation,
   ) {
-    final opacityTween = Tween<double>(begin: 0, end: 1).chain(
-      CurveTween(
-        const Interval(0.5, 1),
-      ),
-    );
+    final opacityTween = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).chain(CurveTween(const Interval(0.5, 1)));
     return AnimatedBuilder(
       key: ValueKey(child.key),
       animation: animation,
       child: child,
       builder: (context, child) {
-        final double opacity =
-            animation.value >= 0.5 ? opacityTween.evaluate(animation) : 0;
+        final double opacity = animation.value >= 0.5
+            ? opacityTween.evaluate(animation)
+            : 0;
         return _isSliver
-            ? SliverOpacity(
-                opacity: opacity,
-                sliver: child,
-              )
-            : Opacity(
-                opacity: opacity,
-                child: child,
-              );
+            ? SliverOpacity(opacity: opacity, sliver: child)
+            : Opacity(opacity: opacity, child: child);
       },
     );
   }

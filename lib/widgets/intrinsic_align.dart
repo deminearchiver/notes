@@ -8,8 +8,8 @@ class IntrinsicAlign extends SingleChildRenderObjectWidget {
     this.widthFactor,
     this.heightFactor,
     super.child,
-  })  : assert(widthFactor == null || widthFactor >= 0.0),
-        assert(heightFactor == null || heightFactor >= 0.0);
+  }) : assert(widthFactor == null || widthFactor >= 0.0),
+       assert(heightFactor == null || heightFactor >= 0.0);
 
   final AlignmentGeometry alignment;
 
@@ -29,7 +29,9 @@ class IntrinsicAlign extends SingleChildRenderObjectWidget {
 
   @override
   void updateRenderObject(
-      BuildContext context, RenderIntrinsicAlign renderObject) {
+    BuildContext context,
+    RenderIntrinsicAlign renderObject,
+  ) {
     renderObject
       ..alignment = alignment
       ..widthFactor = widthFactor
@@ -40,12 +42,15 @@ class IntrinsicAlign extends SingleChildRenderObjectWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties
-        .add(DiagnosticsProperty<AlignmentGeometry>('alignment', alignment));
-    properties
-        .add(DoubleProperty('widthFactor', widthFactor, defaultValue: null));
-    properties
-        .add(DoubleProperty('heightFactor', heightFactor, defaultValue: null));
+    properties.add(
+      DiagnosticsProperty<AlignmentGeometry>('alignment', alignment),
+    );
+    properties.add(
+      DoubleProperty('widthFactor', widthFactor, defaultValue: null),
+    );
+    properties.add(
+      DoubleProperty('heightFactor', heightFactor, defaultValue: null),
+    );
   }
 }
 
@@ -56,10 +61,10 @@ class RenderIntrinsicAlign extends RenderAligningShiftedBox {
     double? heightFactor,
     super.alignment,
     super.textDirection,
-  })  : assert(widthFactor == null || widthFactor >= 0),
-        assert(heightFactor == null || heightFactor >= 0),
-        _widthFactor = widthFactor,
-        _heightFactor = heightFactor;
+  }) : assert(widthFactor == null || widthFactor >= 0),
+       assert(heightFactor == null || heightFactor >= 0),
+       _widthFactor = widthFactor,
+       _heightFactor = heightFactor;
 
   double? get widthFactor => _widthFactor;
   double? _widthFactor;
@@ -116,19 +121,23 @@ class RenderIntrinsicAlign extends RenderAligningShiftedBox {
     if (child != null) {
       final Size childSize = child!.getDryLayout(constraints.loosen());
       // final Size childSize = child!.getDryLayout(constraints);
-      return constraints.constrain(Size(
-        shrinkWrapWidth
-            ? childSize.width * (_widthFactor ?? 1.0)
-            : double.infinity,
-        shrinkWrapHeight
-            ? childSize.height * (_heightFactor ?? 1.0)
-            : double.infinity,
-      ));
+      return constraints.constrain(
+        Size(
+          shrinkWrapWidth
+              ? childSize.width * (_widthFactor ?? 1.0)
+              : double.infinity,
+          shrinkWrapHeight
+              ? childSize.height * (_heightFactor ?? 1.0)
+              : double.infinity,
+        ),
+      );
     }
-    return constraints.constrain(Size(
-      shrinkWrapWidth ? 0.0 : double.infinity,
-      shrinkWrapHeight ? 0.0 : double.infinity,
-    ));
+    return constraints.constrain(
+      Size(
+        shrinkWrapWidth ? 0.0 : double.infinity,
+        shrinkWrapHeight ? 0.0 : double.infinity,
+      ),
+    );
   }
 
   @override
@@ -141,20 +150,24 @@ class RenderIntrinsicAlign extends RenderAligningShiftedBox {
 
     if (child != null) {
       child!.layout(constraints.loosen(), parentUsesSize: true);
-      size = constraints.constrain(Size(
-        shrinkWrapWidth
-            ? child!.size.width * (_widthFactor ?? 1)
-            : double.infinity,
-        shrinkWrapHeight
-            ? child!.size.height * (_heightFactor ?? 1)
-            : double.infinity,
-      ));
+      size = constraints.constrain(
+        Size(
+          shrinkWrapWidth
+              ? child!.size.width * (_widthFactor ?? 1)
+              : double.infinity,
+          shrinkWrapHeight
+              ? child!.size.height * (_heightFactor ?? 1)
+              : double.infinity,
+        ),
+      );
       alignChild();
     } else {
-      size = constraints.constrain(Size(
-        shrinkWrapWidth ? 0 : double.infinity,
-        shrinkWrapHeight ? 0 : double.infinity,
-      ));
+      size = constraints.constrain(
+        Size(
+          shrinkWrapWidth ? 0 : double.infinity,
+          shrinkWrapHeight ? 0 : double.infinity,
+        ),
+      );
     }
   }
 }

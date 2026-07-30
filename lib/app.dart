@@ -14,10 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:material/material.dart';
 
 class App extends StatefulWidget {
-  const App({
-    super.key,
-    this.todo,
-  });
+  const App({super.key, this.todo});
 
   final Todo? todo;
 
@@ -34,9 +31,7 @@ class _AppState extends State<App> {
 
     NotificationService.init(
       onReceive: _notificationsListener,
-    ).then(
-      (_) => FlutterNativeSplash.remove(),
-    );
+    ).then((_) => FlutterNativeSplash.remove());
   }
 
   void _notificationsListener(NotificationResponse details) async {
@@ -56,9 +51,7 @@ class _AppState extends State<App> {
           if (mounted) {
             _navigatorKey.currentState?.push(
               MaterialRoute.adaptive(
-                builder: (context) => ReminderView(
-                  todo: todo,
-                ),
+                builder: (context) => ReminderView(todo: todo),
               ),
             );
           }
@@ -90,8 +83,8 @@ class _AppState extends State<App> {
           themeAnimationCurve: Easing.standard,
           themeAnimationDuration: Durations.medium4,
           themeMode: settings.themeMode,
-          // themeMode: ThemeMode.light,
 
+          // themeMode: ThemeMode.light,
           builder: (context, child) => TitleBar(
             backgroundColor: Theme.of(context).colorScheme.surface,
             child: child ?? const SizedBox.shrink(),
@@ -104,9 +97,7 @@ class _AppState extends State<App> {
             final results = <Route>[];
 
             results.add(
-              MaterialRoute.adaptive(
-                builder: (context) => const AppView(),
-              ),
+              MaterialRoute.adaptive(builder: (context) => const AppView()),
             );
             if (settings.firstRun) {
               results.add(
@@ -117,9 +108,7 @@ class _AppState extends State<App> {
             } else if (widget.todo != null) {
               results.add(
                 MaterialRoute.adaptive(
-                  builder: (context) => ReminderView(
-                    todo: widget.todo!,
-                  ),
+                  builder: (context) => ReminderView(todo: widget.todo!),
                 ),
               );
             }

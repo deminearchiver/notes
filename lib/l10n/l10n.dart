@@ -7,7 +7,9 @@ export "package:notes/gen/l10n/app_localizations.dart"
 abstract class AppLocalizations {
   static l10n.AppLocalizations? maybeOf(BuildContext context) {
     return Localizations.of<l10n.AppLocalizations>(
-        context, l10n.AppLocalizations);
+      context,
+      l10n.AppLocalizations,
+    );
   }
 
   static l10n.AppLocalizations of(BuildContext context) {

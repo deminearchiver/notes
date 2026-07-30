@@ -91,16 +91,19 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
   // Duration get transitionDuration => const Duration(seconds: 3);
 
   @override
-  Widget buildPage(BuildContext context, Animation<double> linearAnimation,
-      Animation<double> _) {
+  Widget buildPage(
+    BuildContext context,
+    Animation<double> linearAnimation,
+    Animation<double> _,
+  ) {
     final animation = CurvedAnimation(
       parent: linearAnimation,
       curve: Easing.emphasized,
       reverseCurve: Easing.emphasized.flipped,
     );
-    final navigatorBox = Navigator.of(buttonKey.currentContext!)
-        .context
-        .findRenderObject()! as RenderBox;
+    final navigatorBox =
+        Navigator.of(buttonKey.currentContext!).context.findRenderObject()!
+            as RenderBox;
     final navigatorRect =
         navigatorBox.localToGlobal(Offset.zero) & navigatorBox.size;
 
@@ -109,12 +112,9 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
 
     final buttonRect =
         buttonBox.localToGlobal(Offset.zero, ancestor: navigatorBox) &
-            buttonBox.size;
+        buttonBox.size;
 
-    final rectTween = RectTween(
-      begin: buttonRect,
-      end: navigatorRect,
-    );
+    final rectTween = RectTween(begin: buttonRect, end: navigatorRect);
 
     final theme = Theme.of(context);
 
@@ -125,19 +125,17 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
 
     final opacitySequence = TweenSequence([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1, end: 0).chain(
-          CurveTween(
-            const Interval(0, 1 / 3),
-          ),
-        ),
+        tween: Tween<double>(
+          begin: 1,
+          end: 0,
+        ).chain(CurveTween(const Interval(0, 1 / 3))),
         weight: 1,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1 / 3, end: 1).chain(
-          CurveTween(
-            const Interval(0.5, 1),
-          ),
-        ),
+        tween: Tween<double>(
+          begin: 1 / 3,
+          end: 1,
+        ).chain(CurveTween(const Interval(0.5, 1))),
         weight: 1,
       ),
     ]);
@@ -192,8 +190,9 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
                                 children: [
                                   IconTheme.merge(
                                     data: IconThemeData(
-                                        color: theme
-                                            .colorScheme.onPrimaryContainer),
+                                      color:
+                                          theme.colorScheme.onPrimaryContainer,
+                                    ),
                                     child: icon,
                                   ),
                                   const SizedBox(width: 8),

@@ -3,10 +3,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/l10n/l10n.dart';
 
 class NothingFound extends StatelessWidget {
-  const NothingFound({
-    super.key,
-    required this.icon,
-  });
+  const NothingFound({super.key, required this.icon});
 
   final Widget icon;
 
@@ -22,10 +19,7 @@ class NothingFound extends StatelessWidget {
           child: icon,
         ),
         const SizedBox(height: 16),
-        Text(
-          localizations.search_no_results,
-          style: theme.textTheme.bodyLarge,
-        ),
+        Text(localizations.search_no_results, style: theme.textTheme.bodyLarge),
       ],
     );
   }

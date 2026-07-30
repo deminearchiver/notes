@@ -5,8 +5,6 @@ import 'package:notes/database/models/todo.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:material/material.dart';
 
-//? TODO: the notification channel name is shown in android Settings > Apps > Notes > Notifications > Other
-
 abstract final class NotificationService {
   static final plugin = FlutterLocalNotificationsPlugin();
 
@@ -22,11 +20,12 @@ abstract final class NotificationService {
   }) async {
     if (Platform.isWindows) return;
     const initializationSettings = InitializationSettings(
-      android:
-          AndroidInitializationSettings("notification"), // @mipmap/ic_launcher
+      android: AndroidInitializationSettings(
+        "notification",
+      ), // @mipmap/ic_launcher
     );
     await plugin.initialize(
-      initializationSettings,
+      settings: initializationSettings,
       onDidReceiveNotificationResponse: onReceive,
     );
     _initializer.complete();
@@ -65,16 +64,22 @@ abstract final class NotificationService {
   static Future<bool> requestPermission() async {
     bool gotPermission;
     if (Platform.isAndroid) {
-      final android = plugin.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()!;
+      final android = plugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >()!;
       gotPermission = await android.requestNotificationsPermission() ?? false;
     } else if (Platform.isIOS) {
-      final ios = plugin.resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()!;
+      final ios = plugin
+          .resolvePlatformSpecificImplementation<
+            IOSFlutterLocalNotificationsPlugin
+          >()!;
       gotPermission = await ios.requestPermissions() ?? false;
     } else if (Platform.isMacOS) {
-      final macos = plugin.resolvePlatformSpecificImplementation<
-          MacOSFlutterLocalNotificationsPlugin>()!;
+      final macos = plugin
+          .resolvePlatformSpecificImplementation<
+            MacOSFlutterLocalNotificationsPlugin
+          >()!;
       gotPermission = await macos.requestPermissions() ?? false;
     } else if (Platform.isWindows) {
       gotPermission = true;
@@ -99,11 +104,11 @@ abstract final class NotificationService {
     if (!todo.date.isAfter(DateTime.now())) return;
     if (Platform.isWindows) return;
     await plugin.zonedSchedule(
-      todo.id,
-      todo.label,
-      todo.details,
-      tz.TZDateTime.from(todo.date, tz.local),
-      const NotificationDetails(
+      id: todo.id,
+      title: todo.label,
+      body: todo.details,
+      scheduledDate: tz.TZDateTime.from(todo.date, tz.local),
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           reminderChannelId,
           reminderChannelName,
@@ -117,18 +122,12 @@ abstract final class NotificationService {
               "Dismiss",
               showsUserInterface: true,
             ),
-            AndroidNotificationAction(
-              "done",
-              "Done",
-              showsUserInterface: true,
-            ),
+            AndroidNotificationAction("done", "Done", showsUserInterface: true),
           ],
         ),
       ),
       payload: todo.id.toString(),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
@@ -136,7 +135,7 @@ abstract final class NotificationService {
     // ui.ToastNotificationManager.createToastNotifierWithId(applicationId)
     if (!(await hasPermission)) return;
     if (!Platform.isWindows) {
-      await plugin.cancel(id);
+      await plugin.cancel(id: id);
     }
   }
 

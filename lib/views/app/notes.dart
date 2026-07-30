@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/note.dart';
@@ -29,8 +29,10 @@ class AppViewNotesPage extends StatefulWidget {
   final ScrollController scrollController;
 
   final Widget Function(
-          BuildContext context, void Function(String value) onQueryChanged)?
-      headerBuilder;
+    BuildContext context,
+    void Function(String value) onQueryChanged,
+  )?
+  headerBuilder;
   final Widget Function(BuildContext context, Widget child) contentBuilder;
 
   @override
@@ -70,13 +72,11 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
     _refreshCompleter = Completer();
 
     _notesSubscription?.cancel();
-    _notesSubscription = notes.listen(
-      (event) {
-        _notes.add(event);
-        if (_refreshCompleter?.isCompleted ?? false) return;
-        _refreshCompleter?.complete();
-      },
-    );
+    _notesSubscription = notes.listen((event) {
+      _notes.add(event);
+      if (_refreshCompleter?.isCompleted ?? false) return;
+      _refreshCompleter?.complete();
+    });
 
     return _refreshCompleter?.future;
   }
@@ -109,10 +109,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             if (widget.headerBuilder != null)
-              widget.headerBuilder!(
-                context,
-                _setQuery,
-              ),
+              widget.headerBuilder!(context, _setQuery),
             widget.contentBuilder(
               context,
               MultiSliver(
@@ -187,10 +184,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
 }
 
 class NoteCard extends StatefulWidget {
-  const NoteCard({
-    super.key,
-    required this.note,
-  });
+  const NoteCard({super.key, required this.note});
 
   final Note note;
 
@@ -225,10 +219,7 @@ class _NoteCardState extends State<NoteCard> {
         children: [
           ListTile(
             onTap: () => Navigator.pop(context, "share"),
-            leading: const Icon(
-              Symbols.share_rounded,
-              fill: 1,
-            ),
+            leading: const Icon(Symbols.share_rounded, fill: 1),
             title: Text(localizations.share),
           ),
           ListTile(
@@ -262,11 +253,7 @@ class _NoteCardState extends State<NoteCard> {
       key: _cardKey,
       child: InkWell(
         onTap: () {
-          _cardKey.currentState?.openView(
-            (context) => NoteView(
-              note: _note,
-            ),
-          );
+          _cardKey.currentState?.openView((context) => NoteView(note: _note));
         },
         onLongPress: () => _showBottomSheet(context),
         child: Padding(
@@ -286,9 +273,7 @@ class _NoteCardState extends State<NoteCard> {
                     ),
                   ),
                   Text(
-                    formatter.format(
-                      _note.updatedAt,
-                    ),
+                    formatter.format(_note.updatedAt),
                     maxLines: 1,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
@@ -296,8 +281,13 @@ class _NoteCardState extends State<NoteCard> {
               ),
               const SizedBox(height: 8),
               Text(
-                _note.contentText.trim().split("\n").reduce((value, element) =>
-                    value.length > element.length ? value : element),
+                _note.contentText
+                    .trim()
+                    .split("\n")
+                    .reduce(
+                      (value, element) =>
+                          value.length > element.length ? value : element,
+                    ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall,

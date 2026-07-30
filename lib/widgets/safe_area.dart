@@ -36,7 +36,8 @@ class RemoveSafeArea extends StatelessWidget {
     // // Bottom padding has been consumed - i.e. by the keyboard
     if (maintainBottomViewPadding) {
       safePadding = safePadding.copyWith(
-          bottom: MediaQuery.viewPaddingOf(context).bottom);
+        bottom: MediaQuery.viewPaddingOf(context).bottom,
+      );
     }
 
     final media = MediaQuery.of(context);

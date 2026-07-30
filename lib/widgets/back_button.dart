@@ -10,10 +10,7 @@ class _BackIconButtonTag {
 }
 
 class BackIconButton extends StatelessWidget {
-  const BackIconButton({
-    super.key,
-    this.heroTag,
-  });
+  const BackIconButton({super.key, this.heroTag});
   final Object? heroTag;
 
   @override

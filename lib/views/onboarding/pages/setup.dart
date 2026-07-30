@@ -63,40 +63,43 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
                 title: Text("Уведомления"),
                 trailing:
                     (value == null ? FilledButton.new : FilledButton.tonal)(
-                  onPressed: value == true
-                      ? null
-                      : NotificationService.requestPermission,
-                  child: AnimatedSize(
-                    duration: Durations.medium4,
-                    curve: Easing.emphasized,
-                    clipBehavior: Clip.none,
-                    child: Switcher.fadeThrough(
-                      duration: Durations.short4,
-                      layoutBuilder: (currentChild, previousChildren) {
-                        return Stack(
-                          clipBehavior: Clip.none,
-                          alignment: Alignment.center,
-                          children: [
-                            ...previousChildren.map((e) => Align(
-                                  alignment: Alignment.center,
-                                  widthFactor: 0,
-                                  heightFactor: 0,
-                                  child: e,
-                                )),
-                            if (currentChild != null) currentChild,
-                          ],
-                        );
-                      },
-                      child: KeyedSubtree(
-                          key: ValueKey(value),
-                          child: switch (value) {
-                            true => const Icon(Symbols.check_rounded),
-                            false => const Icon(Symbols.close_rounded),
-                            null => Text("Разрешить"),
-                          }),
+                      onPressed: value == true
+                          ? null
+                          : NotificationService.requestPermission,
+                      child: AnimatedSize(
+                        duration: Durations.medium4,
+                        curve: Easing.emphasized,
+                        clipBehavior: Clip.none,
+                        child: Switcher.fadeThrough(
+                          duration: Durations.short4,
+                          layoutBuilder: (currentChild, previousChildren) {
+                            return Stack(
+                              clipBehavior: Clip.none,
+                              alignment: Alignment.center,
+                              children: [
+                                ...previousChildren.map(
+                                  (e) => Align(
+                                    alignment: Alignment.center,
+                                    widthFactor: 0,
+                                    heightFactor: 0,
+                                    child: e,
+                                  ),
+                                ),
+                                if (currentChild != null) currentChild,
+                              ],
+                            );
+                          },
+                          child: KeyedSubtree(
+                            key: ValueKey(value),
+                            child: switch (value) {
+                              true => const Icon(Symbols.check_rounded),
+                              false => const Icon(Symbols.close_rounded),
+                              null => Text("Разрешить"),
+                            },
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
               );
             },
           ),
@@ -151,8 +154,9 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
             builder: (context, snapshot) {
               return FilledButton.tonal(
                 onPressed: snapshot.hasData
-                    ? () =>
-                        OnboardingScope.of(context).next(const OnboardingDone())
+                    ? () => OnboardingScope.of(
+                        context,
+                      ).next(const OnboardingDone())
                     : null,
                 child: Text(localizations.onboarding_next),
               );

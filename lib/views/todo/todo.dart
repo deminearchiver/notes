@@ -8,10 +8,7 @@ import 'package:notes/widgets/section_header.dart';
 import 'package:material/material.dart';
 
 class TodoView extends StatefulWidget {
-  const TodoView({
-    super.key,
-    this.todo,
-  });
+  const TodoView({super.key, this.todo});
 
   final Todo? todo;
 
@@ -34,11 +31,7 @@ class _TodoViewState extends State<TodoView> {
   void initState() {
     super.initState();
 
-    _todo = widget.todo ??
-        Database.createTodo(
-          label: "",
-          date: _now,
-        );
+    _todo = widget.todo ?? Database.createTodo(label: "", date: _now);
 
     _labelNode = FocusNode();
     _detailsNode = FocusNode();
@@ -60,8 +53,9 @@ class _TodoViewState extends State<TodoView> {
   }
 
   String _format() {
-    final formatter =
-        DateFormat.yMMMEd(Localizations.localeOf(context).toString());
+    final formatter = DateFormat.yMMMEd(
+      Localizations.localeOf(context).toString(),
+    );
     return "${TimeOfDay.fromDateTime(_todo.date).format(context)} / ${formatter.format(_todo.date)}";
   }
 
@@ -169,8 +163,10 @@ class _TodoViewState extends State<TodoView> {
               const Divider(),
               SectionHeader(localizations.todo_view_options),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Card.outlined(
                   child: Column(
                     children: [
@@ -197,12 +193,16 @@ class _TodoViewState extends State<TodoView> {
                 ),
               ),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Card.outlined(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 16),
+                      horizontal: 16,
+                      vertical: 16,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -221,14 +221,16 @@ class _TodoViewState extends State<TodoView> {
                                 children: [
                                   Text(
                                     localizations.todo_view_reminder,
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge,
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
                                     _format(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge,
                                   ),
                                 ],
                               ),
@@ -247,8 +249,9 @@ class _TodoViewState extends State<TodoView> {
                                   lastDate: kMaxDate,
                                 ),
                                 icon: const Icon(Symbols.date_range_rounded),
-                                label:
-                                    Text(localizations.todo_view_reminder_date),
+                                label: Text(
+                                  localizations.todo_view_reminder_date,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -257,8 +260,9 @@ class _TodoViewState extends State<TodoView> {
                                 onPressed: () async {
                                   final result = await showTimePicker(
                                     context: context,
-                                    initialTime:
-                                        TimeOfDay.fromDateTime(_todo.date),
+                                    initialTime: TimeOfDay.fromDateTime(
+                                      _todo.date,
+                                    ),
                                   );
                                   if (result != null && context.mounted) {
                                     _setTodo(
@@ -270,8 +274,9 @@ class _TodoViewState extends State<TodoView> {
                                   }
                                 },
                                 icon: const Icon(Symbols.schedule_rounded),
-                                label:
-                                    Text(localizations.todo_view_reminder_time),
+                                label: Text(
+                                  localizations.todo_view_reminder_time,
+                                ),
                               ),
                             ),
                           ],
@@ -280,7 +285,7 @@ class _TodoViewState extends State<TodoView> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],

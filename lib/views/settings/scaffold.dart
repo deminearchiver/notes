@@ -2,10 +2,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:material/material.dart';
 import 'package:notes/widgets/back_button.dart';
 
-enum _SettingsScaffoldVariant {
-  sliver,
-  list,
-}
+enum _SettingsScaffoldVariant { sliver, list }
 
 class SettingsScaffold extends StatelessWidget {
   const SettingsScaffold.list({
@@ -23,8 +20,8 @@ class SettingsScaffold extends StatelessWidget {
     required this.title,
     this.actions = const [],
     required List<Widget> slivers,
-  })  : _variant = _SettingsScaffoldVariant.sliver,
-        children = slivers;
+  }) : _variant = _SettingsScaffoldVariant.sliver,
+       children = slivers;
 
   final _SettingsScaffoldVariant _variant;
 
@@ -61,10 +58,7 @@ class SettingsScaffold extends StatelessWidget {
     );
     return Scaffold(
       body: onRefresh != null
-          ? RefreshIndicator(
-              onRefresh: onRefresh!,
-              child: body,
-            )
+          ? RefreshIndicator(onRefresh: onRefresh!, child: body)
           : body,
     );
   }

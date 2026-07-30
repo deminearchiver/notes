@@ -27,14 +27,8 @@ class ScrollToTop extends StatefulWidget {
 
 class _ScrollToTopState extends State<ScrollToTop>
     with SingleTickerProviderStateMixin {
-  static final _offsetTween = Tween<double>(
-    begin: -28,
-    end: 0,
-  );
-  static final _opacityTween = Tween<double>(
-    begin: 0,
-    end: 1,
-  );
+  static final _offsetTween = Tween<double>(begin: -28, end: 0);
+  static final _opacityTween = Tween<double>(begin: 0, end: 1);
 
   final _dismissableKey = GlobalKey();
 
@@ -80,7 +74,8 @@ class _ScrollToTopState extends State<ScrollToTop>
 
   void _scrollListener() {
     final top = _scrollController.position.pixels <= widget.minOffset;
-    final scrollingDown = _scrollController.position.userScrollDirection ==
+    final scrollingDown =
+        _scrollController.position.userScrollDirection ==
         ScrollDirection.reverse;
 
     _setShowButton(!top && scrollingDown);
@@ -156,9 +151,7 @@ class _ScrollToTopState extends State<ScrollToTop>
               );
               return !_animation.isDismissed
                   ? transition
-                  : IgnorePointer(
-                      child: transition,
-                    );
+                  : IgnorePointer(child: transition);
             },
           ),
         ),

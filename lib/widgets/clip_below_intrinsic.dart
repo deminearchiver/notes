@@ -2,11 +2,7 @@ import 'package:flutter/rendering.dart';
 import 'package:material/material.dart';
 
 class ClipBelowIntrinsic extends SingleChildRenderObjectWidget {
-  const ClipBelowIntrinsic({
-    super.key,
-    this.clipWidth = false,
-    super.child,
-  });
+  const ClipBelowIntrinsic({super.key, this.clipWidth = false, super.child});
 
   final bool clipWidth;
 
@@ -50,8 +46,9 @@ class RenderClipBelowIntrinsic extends RenderBox
   void performLayout() {
     _layout();
 
-    final width =
-        constraints.hasTightWidth ? constraints.maxWidth : _intrinsicSize.width;
+    final width = constraints.hasTightWidth
+        ? constraints.maxWidth
+        : _intrinsicSize.width;
 
     final height = constraints.hasTightHeight
         ? constraints.maxHeight

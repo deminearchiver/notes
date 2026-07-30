@@ -2,10 +2,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/widgets/intrinsic_align.dart';
 import 'package:material/material.dart';
 
-enum _MenuFloatingActionButtonVariant {
-  regular,
-  large,
-}
+enum _MenuFloatingActionButtonVariant { regular, large }
 
 class MenuFloatingActionButton extends StatefulWidget {
   const MenuFloatingActionButton({
@@ -153,10 +150,14 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
 
     final enterInterval = CurveTween(const Interval(0, 0.5));
     final exitInterval = CurveTween(const Interval(0.5, 1));
-    final enterOpacityTween =
-        Tween<double>(begin: 1, end: 0).chain(enterInterval);
-    final exitOpacityTween =
-        Tween<double>(begin: 0, end: 1).chain(exitInterval);
+    final enterOpacityTween = Tween<double>(
+      begin: 1,
+      end: 0,
+    ).chain(enterInterval);
+    final exitOpacityTween = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).chain(exitInterval);
     return Align(
       alignment: Alignment.bottomRight,
       child: AnimatedBuilder(
@@ -167,7 +168,8 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
               ? iconSizeTween.evaluate(animation)
               : 24.0;
           final widget = Transform.translate(
-            offset: box.localToGlobal(box.size.bottomRight(Offset.zero)) -
+            offset:
+                box.localToGlobal(box.size.bottomRight(Offset.zero)) -
                 navigatorBox.size.bottomRight(Offset.zero),
             child: Card.elevated(
               shape: RoundedRectangleBorder(borderRadius: borderRadius),
@@ -187,9 +189,7 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                           onTap: () => Navigator.pushReplacement(
                             context,
                             MaterialRoute.adaptive(
-                              builder: (context) => Scaffold(
-                                appBar: AppBar(),
-                              ),
+                              builder: (context) => Scaffold(appBar: AppBar()),
                             ),
                           ),
                           child: Padding(
@@ -207,7 +207,7 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                                   style: theme.textTheme.bodyLarge?.copyWith(
                                     color: theme.colorScheme.onSurface,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
@@ -250,14 +250,16 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                                 child: Padding(
                                   padding: const EdgeInsets.only(left: 8),
                                   child: Opacity(
-                                    opacity:
-                                        exitOpacityTween.evaluate(animation),
+                                    opacity: exitOpacityTween.evaluate(
+                                      animation,
+                                    ),
                                     child: DefaultTextStyle(
-                                      style:
-                                          theme.textTheme.labelLarge!.copyWith(
-                                        color: theme
-                                            .colorScheme.onPrimaryContainer,
-                                      ),
+                                      style: theme.textTheme.labelLarge!
+                                          .copyWith(
+                                            color: theme
+                                                .colorScheme
+                                                .onPrimaryContainer,
+                                          ),
                                       child: label,
                                     ),
                                   ),
@@ -275,9 +277,7 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
           );
           return !animation.isCompleted &&
                   animation.status == AnimationStatus.reverse
-              ? IgnorePointer(
-                  child: widget,
-                )
+              ? IgnorePointer(child: widget)
               : widget;
         },
       ),

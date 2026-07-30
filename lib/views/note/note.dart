@@ -10,10 +10,7 @@ import 'package:material/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class NoteView extends StatefulWidget {
-  const NoteView({
-    super.key,
-    this.note,
-  });
+  const NoteView({super.key, this.note});
 
   final Note? note;
 
@@ -51,9 +48,7 @@ class _NoteViewState extends State<NoteView> {
     _titleController = TextEditingController(text: _note.title)
       ..addListener(_titleListener);
     _note.content = ParchmentDocument.fromDelta(_note.content.toDelta());
-    _contentController = FleatherController(
-      document: _note.content,
-    );
+    _contentController = FleatherController(document: _note.content);
     _length = _contentController.document.length;
   }
 
@@ -219,12 +214,8 @@ class _NoteViewState extends State<NoteView> {
               ),
             ),
             actions: [
-              FleatherHistoryButton.undo(
-                controller: _contentController,
-              ),
-              FleatherHistoryButton.redo(
-                controller: _contentController,
-              ),
+              FleatherHistoryButton.undo(controller: _contentController),
+              FleatherHistoryButton.redo(controller: _contentController),
               // const SizedBox(width: 16),
               // FilledButton(
               //   onPressed: () {},
@@ -236,7 +227,7 @@ class _NoteViewState extends State<NoteView> {
           // This actually works (SliverToBoxAdapter + scrollController + scrollable: false)
           SliverToBoxAdapter(
             child: FleatherTheme(
-              data: CustomFleatherThemeData.fallback(Theme.of(context)),
+              data: FleatherThemeFactory.fallback(Theme.of(context)),
               child: FleatherEditor(
                 scrollController: _scrollController,
                 scrollable: false,

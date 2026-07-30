@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/todo.dart';
@@ -29,8 +29,10 @@ class AppViewTodosPage extends StatefulWidget {
   final ScrollController scrollController;
 
   final Widget Function(
-          BuildContext context, void Function(String value) onQueryChanged)?
-      headerBuilder;
+    BuildContext context,
+    void Function(String value) onQueryChanged,
+  )?
+  headerBuilder;
   final Widget Function(BuildContext context, Widget child) contentBuilder;
 
   @override
@@ -70,13 +72,11 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
 
     _todosSubscription?.cancel();
     _refreshCompleter = Completer();
-    _todosSubscription = todos.listen(
-      (event) {
-        _todos.add(event);
-        if (_refreshCompleter?.isCompleted ?? false) return;
-        _refreshCompleter?.complete();
-      },
-    );
+    _todosSubscription = todos.listen((event) {
+      _todos.add(event);
+      if (_refreshCompleter?.isCompleted ?? false) return;
+      _refreshCompleter?.complete();
+    });
 
     return _refreshCompleter?.future;
   }
@@ -170,14 +170,8 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             if (widget.headerBuilder != null)
-              widget.headerBuilder!(
-                context,
-                _setQuery,
-              ),
-            widget.contentBuilder(
-              context,
-              _buildContent(context),
-            ),
+              widget.headerBuilder!(context, _setQuery),
+            widget.contentBuilder(context, _buildContent(context)),
           ],
         ),
       ),
@@ -186,10 +180,7 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
 }
 
 class TodoCard extends StatefulWidget {
-  const TodoCard({
-    super.key,
-    required this.todo,
-  });
+  const TodoCard({super.key, required this.todo});
   final Todo todo;
 
   @override
@@ -221,10 +212,7 @@ class _TodoCardState extends State<TodoCard> {
     }
   }
 
-  Future<void> _setTodo({
-    bool? completed,
-    bool? important,
-  }) async {
+  Future<void> _setTodo({bool? completed, bool? important}) async {
     if (completed != null) _todo.completed = completed;
     if (important != null) _todo.important = important;
     await Database.addTodo(_todo);
@@ -265,10 +253,12 @@ class _TodoCardState extends State<TodoCard> {
         : theme.textTheme.bodySmall;
     final iconColor = subtitleTextStyle?.color;
 
-    final dateFormat =
-        DateFormat.yMMMEd(Localizations.localeOf(context).toLanguageTag());
-    final timeFormat =
-        DateFormat.Hm(Localizations.localeOf(context).toLanguageTag());
+    final dateFormat = DateFormat.yMMMEd(
+      Localizations.localeOf(context).toLanguageTag(),
+    );
+    final timeFormat = DateFormat.Hm(
+      Localizations.localeOf(context).toLanguageTag(),
+    );
 
     return ViewCard(
       key: _cardKey,
@@ -281,11 +271,8 @@ class _TodoCardState extends State<TodoCard> {
         ),
       ),
       child: InkWell(
-        onTap: () => _cardKey.currentState?.openView(
-          (context) => TodoView(
-            todo: _todo,
-          ),
-        ),
+        onTap: () =>
+            _cardKey.currentState?.openView((context) => TodoView(todo: _todo)),
         // onTap: () => Navigator.push(
         //   context,
         //   (
@@ -312,40 +299,36 @@ class _TodoCardState extends State<TodoCard> {
                   Text(
                     _todo.label,
                     style: _todo.completed
-                        ? titleTextStyle?.copyWith(
-                            color: theme.disabledColor,
-                          )
+                        ? titleTextStyle?.copyWith(color: theme.disabledColor)
                         : titleTextStyle,
                   ),
                   Text.rich(
-                    TextSpan(children: [
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(
-                          Symbols.calendar_month_rounded,
-                          opticalSize: 20,
-                          size: 16,
-                          color: iconColor,
+                    TextSpan(
+                      children: [
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Icon(
+                            Symbols.calendar_month_rounded,
+                            opticalSize: 20,
+                            size: 16,
+                            color: iconColor,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: " ${dateFormat.format(_todo.date)} ",
-                      ),
-                      WidgetSpan(
-                        alignment: PlaceholderAlignment.middle,
-                        child: Icon(
-                          Symbols.schedule_rounded,
-                          opticalSize: 20,
-                          size: 16,
-                          color: iconColor,
+                        TextSpan(text: " ${dateFormat.format(_todo.date)} "),
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Icon(
+                            Symbols.schedule_rounded,
+                            opticalSize: 20,
+                            size: 16,
+                            color: iconColor,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: " ${timeFormat.format(_todo.date)}",
-                      ),
-                    ]),
+                        TextSpan(text: " ${timeFormat.format(_todo.date)}"),
+                      ],
+                    ),
                     style: subtitleTextStyle,
-                  )
+                  ),
                 ],
               ),
               const Spacer(),

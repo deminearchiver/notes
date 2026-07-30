@@ -27,9 +27,7 @@ class OnboardingState extends State<OnboardingScope> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp],
-    );
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _heroController = HeroController();
   }
 
@@ -64,7 +62,8 @@ class OnboardingState extends State<OnboardingScope> {
         onGenerateInitialRoutes: (navigator, initialRoute) {
           return [
             MaterialRoute.sharedAxis(
-                builder: (context) => const OnboardingWelcome()),
+              builder: (context) => const OnboardingWelcome(),
+            ),
           ];
         },
       ),

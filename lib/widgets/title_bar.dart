@@ -62,18 +62,18 @@ class _AnimatedTitleBarState extends AnimatedWidgetBaseState<AnimatedTitleBar> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _backgroundColor = visitor(
-      _backgroundColor,
-      widget.backgroundColor,
-      (targetValue) => ColorTween(begin: targetValue),
-    ) as ColorTween;
+    _backgroundColor =
+        visitor(
+              _backgroundColor,
+              widget.backgroundColor,
+              (targetValue) => ColorTween(begin: targetValue),
+            )
+            as ColorTween;
   }
 
   @override
   Widget build(BuildContext context) {
-    NativeService.setWindowCaptionColor(
-      _backgroundColor!.evaluate(animation)!,
-    );
+    NativeService.setWindowCaptionColor(_backgroundColor!.evaluate(animation)!);
     return widget.child;
   }
 }

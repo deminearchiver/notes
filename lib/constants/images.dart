@@ -9,8 +9,10 @@ sealed class Images {
     await loadImage(deminearchiver);
   }
 
-  static const ImageProvider ic_launcher =
-      AssetImage("assets/images/ic_launcher.png");
-  static const ImageProvider deminearchiver =
-      AssetImage("assets/images/deminearchiver.png");
+  static const ImageProvider ic_launcher = AssetImage(
+    "assets/images/ic_launcher.png",
+  );
+  static const ImageProvider deminearchiver = AssetImage(
+    "assets/images/deminearchiver.png",
+  );
 }

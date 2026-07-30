@@ -14,47 +14,28 @@ extension GetTodoCollection on Isar {
   IsarCollection<int, Todo> get todos => this.collection();
 }
 
-const TodoSchema = IsarGeneratedSchema(
+final TodoSchema = IsarGeneratedSchema(
   schema: IsarSchema(
     name: 'Todo',
     idName: 'id',
     embedded: false,
     properties: [
-      IsarPropertySchema(
-        name: 'label',
-        type: IsarType.string,
-      ),
-      IsarPropertySchema(
-        name: 'details',
-        type: IsarType.string,
-      ),
-      IsarPropertySchema(
-        name: 'important',
-        type: IsarType.bool,
-      ),
-      IsarPropertySchema(
-        name: 'completed',
-        type: IsarType.bool,
-      ),
-      IsarPropertySchema(
-        name: 'date',
-        type: IsarType.dateTime,
-      ),
+      IsarPropertySchema(name: 'label', type: IsarType.string),
+      IsarPropertySchema(name: 'details', type: IsarType.string),
+      IsarPropertySchema(name: 'important', type: IsarType.bool),
+      IsarPropertySchema(name: 'completed', type: IsarType.bool),
+      IsarPropertySchema(name: 'date', type: IsarType.dateTime),
     ],
     indexes: [
       IsarIndexSchema(
         name: 'label',
-        properties: [
-          "label",
-        ],
+        properties: ["label"],
         unique: false,
         hash: false,
       ),
       IsarIndexSchema(
         name: 'details',
-        properties: [
-          "details",
-        ],
+        properties: ["details"],
         unique: false,
         hash: false,
       ),
@@ -65,15 +46,15 @@ const TodoSchema = IsarGeneratedSchema(
     deserialize: deserializeTodo,
     deserializeProperty: deserializeTodoProp,
   ),
-  embeddedSchemas: [],
+  getEmbeddedSchemas: () => [],
 );
 
 @isarProtected
 int serializeTodo(IsarWriter writer, Todo object) {
   IsarCore.writeString(writer, 1, object.label);
   IsarCore.writeString(writer, 2, object.details);
-  IsarCore.writeBool(writer, 3, object.important);
-  IsarCore.writeBool(writer, 4, object.completed);
+  IsarCore.writeBool(writer, 3, value: object.important);
+  IsarCore.writeBool(writer, 4, value: object.completed);
   IsarCore.writeLong(writer, 5, object.date.toUtc().microsecondsSinceEpoch);
   return object.id;
 }
@@ -89,11 +70,15 @@ Todo deserializeTodo(IsarReader reader) {
   {
     final value = IsarCore.readLong(reader, 5);
     if (value == -9223372036854775808) {
-      object.date =
-          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true).toLocal();
+      object.date = DateTime.fromMillisecondsSinceEpoch(
+        0,
+        isUtc: true,
+      ).toLocal();
     } else {
-      object.date =
-          DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true).toLocal();
+      object.date = DateTime.fromMicrosecondsSinceEpoch(
+        value,
+        isUtc: true,
+      ).toLocal();
     }
   }
   return object;
@@ -118,8 +103,10 @@ dynamic deserializeTodoProp(IsarReader reader, int property) {
         if (value == -9223372036854775808) {
           return DateTime.fromMillisecondsSinceEpoch(0, isUtc: true).toLocal();
         } else {
-          return DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true)
-              .toLocal();
+          return DateTime.fromMicrosecondsSinceEpoch(
+            value,
+            isUtc: true,
+          ).toLocal();
         }
       }
     default:
@@ -152,15 +139,16 @@ class _TodoUpdateImpl implements _TodoUpdate {
     Object? completed = ignore,
     Object? date = ignore,
   }) {
-    return collection.updateProperties([
-          id
-        ], {
-          if (label != ignore) 1: label as String?,
-          if (details != ignore) 2: details as String?,
-          if (important != ignore) 3: important as bool?,
-          if (completed != ignore) 4: completed as bool?,
-          if (date != ignore) 5: date as DateTime?,
-        }) >
+    return collection.updateProperties(
+          [id],
+          {
+            if (label != ignore) 1: label as String?,
+            if (details != ignore) 2: details as String?,
+            if (important != ignore) 3: important as bool?,
+            if (completed != ignore) 4: completed as bool?,
+            if (date != ignore) 5: date as DateTime?,
+          },
+        ) >
         0;
   }
 }
@@ -283,28 +271,18 @@ extension TodoQueryBuilderUpdate on QueryBuilder<Todo, Todo, QOperations> {
 }
 
 extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> idEqualTo(
-    int value,
-  ) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> idEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        EqualCondition(
-          property: 0,
-          value: value,
-        ),
+        EqualCondition(property: 0, value: value),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> idGreaterThan(
-    int value,
-  ) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> idGreaterThan(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        GreaterCondition(
-          property: 0,
-          value: value,
-        ),
+        GreaterCondition(property: 0, value: value),
       );
     });
   }
@@ -314,24 +292,14 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        GreaterOrEqualCondition(
-          property: 0,
-          value: value,
-        ),
+        GreaterOrEqualCondition(property: 0, value: value),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> idLessThan(
-    int value,
-  ) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> idLessThan(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        LessCondition(
-          property: 0,
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(LessCondition(property: 0, value: value));
     });
   }
 
@@ -340,10 +308,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        LessOrEqualCondition(
-          property: 0,
-          value: value,
-        ),
+        LessOrEqualCondition(property: 0, value: value),
       );
     });
   }
@@ -354,11 +319,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        BetweenCondition(
-          property: 0,
-          lower: lower,
-          upper: upper,
-        ),
+        BetweenCondition(property: 0, lower: lower, upper: upper),
       );
     });
   }
@@ -369,11 +330,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        EqualCondition(
-          property: 1,
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
+        EqualCondition(property: 1, value: value, caseSensitive: caseSensitive),
       );
     });
   }
@@ -414,11 +371,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        LessCondition(
-          property: 1,
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
+        LessCondition(property: 1, value: value, caseSensitive: caseSensitive),
       );
     });
   }
@@ -485,8 +438,10 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
@@ -498,8 +453,10 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> labelMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
@@ -514,10 +471,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const EqualCondition(
-          property: 1,
-          value: '',
-        ),
+        const EqualCondition(property: 1, value: ''),
       );
     });
   }
@@ -525,10 +479,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   QueryBuilder<Todo, Todo, QAfterFilterCondition> labelIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const GreaterCondition(
-          property: 1,
-          value: '',
-        ),
+        const GreaterCondition(property: 1, value: ''),
       );
     });
   }
@@ -539,11 +490,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        EqualCondition(
-          property: 2,
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
+        EqualCondition(property: 2, value: value, caseSensitive: caseSensitive),
       );
     });
   }
@@ -584,11 +531,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        LessCondition(
-          property: 2,
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
+        LessCondition(property: 2, value: value, caseSensitive: caseSensitive),
       );
     });
   }
@@ -655,8 +598,10 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsContains(String value,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsContains(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
@@ -668,8 +613,10 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsMatches(String pattern,
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsMatches(
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
@@ -684,10 +631,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const EqualCondition(
-          property: 2,
-          value: '',
-        ),
+        const EqualCondition(property: 2, value: ''),
       );
     });
   }
@@ -695,49 +639,31 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   QueryBuilder<Todo, Todo, QAfterFilterCondition> detailsIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        const GreaterCondition(
-          property: 2,
-          value: '',
-        ),
+        const GreaterCondition(property: 2, value: ''),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> importantEqualTo(
-    bool value,
-  ) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> importantEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        EqualCondition(
-          property: 3,
-          value: value,
-        ),
+        EqualCondition(property: 3, value: value),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> completedEqualTo(
-    bool value,
-  ) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> completedEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        EqualCondition(
-          property: 4,
-          value: value,
-        ),
+        EqualCondition(property: 4, value: value),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateEqualTo(
-    DateTime value,
-  ) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        EqualCondition(
-          property: 5,
-          value: value,
-        ),
+        EqualCondition(property: 5, value: value),
       );
     });
   }
@@ -747,10 +673,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        GreaterCondition(
-          property: 5,
-          value: value,
-        ),
+        GreaterCondition(property: 5, value: value),
       );
     });
   }
@@ -760,24 +683,14 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        GreaterOrEqualCondition(
-          property: 5,
-          value: value,
-        ),
+        GreaterOrEqualCondition(property: 5, value: value),
       );
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateLessThan(
-    DateTime value,
-  ) {
+  QueryBuilder<Todo, Todo, QAfterFilterCondition> dateLessThan(DateTime value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        LessCondition(
-          property: 5,
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(LessCondition(property: 5, value: value));
     });
   }
 
@@ -786,10 +699,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        LessOrEqualCondition(
-          property: 5,
-          value: value,
-        ),
+        LessOrEqualCondition(property: 5, value: value),
       );
     });
   }
@@ -800,11 +710,7 @@ extension TodoQueryFilter on QueryBuilder<Todo, Todo, QFilterCondition> {
   ) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        BetweenCondition(
-          property: 5,
-          lower: lower,
-          upper: upper,
-        ),
+        BetweenCondition(property: 5, lower: lower, upper: upper),
       );
     });
   }
@@ -825,45 +731,35 @@ extension TodoQuerySortBy on QueryBuilder<Todo, Todo, QSortBy> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabel(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabel({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(
-        1,
-        caseSensitive: caseSensitive,
-      );
+      return query.addSortBy(1, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabelDesc(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByLabelDesc({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(
-        1,
-        sort: Sort.desc,
-        caseSensitive: caseSensitive,
-      );
+      return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetails(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetails({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(
-        2,
-        caseSensitive: caseSensitive,
-      );
+      return query.addSortBy(2, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetailsDesc(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> sortByDetailsDesc({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(
-        2,
-        sort: Sort.desc,
-        caseSensitive: caseSensitive,
-      );
+      return query.addSortBy(2, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
@@ -917,29 +813,33 @@ extension TodoQuerySortThenBy on QueryBuilder<Todo, Todo, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabel(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabel({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(1, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabelDesc(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByLabelDesc({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetails(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetails({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(2, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetailsDesc(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterSortBy> thenByDetailsDesc({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(2, sort: Sort.desc, caseSensitive: caseSensitive);
     });
@@ -983,15 +883,17 @@ extension TodoQuerySortThenBy on QueryBuilder<Todo, Todo, QSortThenBy> {
 }
 
 extension TodoQueryWhereDistinct on QueryBuilder<Todo, Todo, QDistinct> {
-  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByLabel(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByLabel({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(1, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByDetails(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todo, Todo, QAfterDistinct> distinctByDetails({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(2, caseSensitive: caseSensitive);
     });

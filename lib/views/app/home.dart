@@ -26,8 +26,10 @@ class AppViewHomePage extends StatefulWidget {
   final ScrollController scrollController;
 
   final Widget Function(
-          BuildContext context, void Function(String value) onQueryChanged)?
-      headerBuilder;
+    BuildContext context,
+    void Function(String value) onQueryChanged,
+  )?
+  headerBuilder;
   final Widget Function(BuildContext context, Widget child) contentBuilder;
 
   @override
@@ -185,73 +187,64 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                         children: [
                           if (overdueTodos.isNotEmpty)
                             SectionHeader(
-                              localizations
-                                  .app_home_view_overdue(overdueTodos.length),
+                              localizations.app_home_view_overdue(
+                                overdueTodos.length,
+                              ),
                               icon: const Icon(Symbols.priority_high_rounded),
                             ),
                           ...overdueTodos.map(
                             (todo) => _buildPadding(
-                              TodoCard(
-                                key: ValueKey(todo.id),
-                                todo: todo,
-                              ),
+                              TodoCard(key: ValueKey(todo.id), todo: todo),
                             ),
                           ),
                           if (recentNotes.isNotEmpty)
                             SectionHeader(
-                              localizations
-                                  .app_home_view_recent(recentNotes.length),
+                              localizations.app_home_view_recent(
+                                recentNotes.length,
+                              ),
                               icon: const Icon(Symbols.update_rounded),
                             ),
                           ...recentNotes.map(
                             (note) => _buildPadding(
-                              NoteCard(
-                                key: ValueKey(note.id),
-                                note: note,
-                              ),
+                              NoteCard(key: ValueKey(note.id), note: note),
                             ),
                           ),
                           if (otherTodos.isNotEmpty)
                             SectionHeader(
-                              localizations
-                                  .app_home_view_todos(otherTodos.length),
+                              localizations.app_home_view_todos(
+                                otherTodos.length,
+                              ),
                               icon: const Icon(
-                                  Symbols.radio_button_unchecked_rounded),
+                                Symbols.radio_button_unchecked_rounded,
+                              ),
                             ),
                           ...otherTodos.map(
                             (todo) => _buildPadding(
-                              TodoCard(
-                                key: ValueKey(todo.id),
-                                todo: todo,
-                              ),
+                              TodoCard(key: ValueKey(todo.id), todo: todo),
                             ),
                           ),
                           if (otherNotes.isNotEmpty)
                             SectionHeader(
-                              localizations
-                                  .app_home_view_notes(otherNotes.length),
+                              localizations.app_home_view_notes(
+                                otherNotes.length,
+                              ),
                               icon: const Icon(Symbols.notes_rounded),
                             ),
                           ...otherNotes.map(
                             (note) => _buildPadding(
-                              NoteCard(
-                                key: ValueKey(note.id),
-                                note: note,
-                              ),
+                              NoteCard(key: ValueKey(note.id), note: note),
                             ),
                           ),
                           if (completedTodos.isNotEmpty)
                             SectionHeader(
                               localizations.app_home_view_completed(
-                                  completedTodos.length),
+                                completedTodos.length,
+                              ),
                               icon: const Icon(Symbols.task_alt_rounded),
                             ),
                           ...completedTodos.map(
                             (todo) => _buildPadding(
-                              TodoCard(
-                                key: ValueKey(todo.id),
-                                todo: todo,
-                              ),
+                              TodoCard(key: ValueKey(todo.id), todo: todo),
                             ),
                           ),
                           const SizedBox(height: 16),

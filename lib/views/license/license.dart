@@ -87,7 +87,9 @@ class _LicensesViewState extends State<LicensesView> {
                           itemCount: snapshot.data!.packages.length,
                           itemBuilder: (context, index) {
                             final packageName = snapshot.data!.packages[index];
-                            final bindings = snapshot.data!
+                            final bindings =
+                                snapshot
+                                    .data!
                                     .packageLicenseBindings[packageName] ??
                                 [];
                             final licenses = snapshot.data!.licenses
@@ -98,19 +100,20 @@ class _LicensesViewState extends State<LicensesView> {
                             return ListTile(
                               onTap: licenses.isNotEmpty
                                   ? () => Navigator.push(
-                                        context,
-                                        MaterialRoute.sharedAxis(
-                                          builder: (context) => _LicenseView(
-                                            packageName: packageName,
-                                            licenses: licenses,
-                                          ),
+                                      context,
+                                      MaterialRoute.sharedAxis(
+                                        builder: (context) => _LicenseView(
+                                          packageName: packageName,
+                                          licenses: licenses,
                                         ),
-                                      )
+                                      ),
+                                    )
                                   : null,
                               title: Text(packageName),
                               subtitle: Text(
-                                localizations
-                                    .licensesPackageDetailText(licenses.length),
+                                localizations.licensesPackageDetailText(
+                                  licenses.length,
+                                ),
                               ),
                             );
                           },
@@ -159,16 +162,18 @@ class _LicenseData {
   }
 
   void sortPackages([int Function(String a, String b)? compare]) {
-    packages.sort(compare ??
-        (String a, String b) {
-          if (a == firstPackage) {
-            return -1;
-          }
-          if (b == firstPackage) {
-            return 1;
-          }
-          return a.toLowerCase().compareTo(b.toLowerCase());
-        });
+    packages.sort(
+      compare ??
+          (String a, String b) {
+            if (a == firstPackage) {
+              return -1;
+            }
+            if (b == firstPackage) {
+              return 1;
+            }
+            return a.toLowerCase().compareTo(b.toLowerCase());
+          },
+    );
   }
 }
 

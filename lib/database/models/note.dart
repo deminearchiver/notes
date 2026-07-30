@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:fleather/fleather.dart';
 import 'package:parchment/parchment.dart';
 
@@ -16,9 +16,9 @@ class Note {
     DateTime? createdAt,
     DateTime? updatedAt,
     this.favorite = false,
-  })  : content = content ?? ParchmentDocument(),
-        createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+  }) : content = content ?? ParchmentDocument(),
+       createdAt = createdAt ?? DateTime.now(),
+       updatedAt = updatedAt ?? DateTime.now();
 
   late int id;
 
@@ -43,13 +43,7 @@ class Note {
 
   @ignore
   @override
-  int get hashCode => Object.hash(
-        id,
-        title,
-        content,
-        createdAt,
-        updatedAt,
-      );
+  int get hashCode => Object.hash(id, title, content, createdAt, updatedAt);
 
   @override
   bool operator ==(Object other) {

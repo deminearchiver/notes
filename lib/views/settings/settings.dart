@@ -28,54 +28,54 @@ class _SettingsViewState extends State<SettingsView> {
     final settings = context.watch<Settings>();
     return SettingsScaffold.list(
       title: Text(localizations.settings_view),
-//       actions: [
-//               IconButton(
-//                 onPressed: () async {
-//                   final snackbar = ScaffoldMessenger.of(context).showSnackBar(
-//                     SnackBar(
-//                       content: const Text("Проверка обновлений..."),
-//                       action: SnackBarAction(
-//                         onPressed: () {},
-//                         label: "Cancel",
-//                       ),
-//                     ),
-//                   );
-//                   await Future.delayed(Durations.extralong4);
-//                   if (!context.mounted) return;
-//                   snackbar.close();
-//                   showDialog(
-//                     context: context,
-//                     builder: (context) => AlertDialog(
-//                       title: const Text("Обновление"),
-//                       content: const SingleChildScrollView(
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.stretch,
-//                           children: [
-//                             Text("Найдена новая версия!"),
-//                             MarkdownBody(data: """
-// ## 1.1.0
-// ### Нововведения
-// """),
-//                           ],
-//                         ),
-//                       ),
-//                       actions: [
-//                         TextButton(
-//                           onPressed: () => Navigator.pop(context, false),
-//                           child: const Text("Отмена"),
-//                         ),
-//                         TextButton(
-//                           onPressed: () => Navigator.pop(context, true),
-//                           child: const Text("Установить"),
-//                         ),
-//                       ],
-//                     ),
-//                   );
-//                 },
-//                 icon: const Icon(Symbols.update_rounded),
-//               ),
-//               const SizedBox(width: 16),
-//             ],
+      //       actions: [
+      //               IconButton(
+      //                 onPressed: () async {
+      //                   final snackbar = ScaffoldMessenger.of(context).showSnackBar(
+      //                     SnackBar(
+      //                       content: const Text("Проверка обновлений..."),
+      //                       action: SnackBarAction(
+      //                         onPressed: () {},
+      //                         label: "Cancel",
+      //                       ),
+      //                     ),
+      //                   );
+      //                   await Future.delayed(Durations.extralong4);
+      //                   if (!context.mounted) return;
+      //                   snackbar.close();
+      //                   showDialog(
+      //                     context: context,
+      //                     builder: (context) => AlertDialog(
+      //                       title: const Text("Обновление"),
+      //                       content: const SingleChildScrollView(
+      //                         child: Column(
+      //                           crossAxisAlignment: CrossAxisAlignment.stretch,
+      //                           children: [
+      //                             Text("Найдена новая версия!"),
+      //                             MarkdownBody(data: """
+      // ## 1.1.0
+      // ### Нововведения
+      // """),
+      //                           ],
+      //                         ),
+      //                       ),
+      //                       actions: [
+      //                         TextButton(
+      //                           onPressed: () => Navigator.pop(context, false),
+      //                           child: const Text("Отмена"),
+      //                         ),
+      //                         TextButton(
+      //                           onPressed: () => Navigator.pop(context, true),
+      //                           child: const Text("Установить"),
+      //                         ),
+      //                       ],
+      //                     ),
+      //                   );
+      //                 },
+      //                 icon: const Icon(Symbols.update_rounded),
+      //               ),
+      //               const SizedBox(width: 16),
+      //             ],
       children: [
         // SettingsListTile.topLevel(
         //   leading: const Icon(
@@ -128,10 +128,7 @@ class _SettingsViewState extends State<SettingsView> {
               builder: (context) => const SettingsViewAppearancePage(),
             ),
           ),
-          leading: const Icon(
-            Symbols.brush_rounded,
-            fill: 1,
-          ),
+          leading: const Icon(Symbols.brush_rounded, fill: 1),
           title: Text(localizations.settings_appearance_view),
           subtitle: Text(localizations.settings_appearance_view_description),
           trailing: const Icon(Symbols.navigate_next_rounded),
@@ -183,7 +180,8 @@ class _SettingsViewState extends State<SettingsView> {
           onTap: () => Navigator.push(
             context,
             MaterialRoute.sharedAxis(
-                builder: (context) => const SettingsViewDeveloperPage()),
+              builder: (context) => const SettingsViewDeveloperPage(),
+            ),
           ),
           leading: const Icon(Symbols.code_rounded),
           title: Text("Для разработчиков"),
@@ -273,8 +271,11 @@ class SettingsViewAppearancePage extends StatelessWidget {
           onTap: () => _chooseLanguage(context),
           leading: const Icon(Symbols.language_rounded),
           title: Text(localizations.settings_appearance_view_language),
-          subtitle: Text(localizations
-              .locale_name(Localizations.localeOf(context).languageCode)),
+          subtitle: Text(
+            localizations.locale_name(
+              Localizations.localeOf(context).languageCode,
+            ),
+          ),
         ),
         const Divider(),
         SettingsListTile(
@@ -400,9 +401,7 @@ class _SettingsViewChangelogPageState extends State<SettingsViewChangelogPage> {
                     ),
                   )
                 : const SliverFillRemaining(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: Center(child: CircularProgressIndicator()),
                   );
           },
         ),

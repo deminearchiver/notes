@@ -37,10 +37,7 @@ class OnboardingScaffold extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: IconTheme.merge(
-                data: IconThemeData(
-                  size: 36,
-                  color: theme.colorScheme.primary,
-                ),
+                data: IconThemeData(size: 36, color: theme.colorScheme.primary),
                 child: icon!,
               ),
             ),
@@ -75,11 +72,7 @@ class OnboardingScaffold extends StatelessWidget {
               if (content != null) ...[
                 heading,
                 const SizedBox(height: 16),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: content!,
-                  ),
-                ),
+                Expanded(child: SingleChildScrollView(child: content!)),
                 // const Spacer(),
               ],
               if (disclaimer != null) ...[
@@ -93,8 +86,10 @@ class OnboardingScaffold extends StatelessWidget {
                 const SizedBox(height: 8),
               ],
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(children: actions),
               ),
             ],

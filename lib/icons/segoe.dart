@@ -4,9 +4,7 @@ import 'package:material/material.dart';
 
 class SegoeIconData extends IconData {
   const SegoeIconData(super.codePoint)
-      : super(
-          fontFamily: "Segoe Fluent Icons",
-        );
+    : super(fontFamily: "Segoe Fluent Icons");
 }
 
 @staticIconProvider

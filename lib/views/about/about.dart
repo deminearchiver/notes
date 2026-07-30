@@ -30,9 +30,7 @@ class _AboutViewState extends State<AboutView> {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
     final settings = context.watch<Settings>();
-    const icon = Image(
-      image: Images.ic_launcher,
-    );
+    const icon = Image(image: Images.ic_launcher);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -50,10 +48,7 @@ class _AboutViewState extends State<AboutView> {
               SliverList.list(
                 children: [
                   const SizedBox(height: 16),
-                  SizedBox.square(
-                    dimension: 96,
-                    child: icon,
-                  ),
+                  SizedBox.square(dimension: 96, child: icon),
                   const SizedBox(height: 8),
 
                   Text(
@@ -176,10 +171,7 @@ class _AboutViewState extends State<AboutView> {
                 ],
               ),
               const SliverToBoxAdapter(
-                child: SectionHeader(
-                  "Links",
-                  showDivider: true,
-                ),
+                child: SectionHeader("Links", showDivider: true),
               ),
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -201,10 +193,7 @@ class _AboutViewState extends State<AboutView> {
                 ),
               ),
               const SliverToBoxAdapter(
-                child: SectionHeader(
-                  "Technologies",
-                  showDivider: true,
-                ),
+                child: SectionHeader("Technologies", showDivider: true),
               ),
               SliverPadding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -214,18 +203,15 @@ class _AboutViewState extends State<AboutView> {
                   crossAxisSpacing: 8,
                   children: [
                     LinkCard(
-                      onTap: () => launchUrl(
-                        Uri.parse("https://flutter.dev"),
-                      ),
+                      onTap: () => launchUrl(Uri.parse("https://flutter.dev")),
                       icon: const Icon(SimpleIcons.flutter),
                       title: const Text("Flutter"),
                       subtitle: const Text("Framework"),
                       tooltip: "flutter.dev",
                     ),
                     LinkCard(
-                      onTap: () => launchUrl(
-                        Uri.parse("https://m3.material.io"),
-                      ),
+                      onTap: () =>
+                          launchUrl(Uri.parse("https://m3.material.io")),
                       icon: const Icon(Symbols.design_services_rounded),
                       title: const Text("Material You"),
                       subtitle: const Text("Design system"),
@@ -289,10 +275,7 @@ class LinkCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconTheme.merge(
-                data: IconThemeData(
-                  color: theme.colorScheme.primary,
-                  size: 36,
-                ),
+                data: IconThemeData(color: theme.colorScheme.primary, size: 36),
                 child: icon,
               ),
               const SizedBox(height: 8),
@@ -317,11 +300,6 @@ class LinkCard extends StatelessWidget {
         ),
       ),
     );
-    return tooltip != null
-        ? Tooltip(
-            message: tooltip,
-            child: widget,
-          )
-        : widget;
+    return tooltip != null ? Tooltip(message: tooltip, child: widget) : widget;
   }
 }

@@ -17,8 +17,9 @@ Future<void> loadTimezone() async {
   tz.initializeTimeZones();
 
   try {
-    final local =
-        await FlutterTimezone.getLocalTimezone().catchError((_) => null);
+    final local = await FlutterTimezone.getLocalTimezone().catchError(
+      (_) => null,
+    );
     tz.setLocalLocation(tz.getLocation(local!));
   } catch (error) {
     tz.setLocalLocation(tz.UTC);
@@ -76,11 +77,7 @@ void main() async {
       case "dismiss":
         break;
       default:
-        runApp(
-          App(
-            todo: todo,
-          ),
-        );
+        runApp(App(todo: todo));
     }
   } else {
     runApp(const App());

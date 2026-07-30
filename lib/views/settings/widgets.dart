@@ -1,10 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:material/material.dart';
 
-enum _SettingsListTileVariant {
-  regular,
-  topLevel,
-}
+enum _SettingsListTileVariant { regular, topLevel }
 
 class SettingsListTile extends StatelessWidget {
   const SettingsListTile({
@@ -56,8 +53,9 @@ class SettingsListTile extends StatelessWidget {
     final leadingChild = leading != null
         ? IconTheme.merge(
             data: IconThemeData(
-              color:
-                  enabled ? theme.colorScheme.onSurface : theme.disabledColor,
+              color: enabled
+                  ? theme.colorScheme.onSurface
+                  : theme.disabledColor,
             ),
             child: leading!,
           )
@@ -68,10 +66,7 @@ class SettingsListTile extends StatelessWidget {
         onTap: onTap,
         onLongPress: onLongPress,
         enabled: enabled,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 8,
-        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         leading: leadingChild,
         title: title,
         subtitle: subtitle,
@@ -106,21 +101,14 @@ class _ToggleSettingsListTile extends SettingsListTile {
     required super.title,
     super.subtitle,
   }) : super(
-          onTap: onChanged != null ? () => onChanged(!value) : null,
-          trailing: Switch(
-            onChanged: onChanged,
-            value: value,
-          ),
-          enabled: onChanged != null,
-        );
+         onTap: onChanged != null ? () => onChanged(!value) : null,
+         trailing: Switch(onChanged: onChanged, value: value),
+         enabled: onChanged != null,
+       );
 }
 
 class SettingsSectionHeader extends StatelessWidget {
-  const SettingsSectionHeader(
-    this.text, {
-    super.key,
-    this.enabled = true,
-  });
+  const SettingsSectionHeader(this.text, {super.key, this.enabled = true});
 
   final String text;
 
@@ -137,11 +125,12 @@ class SettingsSectionHeader extends StatelessWidget {
           child: Text(
             text,
             style: theme.textTheme.labelLarge?.copyWith(
-              color:
-                  enabled ? theme.colorScheme.secondary : theme.disabledColor,
+              color: enabled
+                  ? theme.colorScheme.secondary
+                  : theme.disabledColor,
             ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -11,8 +11,9 @@ import 'package:url_launcher/url_launcher.dart';
 Future<void> loadImage(ImageProvider provider) {
   final ImageConfiguration config = ImageConfiguration(
     bundle: rootBundle,
-    devicePixelRatio: MediaQueryData.fromView(WidgetsBinding.instance.window)
-        .devicePixelRatio,
+    devicePixelRatio: MediaQueryData.fromView(
+      WidgetsBinding.instance.window,
+    ).devicePixelRatio,
     platform: defaultTargetPlatform,
   );
   final completer = Completer<void>();
@@ -20,21 +21,26 @@ Future<void> loadImage(ImageProvider provider) {
 
   late final ImageStreamListener listener;
 
-  listener = ImageStreamListener((image, sync) {
-    debugPrint('Image ${image.debugLabel} finished loading');
-    completer.complete();
-    stream.removeListener(listener);
-  }, onError: (Object exception, StackTrace? stackTrace) {
-    completer.complete();
-    stream.removeListener(listener);
-    FlutterError.reportError(FlutterErrorDetails(
-      context: ErrorDescription("Image failed to load!"),
-      library: "Image resource service",
-      exception: exception,
-      stack: stackTrace,
-      silent: true,
-    ));
-  });
+  listener = ImageStreamListener(
+    (image, sync) {
+      debugPrint('Image ${image.debugLabel} finished loading');
+      completer.complete();
+      stream.removeListener(listener);
+    },
+    onError: (Object exception, StackTrace? stackTrace) {
+      completer.complete();
+      stream.removeListener(listener);
+      FlutterError.reportError(
+        FlutterErrorDetails(
+          context: ErrorDescription("Image failed to load!"),
+          library: "Image resource service",
+          exception: exception,
+          stack: stackTrace,
+          silent: true,
+        ),
+      );
+    },
+  );
 
   stream.addListener(listener);
   return completer.future;
@@ -53,9 +59,10 @@ Locale? tryParseLocale(String rawLocale) {
   final intlLocale = intl.Locale.tryParse(rawLocale);
   if (intlLocale != null) {
     return Locale.fromSubtags(
-        languageCode: intlLocale.languageCode,
-        countryCode: intlLocale.countryCode,
-        scriptCode: intlLocale.scriptCode);
+      languageCode: intlLocale.languageCode,
+      countryCode: intlLocale.countryCode,
+      scriptCode: intlLocale.scriptCode,
+    );
   }
   return null;
 }
@@ -72,9 +79,6 @@ class BorderSideTween extends Tween<BorderSide> {
   BorderSideTween({super.begin, super.end});
 
   @override
-  BorderSide lerp(double t) => BorderSide.lerp(
-        begin ?? BorderSide.none,
-        end ?? BorderSide.none,
-        t,
-      );
+  BorderSide lerp(double t) =>
+      BorderSide.lerp(begin ?? BorderSide.none, end ?? BorderSide.none, t);
 }

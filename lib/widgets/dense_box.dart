@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DenseBox extends StatelessWidget {
-  const DenseBox({
-    super.key,
-    this.width = 0,
-    this.height = 0,
-    this.child,
-  });
+  const DenseBox({super.key, this.width = 0, this.height = 0, this.child});
 
-  const DenseBox.square({
-    required double dimension,
-    this.child,
-  })  : width = dimension,
-        height = dimension;
+  const DenseBox.square({required double dimension, this.child})
+    : width = dimension,
+      height = dimension;
 
   final double width;
   final double height;

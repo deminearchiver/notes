@@ -38,9 +38,7 @@ class _AppViewState extends State<AppView> {
     _scrollController = ScrollController()..addListener(_scrollListener);
     _searchNode = FocusNode()..addListener(_searchFocusListener);
     _searchController = TextEditingController()
-      ..addListener(
-        () => setState(() {}),
-      );
+      ..addListener(() => setState(() {}));
   }
 
   @override
@@ -155,10 +153,7 @@ class _AppViewState extends State<AppView> {
   Widget _buildContent(BuildContext context, Widget sliver) {
     return TopLevelSwitcher.sliver(
       key: _switcherKey,
-      sliver: KeyedSubtree(
-        key: ValueKey(_page),
-        child: sliver,
-      ),
+      sliver: KeyedSubtree(key: ValueKey(_page), child: sliver),
     );
   }
 
@@ -238,27 +233,19 @@ class _AppViewState extends State<AppView> {
       // },
       floatingActionButton: switch (_page) {
         1 => FloatingActionButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialRoute.adaptive(
-                builder: (context) => const NoteView(),
-              ),
-            ),
-            child: const Icon(
-              Symbols.note_add_rounded,
-            ),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialRoute.adaptive(builder: (context) => const NoteView()),
           ),
+          child: const Icon(Symbols.note_add_rounded),
+        ),
         2 => FloatingActionButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialRoute.adaptive(
-                builder: (context) => const TodoView(),
-              ),
-            ),
-            child: const Icon(
-              Symbols.add_task_rounded,
-            ),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialRoute.adaptive(builder: (context) => const TodoView()),
           ),
+          child: const Icon(Symbols.add_task_rounded),
+        ),
         _ => null,
       },
       // bottomNavigationBar: NavigationBar(
@@ -303,23 +290,23 @@ class _AppViewState extends State<AppView> {
       //       ),
       body: switch (_page) {
         0 => AppViewHomePage(
-            scrollableKey: _scrollableKey,
-            scrollController: _scrollController,
-            headerBuilder: _buildHeader,
-            contentBuilder: _buildContent,
-          ),
+          scrollableKey: _scrollableKey,
+          scrollController: _scrollController,
+          headerBuilder: _buildHeader,
+          contentBuilder: _buildContent,
+        ),
         1 => AppViewNotesPage(
-            scrollableKey: _scrollableKey,
-            scrollController: _scrollController,
-            headerBuilder: _buildHeader,
-            contentBuilder: _buildContent,
-          ),
+          scrollableKey: _scrollableKey,
+          scrollController: _scrollController,
+          headerBuilder: _buildHeader,
+          contentBuilder: _buildContent,
+        ),
         2 => AppViewTodosPage(
-            scrollableKey: _scrollableKey,
-            scrollController: _scrollController,
-            headerBuilder: _buildHeader,
-            contentBuilder: _buildContent,
-          ),
+          scrollableKey: _scrollableKey,
+          scrollController: _scrollController,
+          headerBuilder: _buildHeader,
+          contentBuilder: _buildContent,
+        ),
         _ => throw Error(),
       },
     );

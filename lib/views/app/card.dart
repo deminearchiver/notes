@@ -4,11 +4,7 @@ import 'package:notes/widgets/safe_area.dart';
 import 'package:material/material.dart';
 
 class ViewCard extends StatefulWidget {
-  const ViewCard({
-    super.key,
-    this.shape,
-    required this.child,
-  });
+  const ViewCard({super.key, this.shape, required this.child});
 
   final ShapeBorder? shape;
 
@@ -32,11 +28,7 @@ class ViewCardState extends State<ViewCard> {
 
   void openView(WidgetBuilder builder) {
     final navigator = Navigator.of(context);
-    navigator.push(
-      MaterialRoute.sharedAxis(
-        builder: builder,
-      ),
-    );
+    navigator.push(MaterialRoute.sharedAxis(builder: builder));
     // navigator.push(
     //   _ItemCardRoute(
     //     capturedThemes: InheritedTheme.capture(
@@ -109,8 +101,9 @@ class _ItemCardRoute<T> extends PageRoute<T> {
           begin: barrierColor!.withOpacity(0.0),
           end:
               barrierColor, // changedInternalState is called if barrierColor updates
-        ).chain(CurveTween(
-            barrierCurve)), // changedInternalState is called if barrierCurve updates
+        ).chain(
+          CurveTween(barrierCurve),
+        ), // changedInternalState is called if barrierCurve updates
       );
       barrier = AnimatedModalBarrier(
         color: color,
@@ -141,19 +134,21 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   Duration get reverseTransitionDuration => Durations.medium4;
 
   final _rectTween = RectTween();
-  final _shapeTween = ShapeBorderTween(
-    end: const RoundedRectangleBorder(),
-  );
+  final _shapeTween = ShapeBorderTween(end: const RoundedRectangleBorder());
 
   final opacitySequence = TweenSequence([
     TweenSequenceItem(
-      tween: Tween<double>(begin: 1, end: 0)
-          .chain(CurveTween(const Interval(0, 0.5))),
+      tween: Tween<double>(
+        begin: 1,
+        end: 0,
+      ).chain(CurveTween(const Interval(0, 0.5))),
       weight: 1,
     ),
     TweenSequenceItem(
-      tween: Tween<double>(begin: 0, end: 1)
-          .chain(CurveTween(const Interval(0.5, 1))),
+      tween: Tween<double>(
+        begin: 0,
+        end: 1,
+      ).chain(CurveTween(const Interval(0.5, 1))),
       weight: 1,
     ),
   ]);
@@ -161,30 +156,28 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   void updateTweens() {
     final context = cardKey.currentContext;
     if (context != null) {
-      final navigatorBox = Navigator.of(cardKey.currentContext!)
-          .context
-          .findRenderObject()! as RenderBox;
+      final navigatorBox =
+          Navigator.of(cardKey.currentContext!).context.findRenderObject()!
+              as RenderBox;
       final cardBox = cardKey.currentContext!.findRenderObject()! as RenderBox;
 
       final cardRect = Rect.fromPoints(
+        cardBox.localToGlobal(Offset.zero, ancestor: navigatorBox),
         cardBox.localToGlobal(
-          Offset.zero,
+          cardBox.size.bottomRight(Offset.zero),
           ancestor: navigatorBox,
         ),
-        cardBox.localToGlobal(cardBox.size.bottomRight(Offset.zero),
-            ancestor: navigatorBox),
       );
       final navigatorRect = Rect.fromPoints(
         navigatorBox.localToGlobal(Offset.zero),
-        navigatorBox.localToGlobal(
-          navigatorBox.size.bottomRight(Offset.zero),
-        ),
+        navigatorBox.localToGlobal(navigatorBox.size.bottomRight(Offset.zero)),
       );
       _rectTween.begin = cardRect;
       _rectTween.end = navigatorRect;
 
       final theme = Theme.of(cardKey.currentContext!);
-      _shapeTween.begin = shape ??
+      _shapeTween.begin =
+          shape ??
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(color: theme.colorScheme.outline),
@@ -216,24 +209,21 @@ class _ItemCardRoute<T> extends PageRoute<T> {
       reverseCurve: Easing.emphasized.flipped,
     );
 
-    final navigatorBox = Navigator.of(cardKey.currentContext!)
-        .context
-        .findRenderObject()! as RenderBox;
+    final navigatorBox =
+        Navigator.of(cardKey.currentContext!).context.findRenderObject()!
+            as RenderBox;
     final cardBox = cardKey.currentContext!.findRenderObject()! as RenderBox;
 
     final cardRect = Rect.fromPoints(
+      cardBox.localToGlobal(Offset.zero, ancestor: navigatorBox),
       cardBox.localToGlobal(
-        Offset.zero,
+        cardBox.size.bottomRight(Offset.zero),
         ancestor: navigatorBox,
       ),
-      cardBox.localToGlobal(cardBox.size.bottomRight(Offset.zero),
-          ancestor: navigatorBox),
     );
     final navigatorRect = Rect.fromPoints(
       navigatorBox.localToGlobal(Offset.zero),
-      navigatorBox.localToGlobal(
-        navigatorBox.size.bottomRight(Offset.zero),
-      ),
+      navigatorBox.localToGlobal(navigatorBox.size.bottomRight(Offset.zero)),
     );
 
     final content = contentBuilder(context);

@@ -2,14 +2,11 @@ import 'package:collection/collection.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/utils/extensions.dart';
 import 'package:material/material.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class SortDetails<T> {
-  const SortDetails({
-    required this.sort,
-    required this.order,
-  });
+  const SortDetails({required this.sort, required this.order});
 
   final T sort;
   final Sort order;
@@ -41,10 +38,7 @@ class SortRow<T> extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => onSortChanged(
-              SortDetails(
-                sort: selected,
-                order: order.reverse(),
-              ),
+              SortDetails(sort: selected, order: order.reverse()),
             ),
             icon: AnimatedRotation(
               turns: order == Sort.asc ? 0 : 0.5,
@@ -56,9 +50,7 @@ class SortRow<T> extends StatelessWidget {
                 ? localizations.sort_ascending
                 : localizations.sort_descending,
           ),
-          VerticalDivider(
-            color: theme.colorScheme.onSurface,
-          ),
+          VerticalDivider(color: theme.colorScheme.onSurface),
           Expanded(
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -75,10 +67,7 @@ class SortRow<T> extends StatelessWidget {
                       ),
                       child: ChoiceChip(
                         onSelected: (value) => onSortChanged(
-                          SortDetails(
-                            sort: type.value,
-                            order: order,
-                          ),
+                          SortDetails(sort: type.value, order: order),
                         ),
                         selected: selected == type.value,
                         showCheckmark: false,
@@ -87,7 +76,8 @@ class SortRow<T> extends StatelessWidget {
                                 data: IconThemeData(
                                   color: theme.colorScheme.onSecondaryContainer,
                                 ),
-                                child: type.icon!)
+                                child: type.icon!,
+                              )
                             : null,
                         label: Text(type.label),
                       ),
@@ -96,7 +86,7 @@ class SortRow<T> extends StatelessWidget {
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -104,11 +94,7 @@ class SortRow<T> extends StatelessWidget {
 }
 
 class SortType<T> {
-  const SortType({
-    required this.value,
-    this.icon,
-    required this.label,
-  });
+  const SortType({required this.value, this.icon, required this.label});
 
   final T value;
   final Widget? icon;

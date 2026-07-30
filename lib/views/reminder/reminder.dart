@@ -6,10 +6,7 @@ import 'package:notes/l10n/l10n.dart';
 import 'package:material/material.dart';
 
 class ReminderView extends StatefulWidget {
-  const ReminderView({
-    super.key,
-    required this.todo,
-  });
+  const ReminderView({super.key, required this.todo});
 
   final Todo todo;
 
@@ -69,10 +66,7 @@ class _ReminderViewState extends State<ReminderView> {
                         color: Colors.red,
                         size: 36,
                       )
-                    : const Icon(
-                        Symbols.notifications_rounded,
-                        size: 36,
-                      ),
+                    : const Icon(Symbols.notifications_rounded, size: 36),
                 const SizedBox(height: 16),
                 Text(
                   widget.todo.label,

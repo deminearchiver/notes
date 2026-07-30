@@ -8,14 +8,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String locale_name(String locale) {
-    String _temp0 = intl.Intl.selectLogic(
-      locale,
-      {
-        'other': 'Unknown',
-        'en': 'Английский',
-        'ru': 'Русский',
-      },
-    );
+    String _temp0 = intl.Intl.selectLogic(locale, {
+      'other': 'Unknown',
+      'en': 'Английский',
+      'ru': 'Русский',
+    });
     return '$_temp0';
   }
 
@@ -210,7 +207,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_appearance_view => 'Внешний вид';
 
   @override
-  String get settings_appearance_view_description => 'Параметры внешнего вида приложения';
+  String get settings_appearance_view_description =>
+      'Параметры внешнего вида приложения';
 
   @override
   String get settings_appearance_view_language => 'Язык';
@@ -234,7 +232,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_view_developer_mode => 'Режим разработчика';
 
   @override
-  String get settings_view_developer_mode_description => 'Функционал, полезный для разработчиков';
+  String get settings_view_developer_mode_description =>
+      'Функционал, полезный для разработчиков';
 
   @override
   String get settings_view_demo_mode => 'Демо-режим';
@@ -249,7 +248,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settings_view_clear_database => 'Очистить базу данных';
 
   @override
-  String get settings_view_clear_database_description => 'Это действие нельзя будет отменить';
+  String get settings_view_clear_database_description =>
+      'Это действие нельзя будет отменить';
 
   @override
   String get settings_view_clear_database_action => 'Очистить';
@@ -258,7 +258,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get reset_settings => 'Сбросить настройки';
 
   @override
-  String get reset_settings_confirmation => 'Вы уверены, что хотите сбросить ВСЕ настройки? Это действие НЕЛЬЗЯ будет отменить.';
+  String get reset_settings_confirmation =>
+      'Вы уверены, что хотите сбросить ВСЕ настройки? Это действие НЕЛЬЗЯ будет отменить.';
 
   @override
   String get reset_settings_success => 'Настройки успешно сброшены';
@@ -279,13 +280,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboarding_welcome_view_title => 'Добро пожаловать!';
 
   @override
-  String get onboarding_welcome_view_subtitle => '\"Заметки\" - это приложение для заметок и задач';
+  String get onboarding_welcome_view_subtitle =>
+      '\"Заметки\" - это приложение для заметок и задач';
 
   @override
   String get onboarding_setup_view_title => 'Настройка';
 
   @override
-  String get onboarding_setup_view_subtitle => 'Настроим всё для вашего лучшего опыта';
+  String get onboarding_setup_view_subtitle =>
+      'Настроим всё для вашего лучшего опыта';
 
   @override
   String get onboarding_setup_view_permissions => 'Разрешения';
@@ -294,7 +297,8 @@ class AppLocalizationsRu extends AppLocalizations {
   String get onboarding_setup_view_permission => 'Присылать уведомления';
 
   @override
-  String get onboarding_setup_view_permission_description => 'Нажмите, чтобы запросить разрешение';
+  String get onboarding_setup_view_permission_description =>
+      'Нажмите, чтобы запросить разрешение';
 
   @override
   String get onboarding_setup_view_appearance => 'Внешний вид';

@@ -4,11 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:material/material.dart';
 
 class Ringtone {
-  const Ringtone({
-    required this.id,
-    required this.title,
-    required this.uri,
-  });
+  const Ringtone({required this.id, required this.title, required this.uri});
 
   final String id;
   final String title;
@@ -26,16 +22,14 @@ class NativeService {
   static Future<List<Ringtone>> getAllAlarms() async {
     try {
       final result = await platform.invokeListMethod("getAllAlarms");
-      return result?.map(
-            (e) {
-              final map = (e as Map).cast<String, dynamic>();
-              return Ringtone(
-                id: map["id"],
-                title: map["title"],
-                uri: Uri.parse(map["uri"]),
-              );
-            },
-          ).toList() ??
+      return result?.map((e) {
+            final map = (e as Map).cast<String, dynamic>();
+            return Ringtone(
+              id: map["id"],
+              title: map["title"],
+              uri: Uri.parse(map["uri"]),
+            );
+          }).toList() ??
           [];
     } on PlatformException catch (_) {
       return [];
