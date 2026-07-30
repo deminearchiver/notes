@@ -1,10 +1,10 @@
+import 'dart:async';
+
 import 'package:notes/constants/images.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/main.dart';
-import 'package:notes/settings/settings.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
-import 'package:provider/provider.dart';
 import 'package:notes/flutter.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,10 +40,12 @@ class _AboutViewState extends State<AboutView> {
   // ignore: unused_element
   void _goToPage(_AboutPage value) {
     setState(() => _page = value);
-    _scrollController.animateTo(
-      0,
-      duration: Durations.medium4,
-      curve: Easing.standardDecelerate,
+    unawaited(
+      _scrollController.animateTo(
+        0,
+        duration: Durations.medium4,
+        curve: Easing.standardDecelerate,
+      ),
     );
   }
 
@@ -51,7 +53,6 @@ class _AboutViewState extends State<AboutView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
-    final settings = context.watch<Settings>();
     const icon = Image(image: Images.ic_launcher);
     return Scaffold(
       body: CustomScrollView(
@@ -148,7 +149,7 @@ class _AboutViewState extends State<AboutView> {
                 child: switch (_page) {
                   _AboutPage.application => SliverList.list(
                     children: [
-                      SizedBox.square(dimension: 96, child: icon),
+                      const SizedBox.square(dimension: 96, child: icon),
                       const SizedBox(height: 8),
                       Text(
                         localizations.app_name,
@@ -168,7 +169,7 @@ class _AboutViewState extends State<AboutView> {
                         onTap: () =>
                             launchUrl(Uri.parse("https://flutter.dev")),
                         leading: const Icon(SimpleIcons.flutter),
-                        title: Text("Flutter"),
+                        title: const Text("Flutter"),
                         subtitle: Text(localizations.framework),
                         trailing: const Icon(
                           MaterialSymbols.open_in_new_rounded,
@@ -213,8 +214,8 @@ class _AboutViewState extends State<AboutView> {
                           Uri.parse("https://github.com/deminearchiver/notes"),
                         ),
                         leading: const Icon(SimpleIcons.github),
-                        title: Text("GitHub"),
-                        subtitle: Text("deminearchiver/notes"),
+                        title: const Text("GitHub"),
+                        subtitle: const Text("deminearchiver/notes"),
                         trailing: const Icon(
                           MaterialSymbols.open_in_new_rounded,
                         ),
@@ -222,10 +223,10 @@ class _AboutViewState extends State<AboutView> {
                       ListTile(
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(
+                          MaterialPageRoute<void>(
                             builder: (context) => LicensePage(
-                              applicationIcon: Padding(
-                                padding: const EdgeInsets.all(8),
+                              applicationIcon: const Padding(
+                                padding: EdgeInsets.all(8),
                                 child: SizedBox.square(
                                   dimension: 96,
                                   child: icon,
@@ -269,41 +270,43 @@ class _AboutViewState extends State<AboutView> {
                       // ),
                       const SizedBox(height: 16),
                       const Divider(),
-                      SectionHeader("Опыт"),
+                      const SectionHeader("Опыт"),
                       ListTile(
                         onTap: () {},
                         leading: const Icon(SimpleIcons.flutter),
-                        title: Text("Dart и Flutter"),
-                        subtitle: Text("1 год - с 2023"),
+                        title: const Text("Dart и Flutter"),
+                        subtitle: const Text("1 год - с 2023"),
                       ),
                       ListTile(
                         onTap: () {},
                         leading: const Icon(SimpleIcons.javascript),
-                        title: Text("JavaScript, TypeScript и веб-технологии"),
-                        subtitle: Text("3 года - с 2021"),
+                        title: const Text(
+                          "JavaScript, TypeScript и веб-технологии",
+                        ),
+                        subtitle: const Text("3 года - с 2021"),
                       ),
                       ListTile(
                         onTap: () {},
                         leading: const Icon(SimpleIcons.qt),
-                        title: Text("C++, Qt и пр."),
-                        subtitle: Text("2 года - с 2022"),
+                        title: const Text("C++, Qt и пр."),
+                        subtitle: const Text("2 года - с 2022"),
                       ),
                       ListTile(
                         onTap: () {},
                         enabled: false,
                         // leading: const Icon(SimpleIcons.csharp),
-                        title: Text("C# и разработка игр"),
-                        subtitle: Text("1 год - в 2020"),
+                        title: const Text("C# и разработка игр"),
+                        subtitle: const Text("1 год - в 2020"),
                       ),
                       const Divider(),
-                      SectionHeader("Социальные сети"),
+                      const SectionHeader("Социальные сети"),
                       ListTile(
                         onTap: () => launchUrl(
                           Uri.parse("https://github.com/deminearchiver"),
                         ),
                         leading: const Icon(SimpleIcons.github),
-                        title: Text("GitHub"),
-                        subtitle: Text("deminearchiver"),
+                        title: const Text("GitHub"),
+                        subtitle: const Text("deminearchiver"),
                         trailing: const Icon(
                           MaterialSymbols.open_in_new_rounded,
                         ),
@@ -313,8 +316,8 @@ class _AboutViewState extends State<AboutView> {
                           Uri.parse("https://youtube.com/@deminearchiver"),
                         ),
                         leading: const Icon(SimpleIcons.youtube),
-                        title: Text("YouTube"),
-                        subtitle: Text("@deminearchiver"),
+                        title: const Text("YouTube"),
+                        subtitle: const Text("@deminearchiver"),
                         trailing: const Icon(
                           MaterialSymbols.open_in_new_rounded,
                         ),
@@ -324,16 +327,18 @@ class _AboutViewState extends State<AboutView> {
                           Uri.parse("https://twitch.tv/deminearchiver"),
                         ),
                         leading: const Icon(SimpleIcons.twitch),
-                        title: Text("Twitch"),
-                        subtitle: Text("deminearchiver"),
+                        title: const Text("Twitch"),
+                        subtitle: const Text("deminearchiver"),
                         trailing: const Icon(
                           MaterialSymbols.open_in_new_rounded,
                         ),
                       ),
                       ListTile(
                         onTap: () async {
-                          Clipboard.setData(
-                            const ClipboardData(text: "@deminearchiver"),
+                          unawaited(
+                            Clipboard.setData(
+                              const ClipboardData(text: "@deminearchiver"),
+                            ),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
@@ -342,8 +347,8 @@ class _AboutViewState extends State<AboutView> {
                           );
                         },
                         leading: const Icon(SimpleIcons.discord),
-                        title: Text("Discord"),
-                        subtitle: Text("@deminearchiver"),
+                        title: const Text("Discord"),
+                        subtitle: const Text("@deminearchiver"),
                         trailing: const Icon(
                           MaterialSymbols.content_copy_rounded,
                         ),

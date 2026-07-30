@@ -15,7 +15,7 @@ Widget minimumSizeLayoutBuilder(
           child: child,
         ),
       ),
-      if (currentChild != null) currentChild,
+      ?currentChild,
     ],
   );
 }
@@ -81,14 +81,14 @@ class Switcher extends StatelessWidget {
             // positionedAlignment: alignment,
             children: [
               ...previousChildren,
-              if (currentChild != null) currentChild,
+              ?currentChild,
             ],
           )
         : Stack(
             alignment: alignment,
             children: [
               ...previousChildren,
-              if (currentChild != null) currentChild,
+              ?currentChild,
             ],
           );
   }

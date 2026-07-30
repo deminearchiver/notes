@@ -18,7 +18,7 @@ class OnboardingWelcome extends StatelessWidget {
       actions: [
         FilledButton.tonal(
           onPressed: () =>
-              OnboardingScope.of(context).next(const OnboardingSetup()),
+              OnboardingScope.of(context).next<void>(const OnboardingSetup()),
           child: Text(localizations.onboarding_next),
         ),
       ],

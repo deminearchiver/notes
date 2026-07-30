@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:notes/widgets/safe_area.dart';
 import 'package:notes/flutter.dart';
 
@@ -26,16 +28,18 @@ class ViewCardState extends State<ViewCard> {
 
   void openView(WidgetBuilder builder) {
     final navigator = Navigator.of(context);
-    navigator.push(
-      _ItemCardRoute(
-        capturedThemes: InheritedTheme.capture(
-          from: context,
-          to: navigator.context,
+    unawaited(
+      navigator.push(
+        _ItemCardRoute(
+          capturedThemes: InheritedTheme.capture(
+            from: context,
+            to: navigator.context,
+          ),
+          cardKey: _cardKey,
+          shape: widget.shape,
+          contentBuilder: (context) => widget.child,
+          viewBuilder: builder,
         ),
-        cardKey: _cardKey,
-        shape: widget.shape,
-        contentBuilder: (context) => widget.child,
-        viewBuilder: builder,
       ),
     );
   }
@@ -50,7 +54,7 @@ class ViewCardState extends State<ViewCard> {
   }
 }
 
-class _ItemCardRoute<T> extends PageRoute<T> {
+class _ItemCardRoute<T extends Object?> extends PageRoute<T> {
   _ItemCardRoute({
     required this.capturedThemes,
     required this.cardKey,
@@ -90,12 +94,12 @@ class _ItemCardRoute<T> extends PageRoute<T> {
     );
 
     Widget barrier;
-    if (barrierColor != null && barrierColor!.alpha != 0 && !offstage) {
+    if (barrierColor != null && barrierColor!.a > 0.0 && !offstage) {
       // changedInternalState is called if barrierColor or offstage updates
-      assert(barrierColor != barrierColor!.withOpacity(0.0));
+      assert(barrierColor != barrierColor!.withValues(alpha: 0.0));
       final color = animation.drive(
         ColorTween(
-          begin: barrierColor!.withOpacity(0.0),
+          begin: barrierColor!.withValues(alpha: 0.0),
           end:
               barrierColor, // changedInternalState is called if barrierColor updates
         ).chain(
@@ -233,7 +237,7 @@ class _ItemCardRoute<T> extends PageRoute<T> {
 
         final rect = _rectTween.evaluate(animation)!;
 
-        final safeAreaFraction = lerpDouble(0, 1, animation.value)!;
+        final safeAreaFraction = lerpDouble(0, 1, animation.value);
         final opacity = opacitySequence.evaluate(animation);
 
         return Align(

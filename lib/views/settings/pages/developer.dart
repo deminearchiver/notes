@@ -1,5 +1,6 @@
+import 'dart:async';
+
 import 'package:notes/database/database.dart';
-import 'package:notes/l10n/l10n.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/settings/scaffold.dart';
 import 'package:notes/views/settings/widgets.dart';
@@ -21,10 +22,9 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final localizations = AppLocalizations.of(context);
     final settings = context.watch<Settings>();
     return SettingsScaffold.sliver(
-      title: Text("Для разработчиков"),
+      title: const Text("Для разработчиков"),
       slivers: [
         SliverPinnedHeader(
           child: Padding(
@@ -67,13 +67,13 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
               ),
               SettingsListTile(
                 enabled: settings.developerMode,
-                leading: Icon(MaterialSymbols.podium_rounded),
-                title: Text("Демо записи"),
-                subtitle: Text("Заметки и задачи для презентации"),
+                leading: const Icon(MaterialSymbols.podium_rounded),
+                title: const Text("Демо записи"),
+                subtitle: const Text("Заметки и задачи для презентации"),
                 trailing: FilledButton.tonal(
                   onPressed: settings.developerMode && !_createdDemos
                       ? () async {
-                          Database.createDemoRecords();
+                          unawaited(Database.createDemoRecords());
                           if (context.mounted) {
                             setState(() => _createdDemos = true);
                           }
@@ -104,8 +104,8 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
               SettingsListTile(
                 enabled: settings.developerMode,
                 leading: const Icon(MaterialSymbols.delete_forever_rounded),
-                title: Text("Очистить базу данных"),
-                subtitle: Text("Удалить все записи из базы данных"),
+                title: const Text("Очистить базу данных"),
+                subtitle: const Text("Удалить все записи из базы данных"),
                 trailing: OutlinedButton(
                   onPressed: settings.developerMode
                       ? () async {
@@ -115,7 +115,7 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
                           }
                         }
                       : null,
-                  child: Text("Очистить"),
+                  child: const Text("Очистить"),
                 ),
               ),
               // SettingsListTile.toggle(

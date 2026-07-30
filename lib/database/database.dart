@@ -18,9 +18,7 @@ abstract class Database {
 
     ParchmentDocument documentFromOperations(Iterable<Operation> operations) {
       final delta = Delta();
-      for (final operation in operations) {
-        delta.push(operation);
-      }
+      operations.forEach(delta.push);
       return ParchmentDocument.fromDelta(delta);
     }
 
@@ -193,7 +191,7 @@ abstract class Database {
 
   static Future<void> init() async {
     final supportDir = await getApplicationSupportDirectory();
-    isar = await Isar.open(
+    isar = Isar.open(
       schemas: [NoteSchema, TodoSchema],
       directory: supportDir.path,
     );

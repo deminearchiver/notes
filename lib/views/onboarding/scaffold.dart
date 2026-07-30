@@ -45,7 +45,7 @@ class OnboardingScaffold extends StatelessWidget {
                   size: 36,
                   color: theme.colorScheme.primary,
                 ),
-                child: icon!,
+                child: icon,
               ),
             ),
           Text(
@@ -85,7 +85,7 @@ class OnboardingScaffold extends StatelessWidget {
               if (content != null) ...[
                 heading,
                 const SizedBox(height: 16),
-                Flexible.tight(child: SingleChildScrollView(child: content!)),
+                Flexible.tight(child: SingleChildScrollView(child: content)),
                 // const Flexible.space(),
               ],
               if (disclaimer != null) ...[

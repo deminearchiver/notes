@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:fleather/fleather.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/note.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/theme.dart';
 import 'package:notes/utils/utils.dart';
-import 'package:notes/views/settings/settings.dart';
 import 'package:notes/widgets/fleather/buttons.dart';
 import 'package:notes/flutter.dart';
 
@@ -30,7 +31,7 @@ class _NoteViewState extends State<NoteView> {
   late TextEditingController _titleController;
   late FleatherController _contentController;
 
-  int _length = 0;
+  // int _length = 0;
 
   @override
   void initState() {
@@ -48,7 +49,7 @@ class _NoteViewState extends State<NoteView> {
       ..addListener(_titleListener);
     _note.content = ParchmentDocument.fromDelta(_note.content.toDelta());
     _contentController = FleatherController(document: _note.content);
-    _length = _contentController.document.length;
+    // _length = _contentController.document.length;
   }
 
   @override
@@ -75,7 +76,7 @@ class _NoteViewState extends State<NoteView> {
     }
     _note.content = _contentController.document;
     _note.updatedAt = DateTime.now();
-    Database.addNote(_note);
+    unawaited(Database.addNote(_note));
   }
 
   @override

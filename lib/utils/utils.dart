@@ -7,11 +7,9 @@ import 'package:url_launcher/url_launcher.dart';
 
 // https://gist.github.com/AngDrew/569bdd51742687d5526a8257b7f1eb8f
 Future<void> loadImage(ImageProvider provider) {
-  final ImageConfiguration config = ImageConfiguration(
+  final config = ImageConfiguration(
     bundle: rootBundle,
-    devicePixelRatio: MediaQueryData.fromView(
-      WidgetsBinding.instance.window,
-    ).devicePixelRatio,
+    devicePixelRatio: PlatformDispatcher.instance.views.first.devicePixelRatio,
     platform: defaultTargetPlatform,
   );
   final completer = Completer<void>();
@@ -25,7 +23,7 @@ Future<void> loadImage(ImageProvider provider) {
       completer.complete();
       stream.removeListener(listener);
     },
-    onError: (Object exception, StackTrace? stackTrace) {
+    onError: (exception, stackTrace) {
       completer.complete();
       stream.removeListener(listener);
       FlutterError.reportError(
@@ -70,7 +68,7 @@ Future<bool> openUrlString(String? value) async {
   final url = Uri.tryParse(value);
   if (url == null) return false;
   if (!(await canLaunchUrl(url))) return false;
-  return await launchUrl(url);
+  return launchUrl(url);
 }
 
 class BorderSideTween extends Tween<BorderSide> {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:notes/database/database.dart';
@@ -29,12 +31,14 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
 
-    NotificationService.init(
-      onReceive: _notificationsListener,
-    ).then((_) => FlutterNativeSplash.remove());
+    unawaited(
+      NotificationService.init(
+        onReceive: _notificationsListener,
+      ).then((_) => FlutterNativeSplash.remove()),
+    );
   }
 
-  void _notificationsListener(NotificationResponse details) async {
+  Future<void> _notificationsListener(NotificationResponse details) async {
     FlutterNativeSplash.remove();
     if (details.id != null) {
       final todo = await Database.getTodo(details.id!);
@@ -49,8 +53,12 @@ class _AppState extends State<App> {
 
         default:
           if (mounted) {
-            _navigatorKey.currentState?.push(
-              MaterialPageRoute(builder: (context) => ReminderView(todo: todo)),
+            unawaited(
+              _navigatorKey.currentState?.push(
+                MaterialPageRoute<void>(
+                  builder: (context) => ReminderView(todo: todo),
+                ),
+              ),
             );
           }
       }
@@ -92,20 +100,19 @@ class _AppState extends State<App> {
           navigatorKey: _navigatorKey,
           initialRoute: Navigator.defaultRouteName,
           onGenerateInitialRoutes: (initialRoute) {
-            final results = <Route>[];
+            final results = <Route<void>>[
+              MaterialPageRoute<void>(builder: (context) => const AppView()),
+            ];
 
-            results.add(
-              MaterialPageRoute(builder: (context) => const AppView()),
-            );
             if (settings.firstRun) {
               results.add(
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) => const OnboardingScope(),
                 ),
               );
             } else if (widget.todo != null) {
               results.add(
-                MaterialPageRoute(
+                MaterialPageRoute<void>(
                   builder: (context) => ReminderView(todo: widget.todo!),
                 ),
               );

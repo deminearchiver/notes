@@ -117,8 +117,6 @@ class _WindowsTitleBarControlState extends State<WindowsTitleBarControl> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     final WidgetStateProperty<Color> iconColor =
         widget.iconColor ?? const _DefaultIconColor();
     final WidgetStateProperty<Color?> backgroundColor =

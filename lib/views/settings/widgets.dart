@@ -56,7 +56,7 @@ class SettingsListTile extends StatelessWidget {
                   ? theme.colorScheme.onSurface
                   : theme.disabledColor,
             ),
-            child: leading!,
+            child: leading,
           )
         : null;
 

@@ -69,7 +69,7 @@ class SortRow<T> extends StatelessWidget {
                               data: IconThemeDataPartial.from(
                                 color: theme.colorScheme.onSecondaryContainer,
                               ),
-                              child: type.icon!,
+                              child: type.icon,
                             )
                           : null,
                       label: Text(type.label),

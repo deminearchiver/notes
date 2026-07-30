@@ -8,7 +8,7 @@ Future<Locale?> showLanguagePickerDialog({
   bool useRootNavigator = true,
   required Locale? initialLocale,
 }) async {
-  return await showDialog<Locale?>(
+  return showDialog<Locale?>(
     context: context,
     useRootNavigator: useRootNavigator,
     builder: (context) =>

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:notes/app.dart';
@@ -66,7 +68,7 @@ void main() async {
     switch (details.actionId) {
       case "done" when todo != null:
         todo.completed = true;
-        Database.addTodo(todo);
+        unawaited(Database.addTodo(todo));
 
       case "dismiss":
         break;

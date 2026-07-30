@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'dart:ui';
-
 import 'package:notes/flutter.dart';
 
 class RemoveSafeArea extends StatelessWidget {
@@ -45,10 +43,10 @@ class RemoveSafeArea extends StatelessWidget {
     return MediaQuery(
       data: media.copyWith(
         padding: EdgeInsets.fromLTRB(
-          lerpDouble(minimum.left, safePadding.left, left)!,
-          lerpDouble(minimum.top, safePadding.top, top)!,
-          lerpDouble(minimum.right, safePadding.right, right)!,
-          lerpDouble(minimum.bottom, safePadding.bottom, bottom)!,
+          lerpDouble(minimum.left, safePadding.left, left),
+          lerpDouble(minimum.top, safePadding.top, top),
+          lerpDouble(minimum.right, safePadding.right, right),
+          lerpDouble(minimum.bottom, safePadding.bottom, bottom),
         ),
       ),
       child: child,

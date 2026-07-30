@@ -49,7 +49,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
   @override
   void initState() {
     super.initState();
-    _refresh();
+    unawaited(_refresh());
   }
 
   @override
@@ -57,22 +57,20 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
     _todosCompleter = null;
     _notesCompleter = null;
 
-    _todosSubscription?.cancel();
-    _notesSubscription?.cancel();
+    unawaited(_todosSubscription?.cancel());
+    unawaited(_notesSubscription?.cancel());
 
-    _todosController.close();
-    _notesController.close();
+    unawaited(_todosController.close());
+    unawaited(_notesController.close());
     super.dispose();
   }
-
-  Future<void> _reload() async {}
 
   Future<void> _refresh() async {
     final notes = Database.watchSearchNotes(_query);
     final todos = Database.watchSearchTodos(_query);
 
-    _notesSubscription?.cancel();
-    _todosSubscription?.cancel();
+    unawaited(_notesSubscription?.cancel());
+    unawaited(_todosSubscription?.cancel());
 
     _todosCompleter = Completer<void>();
     _notesCompleter = Completer<void>();
@@ -98,7 +96,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
 
   void _setQuery(String value) {
     setState(() => _query = value);
-    _refresh();
+    unawaited(_refresh());
   }
 
   Widget _buildLoadingIndicator() {

@@ -50,14 +50,14 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
   void initState() {
     super.initState();
 
-    _reload();
+    unawaited(_reload());
   }
 
   @override
   void dispose() {
     _refreshCompleter = null;
-    _notesSubscription?.cancel();
-    _notes.close();
+    unawaited(_notesSubscription?.cancel());
+    unawaited(_notes.close());
     super.dispose();
   }
 
@@ -69,7 +69,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
     );
     _refreshCompleter = Completer();
 
-    _notesSubscription?.cancel();
+    unawaited(_notesSubscription?.cancel());
     _notesSubscription = notes.listen((event) {
       _notes.add(event);
       if (_refreshCompleter?.isCompleted ?? false) return;
@@ -81,7 +81,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
 
   void _setQuery(String value) {
     setState(() => _query = value);
-    _reload();
+    unawaited(_reload());
   }
 
   void _setSort(SortDetails<NotesSortBy> value) {
@@ -89,7 +89,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
       _sortBy = value.sort;
       _sortOrder = value.order;
     });
-    _reload();
+    unawaited(_reload());
   }
 
   @override

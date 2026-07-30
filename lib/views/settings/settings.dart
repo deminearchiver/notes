@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/settings/settings.dart';
@@ -111,7 +113,7 @@ class _SettingsViewState extends State<SettingsView> {
           SettingsListTile.topLevel(
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(
+              MaterialPageRoute<void>(
                 builder: (context) => const SettingsViewGeneralPage(),
               ),
             ),
@@ -123,7 +125,7 @@ class _SettingsViewState extends State<SettingsView> {
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (context) => const SettingsViewAppearancePage(),
             ),
           ),
@@ -136,7 +138,7 @@ class _SettingsViewState extends State<SettingsView> {
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AboutView()),
+            MaterialPageRoute<void>(builder: (context) => const AboutView()),
           ),
           leading: const Icon(MaterialSymbols.info_rounded),
           title: Text(localizations.settings_view_about),
@@ -178,13 +180,13 @@ class _SettingsViewState extends State<SettingsView> {
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(
+            MaterialPageRoute<void>(
               builder: (context) => const SettingsViewDeveloperPage(),
             ),
           ),
           leading: const Icon(MaterialSymbols.code_rounded),
-          title: Text("Для разработчиков"),
-          subtitle: Text("Продвинутая функциональность"),
+          title: const Text("Для разработчиков"),
+          subtitle: const Text("Продвинутая функциональность"),
           trailing: const Icon(MaterialSymbols.navigate_next_rounded),
         ),
         const SizedBox(height: 16),
@@ -334,7 +336,7 @@ class _SettingsViewChangelogPageState extends State<SettingsViewChangelogPage> {
   @override
   void initState() {
     super.initState();
-    _reload();
+    unawaited(_reload());
   }
 
   Future<String> _fetchChangelog() async {
@@ -363,7 +365,7 @@ class _SettingsViewChangelogPageState extends State<SettingsViewChangelogPage> {
     final theme = Theme.of(context);
     return SettingsScaffold.sliver(
       onRefresh: _reload,
-      title: Text("Changelog"),
+      title: const Text("Changelog"),
       actions: [
         IconButton(
           onPressed: () => launchUrl(_changelogUrl),

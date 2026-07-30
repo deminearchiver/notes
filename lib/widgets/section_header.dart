@@ -30,7 +30,7 @@ class SectionHeader extends StatelessWidget {
                   data: IconThemeDataPartial.from(
                     color: theme.colorScheme.primary,
                   ),
-                  child: icon!,
+                  child: icon,
                 ),
               if (icon != null) const SizedBox(width: 8),
               Text(

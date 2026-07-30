@@ -59,7 +59,7 @@ abstract final class CustomFleatherThemeData {
         backgroundColor: theme.colorScheme.surface,
       ),
       lists: TextBlockTheme(
-        style: TextStyle(),
+        style: const TextStyle(),
         lineSpacing: const VerticalSpacing(top: 16, bottom: 16),
         spacing: const VerticalSpacing(),
       ),

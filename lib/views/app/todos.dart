@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:intl/intl.dart';
 import 'package:isar_plus/isar_plus.dart';
@@ -8,7 +7,6 @@ import 'package:notes/database/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/app/card.dart';
 import 'package:notes/views/todo/todo.dart';
-import 'package:notes/widgets/safe_area.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -50,14 +48,14 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
   void initState() {
     super.initState();
 
-    _reload();
+    unawaited(_reload());
   }
 
   @override
   void dispose() {
     _refreshCompleter = null;
-    _todosSubscription?.cancel();
-    _todos.close();
+    unawaited(_todosSubscription?.cancel());
+    unawaited(_todos.close());
     super.dispose();
   }
 
@@ -68,7 +66,7 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
       order: _sortOrder,
     );
 
-    _todosSubscription?.cancel();
+    unawaited(_todosSubscription?.cancel());
     _refreshCompleter = Completer();
     _todosSubscription = todos.listen((event) {
       _todos.add(event);
@@ -81,7 +79,7 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
 
   void _setQuery(String value) {
     setState(() => _query = value);
-    _reload();
+    unawaited(_reload());
   }
 
   void _setSort(SortDetails<TodosSortBy> value) {
@@ -89,7 +87,7 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
       _sortBy = value.sort;
       _sortOrder = value.order;
     });
-    _reload();
+    unawaited(_reload());
   }
 
   Widget _buildContent(BuildContext context) {
@@ -236,7 +234,7 @@ class _TodoCardState extends State<TodoCard> {
     );
     switch (result) {
       case "delete":
-        Database.deleteTodo(_todo.id);
+        unawaited(Database.deleteTodo(_todo.id));
       default:
         break;
     }
@@ -264,7 +262,7 @@ class _TodoCardState extends State<TodoCard> {
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
           color: _todo.completed
-              ? theme.colorScheme.outline.withOpacity(0.12)
+              ? theme.colorScheme.outline.withValues(alpha: 0.12)
               : theme.colorScheme.outlineVariant,
         ),
       ),
@@ -273,9 +271,9 @@ class _TodoCardState extends State<TodoCard> {
             _cardKey.currentState?.openView((context) => TodoView(todo: _todo)),
         // onTap: () => Navigator.push(
         //   context,
-        //   MaterialPageRoute(
+        // MaterialPageRoute<void>(
         //     child: TodoView(
-        //       todo: _todo,
+        // //      todo: _todo,
         //     ),
         //   ),
         // ),
@@ -459,7 +457,7 @@ class _TodoCardState extends State<TodoCard> {
 //             crossAxisAlignment: CrossAxisAlignment.start,
 //             children: [
 //               Text(
-//                 todo.label,
+//                 //todo.label,
 //                 style: todo.completed
 //                     ? titleTextStyle?.copyWith(
 //                         color: theme.disabledColor,
@@ -509,7 +507,7 @@ class _TodoCardState extends State<TodoCard> {
 //       ),
 //     );
 //     final Widget childView = TodoView(
-//       todo: todo,
+//       //todo: todo,
 //     );
 //     // CONTENT
 

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:notes/widgets/safe_area.dart';
 import 'package:notes/flutter.dart';

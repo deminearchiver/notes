@@ -1,14 +1,13 @@
+import 'dart:async';
+
 import 'package:notes/l10n/l10n.dart';
-import 'package:notes/utils/extensions.dart';
 import 'package:notes/views/app/home.dart';
-import 'package:notes/views/app/expanded/expanded.dart';
 import 'package:notes/views/app/notes.dart';
 import 'package:notes/views/app/todos.dart';
 import 'package:notes/views/note/note.dart';
 import 'package:notes/views/settings/settings.dart';
 import 'package:notes/views/todo/todo.dart';
 import 'package:notes/widgets/expandable_floating_action_button.dart';
-import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
 import 'package:notes/flutter.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
@@ -56,10 +55,12 @@ class _AppViewState extends State<AppView> {
 
   void _scrollTo(double position) {
     if (_scrollController.position.maxScrollExtent == 0) return;
-    _scrollController.animateTo(
-      position,
-      duration: Durations.medium4,
-      curve: Easing.standardDecelerate,
+    unawaited(
+      _scrollController.animateTo(
+        position,
+        duration: Durations.medium4,
+        curve: Easing.standardDecelerate,
+      ),
     );
   }
 
@@ -119,7 +120,7 @@ class _AppViewState extends State<AppView> {
         IconButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SettingsView()),
+            MaterialPageRoute<void>(builder: (context) => const SettingsView()),
           ),
           icon: const Icon(MaterialSymbols.settings_rounded, fill: 1),
         ),
@@ -150,7 +151,7 @@ class _AppViewState extends State<AppView> {
                             48 +
                             theme.visualDensity.horizontal +
                             theme.visualDensity.baseSizeAdjustment.dx,
-                        child: Icon(MaterialSymbols.search_rounded),
+                        child: const Icon(MaterialSymbols.search_rounded),
                       ),
               ),
             ),
@@ -166,7 +167,7 @@ class _AppViewState extends State<AppView> {
             //   IconButton(
             //     onPressed: () => Navigator.push(
             //         context,
-            //         MaterialPageRoute(
+            //       MaterialPageRoute<void>(
             //           builder: (context) => const SettingsView(),
             //         )),
             //     icon: const Icon.filled(MaterialSymbols.settings_rounded),
@@ -264,7 +265,7 @@ class _AppViewState extends State<AppView> {
         1 => FloatingActionButton.extended(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const NoteView()),
+            MaterialPageRoute<void>(builder: (context) => const NoteView()),
           ),
           icon: Switcher.fadeThrough(
             key: const ValueKey("fab_icon"),
@@ -288,7 +289,7 @@ class _AppViewState extends State<AppView> {
         2 => FloatingActionButton.extended(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const TodoView()),
+            MaterialPageRoute<void>(builder: (context) => const TodoView()),
           ),
           icon: Switcher.fadeThrough(
             key: const ValueKey("fab_icon"),
@@ -385,7 +386,7 @@ class __FloatingActionButtonTestState extends State<_FloatingActionButtonTest> {
     return ExpandableFloatingActionButton(
       key: _buttonKey,
       onPressed: () =>
-          _buttonKey.currentState?.openView(Scaffold(appBar: AppBar())),
+          _buttonKey.currentState?.openView<void>(Scaffold(appBar: AppBar())),
       icon: const Icon(MaterialSymbols.add_rounded),
       label: const Text("New"),
     );

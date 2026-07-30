@@ -3,7 +3,7 @@ import 'package:notes/flutter.dart';
 
 Widget customToggleStyleButtonBuilder(
   BuildContext context,
-  ParchmentAttribute attribute,
+  ParchmentAttribute<Object?> attribute,
   IconData icon,
   bool isToggled,
   VoidCallback? onPressed,
@@ -83,7 +83,7 @@ class FleatherClearStyleButton extends StatelessWidget {
 
   const FleatherClearStyleButton({super.key, required this.controller});
 
-  static final _attributes = <ParchmentAttribute>[
+  static final _attributes = <ParchmentAttribute<Object?>>[
     ParchmentAttribute.bold,
     ParchmentAttribute.italic,
     ParchmentAttribute.underline,
@@ -94,9 +94,7 @@ class FleatherClearStyleButton extends StatelessWidget {
   ].map((e) => e.unset);
 
   void _onPressed() {
-    for (final attribute in _attributes) {
-      controller.formatSelection(attribute);
-    }
+    _attributes.forEach(controller.formatSelection);
   }
 
   @override

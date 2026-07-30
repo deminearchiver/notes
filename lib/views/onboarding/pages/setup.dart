@@ -19,7 +19,7 @@ class OnboardingSetup extends StatefulWidget {
 }
 
 class _OnboardingSetupState extends State<OnboardingSetup> {
-  void _chooseLanguage() async {
+  Future<void> _chooseLanguage() async {
     final settings = context.read<Settings>();
     final result = await showLanguagePickerDialog(
       context: context,
@@ -31,7 +31,6 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
     return OnboardingScaffold(
       supportsBackAction: false,
@@ -44,10 +43,10 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
           ListTile(
             onTap: _chooseLanguage,
             leading: const Icon(MaterialSymbols.language_rounded),
-            title: Text("Язык"),
+            title: const Text("Язык"),
             trailing: FilledButton.tonal(
               onPressed: _chooseLanguage,
-              child: Text("Выбрать"),
+              child: const Text("Выбрать"),
             ),
           ),
           const Divider(),
@@ -62,7 +61,7 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
                 leading: const Icon(
                   MaterialSymbols.notifications_active_rounded,
                 ),
-                title: Text("Уведомления"),
+                title: const Text("Уведомления"),
                 trailing:
                     (value == null ? FilledButton.new : FilledButton.tonal)(
                       onPressed: value == true
@@ -87,7 +86,7 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
                                     child: e,
                                   ),
                                 ),
-                                if (currentChild != null) currentChild,
+                                ?currentChild,
                               ],
                             );
                           },
@@ -98,7 +97,7 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
                               false => const Icon(
                                 MaterialSymbols.close_rounded,
                               ),
-                              null => Text("Разрешить"),
+                              null => const Text("Разрешить"),
                             },
                           ),
                         ),
@@ -161,7 +160,7 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
                 onPressed: snapshot.hasData
                     ? () => OnboardingScope.of(
                         context,
-                      ).next(const OnboardingDone())
+                      ).next<void>(const OnboardingDone())
                     : null,
                 child: Text(localizations.onboarding_next),
               );

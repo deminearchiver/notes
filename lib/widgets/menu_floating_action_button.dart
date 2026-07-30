@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:notes/widgets/intrinsic_align.dart';
 import 'package:notes/flutter.dart';
 
@@ -30,14 +32,16 @@ class _MenuFloatingActionButtonState extends State<MenuFloatingActionButton> {
   bool _visible = true;
 
   void _openMenu() {
-    Navigator.push(
-      context,
-      _MenuFloatingActionButtonRoute(
-        key: _key,
-        setVisible: _setVisible,
-        variant: widget._variant,
-        icon: widget.icon,
-        label: widget.label,
+    unawaited(
+      Navigator.push(
+        context,
+        _MenuFloatingActionButtonRoute(
+          key: _key,
+          setVisible: _setVisible,
+          variant: widget._variant,
+          icon: widget.icon,
+          label: widget.label,
+        ),
       ),
     );
   }
@@ -62,7 +66,7 @@ class _MenuFloatingActionButtonState extends State<MenuFloatingActionButton> {
   }
 }
 
-class _MenuFloatingActionButtonRoute extends PopupRoute {
+class _MenuFloatingActionButtonRoute<T extends Object?> extends PopupRoute<T> {
   _MenuFloatingActionButtonRoute({
     // Internal
     required this.key,
@@ -187,7 +191,7 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                         child: InkWell(
                           onTap: () => Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(
+                            MaterialPageRoute<void>(
                               builder: (context) => Scaffold(appBar: AppBar()),
                             ),
                           ),

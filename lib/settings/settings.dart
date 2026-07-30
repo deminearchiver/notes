@@ -9,7 +9,7 @@ Future<T> sharedPreferences<T>(
 
 class Settings with ChangeNotifier {
   Settings._() {
-    reload();
+    unawaited(reload());
   }
 
   static final _instance = Settings._();
@@ -74,8 +74,10 @@ class Settings with ChangeNotifier {
   set databaseVersion(int value) {
     _databaseVersion = value;
     notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setInt("databaseVersion", value),
+    unawaited(
+      sharedPreferences(
+        (preferences) => preferences.setInt("databaseVersion", value),
+      ),
     );
   }
 
@@ -84,7 +86,11 @@ class Settings with ChangeNotifier {
   set firstRun(bool value) {
     _firstRun = value;
     notifyListeners();
-    sharedPreferences((preferences) => preferences.setBool("firstRun", value));
+    unawaited(
+      sharedPreferences(
+        (preferences) => preferences.setBool("firstRun", value),
+      ),
+    );
   }
 
   Locale? _locale;
@@ -92,10 +98,12 @@ class Settings with ChangeNotifier {
   set locale(Locale? value) {
     _locale = value;
     notifyListeners();
-    sharedPreferences(
-      (preferences) => value != null
-          ? preferences.setString("locale", value.toLanguageTag())
-          : preferences.remove("locale"),
+    unawaited(
+      sharedPreferences(
+        (preferences) => value != null
+            ? preferences.setString("locale", value.toLanguageTag())
+            : preferences.remove("locale"),
+      ),
     );
   }
 
@@ -104,8 +112,10 @@ class Settings with ChangeNotifier {
   set themeMode(ThemeMode value) {
     _themeMode = value;
     notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setString("themeMode", value.name),
+    unawaited(
+      sharedPreferences(
+        (preferences) => preferences.setString("themeMode", value.name),
+      ),
     );
   }
 
@@ -114,8 +124,10 @@ class Settings with ChangeNotifier {
   set developerMode(bool value) {
     _developerMode = value;
     notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setBool("developerMode", value),
+    unawaited(
+      sharedPreferences(
+        (preferences) => preferences.setBool("developerMode", value),
+      ),
     );
   }
 
@@ -124,7 +136,11 @@ class Settings with ChangeNotifier {
   set demoMode(bool value) {
     _demoMode = value;
     notifyListeners();
-    sharedPreferences((preferences) => preferences.setBool("demoMode", value));
+    unawaited(
+      sharedPreferences(
+        (preferences) => preferences.setBool("demoMode", value),
+      ),
+    );
   }
 }
 

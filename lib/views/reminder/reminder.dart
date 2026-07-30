@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:notes/database/database.dart';
 import 'package:notes/database/todo.dart';
 import 'package:notes/l10n/l10n.dart';
@@ -28,9 +30,8 @@ class _ReminderViewState extends State<ReminderView> {
   }
 
   Future<void> _onDoneClicked() async {
-    final todo = widget.todo;
-    todo.completed = true;
-    Database.addTodo(todo);
+    final todo = widget.todo..completed = true;
+    unawaited(Database.addTodo(todo));
 
     _close();
   }
@@ -40,7 +41,7 @@ class _ReminderViewState extends State<ReminderView> {
     if (Navigator.of(context).canPop()) {
       Navigator.pop(context);
     } else {
-      SystemNavigator.pop();
+      unawaited(SystemNavigator.pop());
     }
   }
 
@@ -58,13 +59,11 @@ class _ReminderViewState extends State<ReminderView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Flexible.space(),
-                !widget.todo.important
-                    ? const Icon(
+                if (!widget.todo.important) const Icon(
                         MaterialSymbols.notification_important_rounded,
                         color: Colors.red,
                         size: 36,
-                      )
-                    : const Icon(
+                      ) else const Icon(
                         MaterialSymbols.notifications_rounded,
                         size: 36,
                       ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:intl/intl.dart';
 import 'package:notes/constants/constants.dart';
 import 'package:notes/database/database.dart';
@@ -61,7 +63,7 @@ class _TodoViewState extends State<TodoView> {
   void _save() {
     if (_todo.label.isEmpty) return;
 
-    Database.addTodo(_todo);
+    unawaited(Database.addTodo(_todo));
   }
 
   void _setTodo({

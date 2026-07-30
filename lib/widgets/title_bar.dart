@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:notes/flutter.dart';
 import 'package:notes/native.dart';
 
@@ -13,7 +15,7 @@ class TitleBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NativeService.setWindowCaptionColor(backgroundColor);
+    unawaited(NativeService.setWindowCaptionColor(backgroundColor));
     return child;
   }
 }
@@ -50,7 +52,11 @@ class _AnimatedTitleBarState extends AnimatedWidgetBaseState<AnimatedTitleBar> {
 
   @override
   Widget build(BuildContext context) {
-    NativeService.setWindowCaptionColor(_backgroundColor!.evaluate(animation)!);
+    unawaited(
+      NativeService.setWindowCaptionColor(
+        _backgroundColor!.evaluate(animation)!,
+      ),
+    );
     return widget.child;
   }
 }

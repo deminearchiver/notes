@@ -41,7 +41,9 @@ class OnboardingState extends State<OnboardingScope> {
       key: _navigatorKey,
       onGenerateInitialRoutes: (navigator, initialRoute) {
         return [
-          MaterialPageRoute(builder: (context) => const OnboardingWelcome()),
+          MaterialPageRoute<void>(
+            builder: (context) => const OnboardingWelcome(),
+          ),
         ];
       },
     );

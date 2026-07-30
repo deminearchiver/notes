@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/flutter.dart';
 
@@ -87,17 +89,19 @@ class _ScrollToTopState extends State<ScrollToTop>
       _dismissed = false;
     });
     if (_showButton) {
-      _animationController.forward();
+      unawaited(_animationController.forward());
     } else {
-      _animationController.reverse();
+      unawaited(_animationController.reverse());
     }
   }
 
   void _scrollToTop() {
-    _scrollController.animateTo(
-      0,
-      duration: Durations.medium4,
-      curve: Easing.standardDecelerate,
+    unawaited(
+      _scrollController.animateTo(
+        0,
+        duration: Durations.medium4,
+        curve: Easing.standardDecelerate,
+      ),
     );
   }
 
@@ -144,7 +148,7 @@ class _ScrollToTopState extends State<ScrollToTop>
                 offset: Offset(0, _offsetTween.evaluate(_animation)),
                 child: Opacity(
                   opacity: _opacityTween.evaluate(_animation),
-                  child: child!,
+                  child: child,
                 ),
               );
               return !_animation.isDismissed

@@ -138,7 +138,7 @@
 //           child: ListTile(
 //             onTap: () => Navigator.push(
 //               context,
-//               MaterialPageRoute(
+//             MaterialPageRoute<void>(
 //                 child: const SettingsView(),
 //               ),
 //             ),
@@ -214,7 +214,7 @@
 //                               trailing: IconButton(
 //                                 onPressed: () => Navigator.push(
 //                                   context,
-//                                   MaterialPageRoute(
+//                                 MaterialPageRoute<void>(
 //                                     child: const SettingsView(),
 //                                   ),
 //                                 ),
@@ -1028,10 +1028,11 @@
 //     );
 //   }
 // }
+import 'dart:async';
+
 import 'package:notes/constants/images.dart';
 import 'package:notes/icons/segoe.dart';
 import 'package:notes/native.dart';
-import 'package:notes/utils/extensions.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/title_bar/windows.dart';
 import 'package:notes/flutter.dart';
@@ -1121,9 +1122,8 @@ class _ExpandedAppState extends State<ExpandedApp> {
   late final ScrollController _scrollController;
 
   late final FocusNode _searchNode;
-  late final TextEditingController _searchController;
 
-  int? _selected = null;
+  int? _selected;
 
   @override
   void initState() {
@@ -1190,12 +1190,12 @@ class _ExpandedAppState extends State<ExpandedApp> {
       ),
     ];
 
-    windowManager.setTitleBarStyle(TitleBarStyle.hidden);
-    NativeService.setWindowCaptionColor(backgroundColor);
+    unawaited(windowManager.setTitleBarStyle(TitleBarStyle.hidden));
+    unawaited(NativeService.setWindowCaptionColor(backgroundColor));
 
     return Flex.vertical(
       children: [
-        Material(
+        Surface(
           color: backgroundColor,
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -1210,14 +1210,14 @@ class _ExpandedAppState extends State<ExpandedApp> {
                     child: InkWell(
                       onTap: () {},
                       borderRadius: BorderRadius.circular(4),
-                      child: SizedBox.square(
+                      child: const SizedBox.square(
                         dimension: 40,
-                        child: const Icon(SegoeIcons.chrome_back, size: 10),
+                        child: Icon(SegoeIcons.chrome_back, size: 10),
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Image(image: Images.ic_launcher, width: 32, height: 32),
+                  const Image(image: Images.ic_launcher, width: 32, height: 32),
                   const SizedBox(width: 8),
                   Text("Notes", style: theme.textTheme.bodySmall),
                   const Flexible.space(),
@@ -1277,7 +1277,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                 // ),
                                 // title: Text("Home"),
                                 bottom: PreferredSize(
-                                  preferredSize: Size.fromHeight(72),
+                                  preferredSize: const Size.fromHeight(72),
                                   child: Padding(
                                     padding: const EdgeInsets.fromLTRB(
                                       0,
@@ -1292,7 +1292,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                       padding: const WidgetStatePropertyAll(
                                         EdgeInsets.symmetric(horizontal: 16),
                                       ),
-                                      leading: SizedBox.square(
+                                      leading: const SizedBox.square(
                                         dimension: 40,
                                         child: Icon(
                                           MaterialSymbols.search_rounded,
@@ -1302,7 +1302,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                         CircleAvatar(
                                           child: IconButton(
                                             onPressed: () {},
-                                            icon: Icon(
+                                            icon: const Icon(
                                               MaterialSymbols
                                                   .account_circle_rounded,
                                             ),
@@ -1427,7 +1427,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                         icon: const Icon(
                                           MaterialSymbols.save_rounded,
                                         ),
-                                        label: Text("Save"),
+                                        label: const Text("Save"),
                                       ),
                                       const SizedBox(width: 16),
                                     ],

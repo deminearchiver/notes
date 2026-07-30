@@ -20,7 +20,7 @@ class ClipBelowIntrinsic extends SingleChildRenderObjectWidget {
 
 class RenderClipBelowIntrinsic extends RenderBox
     with RenderObjectWithChildMixin<RenderBox> {
-  RenderClipBelowIntrinsic({required bool clipWidth}) : _clipWidth = clipWidth {
+  RenderClipBelowIntrinsic({required this._clipWidth}) {
     final view = WidgetsBinding.instance.platformDispatcher.views.first;
     _screenSize = view.physicalSize / view.devicePixelRatio;
 
@@ -67,12 +67,12 @@ class RenderClipBelowIntrinsic extends RenderBox
 
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
-    var childParentData = child!.parentData as BoxParentData;
+    final childParentData = child!.parentData! as BoxParentData;
 
     final isHit = result.addWithPaintOffset(
       offset: childParentData.offset,
       position: position,
-      hitTest: (BoxHitTestResult result, Offset transformed) {
+      hitTest: (result, transformed) {
         assert(transformed == position - childParentData.offset);
         return child!.hitTest(result, position: transformed);
       },
