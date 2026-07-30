@@ -32,9 +32,8 @@ class SortRow<T> extends StatelessWidget {
     return Flex.horizontal(
       children: [
         IconButton(
-          onPressed: () => onSortChanged(
-            SortDetails(sort: selected, order: order.reverse()),
-          ),
+          onPressed: () =>
+              onSortChanged(SortDetails(sort: selected, order: order.flipped)),
           icon: AnimatedRotation(
             turns: order == Sort.asc ? 0 : 0.5,
             duration: Durations.long2,
