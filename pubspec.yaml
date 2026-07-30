@@ -11,49 +11,76 @@ environment:
   flutter: ">=3.44.0"
 
 dependencies:
+  # SDK dependencies
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
 
-  intl: ^0.20.2
-  material_symbols_icons: ^4.2960.0
-  fluentui_system_icons: ^1.1.273
-  simple_icons: ^16.23.0
-  google_fonts: ^8.2.0
-  sliver_tools: ^0.2.12
-  provider: ^6.1.5+1
-  collection: ^1.19.1
+  # Git dependencies (1P)
+  animation:
+    git:
+      url: https://github.com/deminearchiver/dart-flutter-packages.git
+      ref: 2cabf358cb9d954e70ff2f70ffa2962d255d11a4
+      path: packages/framework/animation
+  layout:
+    git:
+      url: https://github.com/deminearchiver/dart-flutter-packages.git
+      ref: 2cabf358cb9d954e70ff2f70ffa2962d255d11a4
+      path: packages/framework/layout
+  material:
+    git:
+      url: https://github.com/deminearchiver/dart-flutter-packages.git
+      ref: 2cabf358cb9d954e70ff2f70ffa2962d255d11a4
+      path: packages/framework/material
+
+  # Hosted dependencies
   async: ^2.13.1
-  flutter_markdown: ^0.7.7+1
-  markdown: ^7.3.1
+  collection: ^1.19.1
+  file_selector: ^1.1.0
+  fleather: ^1.27.0
+  fluentui_system_icons: ^1.1.273
+  flutter_local_notifications: ^22.2.0
+  flutter_markdown_plus: ^1.0.12
+  flutter_native_splash: ^2.4.8
+  flutter_timezone: ^5.1.0
+  freezed_annotation: ^3.1.0
+  google_fonts: ^8.2.0
   http: ^1.6.0
   image_picker: ^1.2.3
-  share_plus: ^13.3.0
-  url_launcher: ^6.3.2
-  shared_preferences: ^2.5.5
-  flutter_native_splash: ^2.4.8
-  fleather: ^1.27.0
-  parchment: ^1.27.0
-  parchment_delta: ^1.0.0
-  timezone: ^0.11.1
-  flutter_timezone_plus: ^1.1.3
-  window_manager: ^0.5.2
-  local_notifier: ^0.1.6
-  flutter_local_notifications: ^22.2.0
-  path_provider: ^2.1.6
-  freezed_annotation: ^3.1.0
+  intl: ^0.20.2
+  isar_plus_flutter_libs: ^1.3.7
+  isar_plus: ^1.3.7
   json_annotation: ^4.12.0
-  file_selector: ^1.1.0
+  linked_layouts: ^0.6.0
+  local_notifier: ^0.1.6
+  markdown: ^7.3.1
+  meta: ^1.18.0
   package_info_plus: ^10.2.1
+  parchment_delta: ^1.0.0
+  parchment: ^1.27.0
+  path_provider: ^2.1.6
+  provider: ^6.1.5+1
+  share_plus: ^13.3.0
+  shared_preferences: ^2.5.5
+  simple_icons: ^16.23.0
+  sliver_tools: ^0.2.12
+  timezone: ^0.11.1
+  touch_targets: ^0.5.0
+  url_launcher: ^6.3.2
+  window_manager: ^0.5.2
 
 dev_dependencies:
+  # SDK dependencies
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
-  icons_launcher: ^3.1.0
+
+  # Hosted dependencies
   build_runner: ^2.15.1
+  deminearchiver_lints: ^2.1.2
+  flutter_lints: ^6.0.0
   freezed: ^4.0.0-dev.3
+  icons_launcher: ^3.1.0
   json_serializable: ^6.14.0
   msix: ^3.18.0
 

@@ -10,8 +10,7 @@ import 'package:notes/views/todo/todo.dart';
 import 'package:notes/widgets/expandable_floating_action_button.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
-import 'package:material/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
 
 class AppView extends StatefulWidget {
@@ -88,7 +87,7 @@ class _AppViewState extends State<AppView> {
     BuildContext context,
     void Function(String value) onQueryChanged,
   ) {
-    final media = MediaQuery.of(context);
+    final windowWidthSizeClass = WindowWidthSizeClass.of(context);
     final theme = Theme.of(context);
 
     final localizations = AppLocalizations.of(context);
@@ -101,36 +100,28 @@ class _AppViewState extends State<AppView> {
       backgroundColor: theme.colorScheme.surface,
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
-      leading: media.windowClass != WindowClass.compact
+      leading: windowWidthSizeClass != WindowWidthSizeClass.compact
           ? IconButton(
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-              icon: const Icon(Symbols.menu_rounded),
+              icon: const Icon(MaterialSymbols.menu_rounded),
             )
           : null,
       title: Switcher.fadeThrough(
         duration: Durations.medium2,
-        child: Text(
-          switch (_page) {
-            0 => localizations.app_home_view,
-            1 => localizations.app_notes_view,
-            2 => localizations.app_todos_view,
-            _ => "",
-          },
-          key: ValueKey(_page),
-        ),
+        child: Text(switch (_page) {
+          0 => localizations.app_home_view,
+          1 => localizations.app_notes_view,
+          2 => localizations.app_todos_view,
+          _ => "",
+        }, key: ValueKey(_page)),
       ),
       actions: [
         IconButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialRoute.zoom(
-              builder: (context) => const SettingsView(),
-            ),
+            MaterialPageRoute(builder: (context) => const SettingsView()),
           ),
-          icon: const Icon(
-            Symbols.settings_rounded,
-            fill: 1,
-          ),
+          icon: const Icon(MaterialSymbols.settings_rounded, fill: 1),
         ),
         const SizedBox(width: 16),
       ],
@@ -141,7 +132,7 @@ class _AppViewState extends State<AppView> {
           child: SearchBar(
             onChanged: onQueryChanged,
             focusNode: _searchNode,
-            // padding: const MaterialStatePropertyAll(EdgeInsets.only(
+            // padding: const WidgetStatePropertyAll(EdgeInsets.only(
             //   right: 16, // TODO: make 4 when using trailing
             // )),
             leading: Switcher.fadeThrough(
@@ -152,13 +143,14 @@ class _AppViewState extends State<AppView> {
                 child: _searchFocused
                     ? IconButton(
                         onPressed: _unfocusSearch,
-                        icon: const Icon(Symbols.arrow_back_rounded),
+                        icon: const Icon(MaterialSymbols.arrow_back_rounded),
                       )
                     : SizedBox.square(
-                        dimension: 48 +
+                        dimension:
+                            48 +
                             theme.visualDensity.horizontal +
                             theme.visualDensity.baseSizeAdjustment.dx,
-                        child: Icon(Symbols.search_rounded),
+                        child: Icon(MaterialSymbols.search_rounded),
                       ),
               ),
             ),
@@ -169,15 +161,15 @@ class _AppViewState extends State<AppView> {
               _ => null,
             },
             // TODO: add functonality to hide app bar title, and when enabled move the settings button here
-            // TODO: when searching replace with an "advanced search" button here (Symbols.tune_rounded)
+            // TODO: when searching replace with an "advanced search" button here (MaterialSymbols.tune_rounded)
             // trailing: [
             //   IconButton(
             //     onPressed: () => Navigator.push(
             //         context,
-            //         MaterialRoute.zoom(
+            //         MaterialPageRoute(
             //           builder: (context) => const SettingsView(),
             //         )),
-            //     icon: const Icon.filled(Symbols.settings_rounded),
+            //     icon: const Icon.filled(MaterialSymbols.settings_rounded),
             //   )
             // ],
           ),
@@ -189,22 +181,19 @@ class _AppViewState extends State<AppView> {
   Widget _buildContent(BuildContext context, Widget sliver) {
     return TopLevelSwitcher.sliver(
       key: _switcherKey,
-      sliver: KeyedSubtree(
-        key: ValueKey(_page),
-        child: sliver,
-      ),
+      sliver: KeyedSubtree(key: ValueKey(_page), child: sliver),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context);
+    final windowWidthSizeClass = WindowWidthSizeClass.of(context);
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
     // return ExpandedApp();
     return Scaffold(
       key: _scaffoldKey,
-      drawer: media.windowClass != WindowClass.compact
+      drawer: windowWidthSizeClass != WindowWidthSizeClass.compact
           ? NavigationDrawer(
               onDestinationSelected: _goToPage,
               selectedIndex: _page,
@@ -218,7 +207,7 @@ class _AppViewState extends State<AppView> {
                 //       borderRadius: BorderRadius.circular(28),
                 //     ),
                 //     leading: Icon(
-                //       Symbols.menu_open_rounded,
+                //       MaterialSymbols.menu_open_rounded,
                 //       color: theme.colorScheme.onSurfaceVariant,
                 //     ),
                 //     title: Text("Закрыть"),
@@ -239,34 +228,25 @@ class _AppViewState extends State<AppView> {
                   ),
                 ),
                 NavigationDrawerDestination(
-                  icon: const Icon(
-                    Symbols.home_rounded,
-                    fill: 0,
-                  ),
+                  icon: const Icon(MaterialSymbols.home_rounded, fill: 0),
                   selectedIcon: const Icon(
-                    Symbols.home_rounded,
+                    MaterialSymbols.home_rounded,
                     fill: 1,
                   ),
                   label: Text(localizations.app_home_view),
                 ),
                 NavigationDrawerDestination(
-                  icon: const Icon(
-                    Symbols.notes_rounded,
-                    fill: 0,
-                  ),
+                  icon: const Icon(MaterialSymbols.notes_rounded, fill: 0),
                   selectedIcon: const Icon(
-                    Symbols.notes_rounded,
+                    MaterialSymbols.notes_rounded,
                     fill: 1,
                   ),
                   label: Text(localizations.app_notes_view),
                 ),
                 NavigationDrawerDestination(
-                  icon: const Icon(
-                    Symbols.task_alt_rounded,
-                    fill: 0,
-                  ),
+                  icon: const Icon(MaterialSymbols.task_alt_rounded, fill: 0),
                   selectedIcon: const Icon(
-                    Symbols.task_alt_rounded,
+                    MaterialSymbols.task_alt_rounded,
                     fill: 1,
                   ),
                   label: Text(localizations.app_todos_view),
@@ -282,100 +262,81 @@ class _AppViewState extends State<AppView> {
       floatingActionButton: switch (_page) {
         // 0 => const _FloatingActionButtonTest(),
         1 => FloatingActionButton.extended(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialRoute.zoom(
-                builder: (context) => const NoteView(),
-              ),
-            ),
-            icon: Switcher.fadeThrough(
-              key: const ValueKey("fab_icon"),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NoteView()),
+          ),
+          icon: Switcher.fadeThrough(
+            key: const ValueKey("fab_icon"),
+            duration: Durations.short4,
+            child: Icon(MaterialSymbols.note_add_rounded, key: ValueKey(_page)),
+          ),
+          label: AnimatedSize(
+            key: const ValueKey("fab_size"),
+            duration: Durations.medium4,
+            curve: Curves.easeInOutCubicEmphasized,
+            child: Switcher.fadeThrough(
               duration: Durations.short4,
-              child: Icon(
-                Symbols.note_add_rounded,
+              layoutBuilder: minimumSizeLayoutBuilder,
+              child: Text(
+                localizations.app_notes_view_create,
                 key: ValueKey(_page),
               ),
             ),
-            label: AnimatedSize(
-              key: const ValueKey("fab_size"),
-              duration: Durations.medium4,
-              curve: Easing.emphasized,
-              child: Switcher.fadeThrough(
-                duration: Durations.short4,
-                layoutBuilder: minimumSizeLayoutBuilder,
-                child: Text(
-                  localizations.app_notes_view_create,
-                  key: ValueKey(_page),
-                ),
-              ),
-            ),
           ),
+        ),
         2 => FloatingActionButton.extended(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialRoute.zoom(
-                builder: (context) => const TodoView(),
-              ),
-            ),
-            icon: Switcher.fadeThrough(
-              key: const ValueKey("fab_icon"),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TodoView()),
+          ),
+          icon: Switcher.fadeThrough(
+            key: const ValueKey("fab_icon"),
+            duration: Durations.short4,
+            child: Icon(MaterialSymbols.add_task_rounded, key: ValueKey(_page)),
+          ),
+          label: AnimatedSize(
+            key: const ValueKey("fab_size"),
+            duration: Durations.medium4,
+            curve: Curves.easeInOutCubicEmphasized,
+            child: Switcher.fadeThrough(
               duration: Durations.short4,
-              child: Icon(
-                Symbols.add_task_rounded,
+              layoutBuilder: minimumSizeLayoutBuilder,
+              child: Text(
+                localizations.app_todos_view_create,
                 key: ValueKey(_page),
               ),
             ),
-            label: AnimatedSize(
-              key: const ValueKey("fab_size"),
-              duration: Durations.medium4,
-              curve: Easing.emphasized,
-              child: Switcher.fadeThrough(
-                duration: Durations.short4,
-                layoutBuilder: minimumSizeLayoutBuilder,
-                child: Text(
-                  localizations.app_todos_view_create,
-                  key: ValueKey(_page),
-                ),
-              ),
-            ),
           ),
+        ),
         _ => null,
       },
-      bottomNavigationBar: media.windowClass <= WindowClass.medium
+      bottomNavigationBar: windowWidthSizeClass <= WindowWidthSizeClass.medium
           ? NavigationBar(
               // onDestinationSelected: (value) => setState(() => _page = value),
               onDestinationSelected: _goToPage,
               selectedIndex: _page,
               destinations: [
                 NavigationDestination(
-                  icon: const Icon(
-                    Symbols.home_rounded,
-                    fill: 0,
-                  ),
+                  icon: const Icon(MaterialSymbols.home_rounded, fill: 0),
                   selectedIcon: const Icon(
-                    Symbols.home_rounded,
+                    MaterialSymbols.home_rounded,
                     fill: 1,
                   ),
                   label: localizations.app_home_view,
                 ),
                 NavigationDestination(
-                  icon: const Icon(
-                    Symbols.notes_rounded,
-                    fill: 0,
-                  ),
+                  icon: const Icon(MaterialSymbols.notes_rounded, fill: 0),
                   selectedIcon: const Icon(
-                    Symbols.notes_rounded,
+                    MaterialSymbols.notes_rounded,
                     fill: 1,
                   ),
                   label: localizations.app_notes_view,
                 ),
                 NavigationDestination(
-                  icon: const Icon(
-                    Symbols.task_alt_rounded,
-                    fill: 0,
-                  ),
+                  icon: const Icon(MaterialSymbols.task_alt_rounded, fill: 0),
                   selectedIcon: const Icon(
-                    Symbols.task_alt_rounded,
+                    MaterialSymbols.task_alt_rounded,
                     fill: 1,
                   ),
                   label: localizations.app_todos_view,
@@ -385,23 +346,23 @@ class _AppViewState extends State<AppView> {
           : null,
       body: switch (_page) {
         0 => AppViewHomePage(
-            scrollableKey: _scrollableKey,
-            scrollController: _scrollController,
-            headerBuilder: _buildHeader,
-            contentBuilder: _buildContent,
-          ),
+          scrollableKey: _scrollableKey,
+          scrollController: _scrollController,
+          headerBuilder: _buildHeader,
+          contentBuilder: _buildContent,
+        ),
         1 => AppViewNotesPage(
-            scrollableKey: _scrollableKey,
-            scrollController: _scrollController,
-            headerBuilder: _buildHeader,
-            contentBuilder: _buildContent,
-          ),
+          scrollableKey: _scrollableKey,
+          scrollController: _scrollController,
+          headerBuilder: _buildHeader,
+          contentBuilder: _buildContent,
+        ),
         2 => AppViewTodosPage(
-            scrollableKey: _scrollableKey,
-            scrollController: _scrollController,
-            headerBuilder: _buildHeader,
-            contentBuilder: _buildContent,
-          ),
+          scrollableKey: _scrollableKey,
+          scrollController: _scrollController,
+          headerBuilder: _buildHeader,
+          contentBuilder: _buildContent,
+        ),
         _ => throw Error(),
       },
     );
@@ -409,9 +370,7 @@ class _AppViewState extends State<AppView> {
 }
 
 class _FloatingActionButtonTest extends StatefulWidget {
-  const _FloatingActionButtonTest({
-    super.key,
-  });
+  const _FloatingActionButtonTest({super.key});
 
   @override
   State<_FloatingActionButtonTest> createState() =>
@@ -425,12 +384,9 @@ class __FloatingActionButtonTestState extends State<_FloatingActionButtonTest> {
   Widget build(BuildContext context) {
     return ExpandableFloatingActionButton(
       key: _buttonKey,
-      onPressed: () => _buttonKey.currentState?.openView(
-        Scaffold(
-          appBar: AppBar(),
-        ),
-      ),
-      icon: const Icon(Symbols.add_rounded),
+      onPressed: () =>
+          _buttonKey.currentState?.openView(Scaffold(appBar: AppBar())),
+      icon: const Icon(MaterialSymbols.add_rounded),
       label: const Text("New"),
     );
   }

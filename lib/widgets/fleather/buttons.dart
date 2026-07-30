@@ -1,6 +1,5 @@
 import 'package:fleather/fleather.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 Widget customToggleStyleButtonBuilder(
   BuildContext context,
@@ -18,14 +17,8 @@ Widget customToggleStyleButtonBuilder(
   //     : theme.disabledColor;
 
   return isToggled
-      ? IconButton.filled(
-          onPressed: onPressed,
-          icon: Icon(icon),
-        )
-      : IconButton(
-          onPressed: onPressed,
-          icon: Icon(icon),
-        );
+      ? IconButton.filled(onPressed: onPressed, icon: Icon(icon))
+      : IconButton(onPressed: onPressed, icon: Icon(icon));
 }
 
 class FleatherToggleStyleButton extends ToggleStyleButton {
@@ -58,8 +51,9 @@ class FleatherIndentationButton extends StatelessWidget {
     if (indentLevel == 1 && !increase) {
       controller.formatSelection(ParchmentAttribute.indent.unset);
     } else {
-      controller.formatSelection(ParchmentAttribute.indent
-          .withLevel(indentLevel + (increase ? 1 : -1)));
+      controller.formatSelection(
+        ParchmentAttribute.indent.withLevel(indentLevel + (increase ? 1 : -1)),
+      );
     }
   }
 
@@ -68,14 +62,15 @@ class FleatherIndentationButton extends StatelessWidget {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
-        final enabled =
-            !_selectionStyle.containsSame(ParchmentAttribute.block.code);
+        final enabled = !_selectionStyle.containsSame(
+          ParchmentAttribute.block.code,
+        );
         return IconButton(
           onPressed: enabled ? _onPressed : null,
           icon: Icon(
             increase
-                ? Symbols.format_indent_increase
-                : Symbols.format_indent_decrease,
+                ? MaterialSymbols.format_indent_increase
+                : MaterialSymbols.format_indent_decrease,
           ),
         );
       },
@@ -86,10 +81,7 @@ class FleatherIndentationButton extends StatelessWidget {
 class FleatherClearStyleButton extends StatelessWidget {
   final FleatherController controller;
 
-  const FleatherClearStyleButton({
-    super.key,
-    required this.controller,
-  });
+  const FleatherClearStyleButton({super.key, required this.controller});
 
   static final _attributes = <ParchmentAttribute>[
     ParchmentAttribute.bold,
@@ -110,13 +102,14 @@ class FleatherClearStyleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: controller,
-        builder: (context, child) {
-          return IconButton(
-            onPressed: _onPressed,
-            icon: const Icon(Symbols.format_clear_rounded),
-          );
-        });
+      animation: controller,
+      builder: (context, child) {
+        return IconButton(
+          onPressed: _onPressed,
+          icon: const Icon(MaterialSymbols.format_clear_rounded),
+        );
+      },
+    );
   }
 }
 
@@ -158,8 +151,8 @@ class FleatherHistoryButton extends StatelessWidget {
       listenable: controller,
       builder: (context, child) {
         final icon = _variant == _UndoRedoButtonVariant.undo
-            ? Symbols.undo_rounded
-            : Symbols.redo_rounded;
+            ? MaterialSymbols.undo_rounded
+            : MaterialSymbols.redo_rounded;
         final isEnabled = _isEnabled();
         return IconButton(
           onPressed: isEnabled ? _onPressed : null,
@@ -170,10 +163,7 @@ class FleatherHistoryButton extends StatelessWidget {
   }
 }
 
-enum _UndoRedoButtonVariant {
-  undo,
-  redo,
-}
+enum _UndoRedoButtonVariant { undo, redo }
 
 // TODO: use
 void fleatherInsertImage_prototype({

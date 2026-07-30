@@ -1,24 +1,22 @@
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:notes/app.dart';
 import 'package:notes/constants/images.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
-import 'package:material/material.dart';
-import 'package:flutter_timezone_plus/flutter_timezone_plus.dart';
+import 'package:notes/flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:window_manager/window_manager.dart';
 
 Future<void> loadTimezone() async {
   tz.initializeTimeZones();
 
   try {
-    final local =
-        await FlutterTimezone.getLocalTimezone().catchError((_) => null);
-    tz.setLocalLocation(tz.getLocation(local!));
+    final local = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(local.identifier));
   } catch (error) {
     tz.setLocalLocation(tz.UTC);
   }
@@ -73,11 +71,7 @@ void main() async {
       case "dismiss":
         break;
       default:
-        runApp(
-          App(
-            todo: todo,
-          ),
-        );
+        runApp(App(todo: todo));
     }
   } else {
     runApp(const App());

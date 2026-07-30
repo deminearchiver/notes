@@ -11,13 +11,10 @@ import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/reminder/reminder.dart';
 import 'package:notes/widgets/title_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class App extends StatefulWidget {
-  const App({
-    super.key,
-    this.todo,
-  });
+  const App({super.key, this.todo});
 
   final Todo? todo;
 
@@ -34,9 +31,7 @@ class _AppState extends State<App> {
 
     NotificationService.init(
       onReceive: _notificationsListener,
-    ).then(
-      (_) => FlutterNativeSplash.remove(),
-    );
+    ).then((_) => FlutterNativeSplash.remove());
   }
 
   void _notificationsListener(NotificationResponse details) async {
@@ -55,11 +50,7 @@ class _AppState extends State<App> {
         default:
           if (mounted) {
             _navigatorKey.currentState?.push(
-              MaterialRoute.zoom(
-                builder: (context) => ReminderView(
-                  todo: todo,
-                ),
-              ),
+              MaterialPageRoute(builder: (context) => ReminderView(todo: todo)),
             );
           }
       }
@@ -90,8 +81,8 @@ class _AppState extends State<App> {
           themeAnimationCurve: Easing.standard,
           themeAnimationDuration: Durations.medium4,
           themeMode: settings.themeMode,
-          // themeMode: ThemeMode.dark,
 
+          // themeMode: ThemeMode.dark,
           builder: (context, child) => TitleBar(
             backgroundColor: Theme.of(context).colorScheme.surface,
             child: child ?? const SizedBox.shrink(),
@@ -104,31 +95,25 @@ class _AppState extends State<App> {
             final results = <Route>[];
 
             results.add(
-              MaterialRoute.zoom(
-                builder: (context) => const AppView(),
-              ),
+              MaterialPageRoute(builder: (context) => const AppView()),
             );
             if (settings.firstRun) {
               results.add(
-                MaterialRoute.zoom(
+                MaterialPageRoute(
                   builder: (context) => const OnboardingScope(),
                 ),
               );
             } else if (widget.todo != null) {
               results.add(
-                MaterialRoute.zoom(
-                  builder: (context) => ReminderView(
-                    todo: widget.todo!,
-                  ),
+                MaterialPageRoute(
+                  builder: (context) => ReminderView(todo: widget.todo!),
                 ),
               );
             }
             return results;
           },
           onGenerateRoute: (settings) {
-            return MaterialRoute.zoom(
-              builder: (context) => const AppView(),
-            );
+            return MaterialPageRoute(builder: (context) => const AppView());
           },
         );
       },

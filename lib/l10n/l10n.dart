@@ -1,13 +1,15 @@
-import "package:flutter_gen/gen_l10n/app_localizations.dart" as l10n;
-import "package:material/material.dart";
+import "package:notes/flutter.dart";
 
-export "package:flutter_gen/gen_l10n/app_localizations.dart"
-    show lookupAppLocalizations;
+import "app_localizations.dart" as l10n;
+
+export "app_localizations.dart" show lookupAppLocalizations;
 
 abstract class AppLocalizations {
   static l10n.AppLocalizations? maybeOf(BuildContext context) {
     return Localizations.of<l10n.AppLocalizations>(
-        context, l10n.AppLocalizations);
+      context,
+      l10n.AppLocalizations,
+    );
   }
 
   static l10n.AppLocalizations of(BuildContext context) {

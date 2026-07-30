@@ -1,61 +1,61 @@
 import 'package:notes/icons/segoe.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
-class _DefaultIconColor implements MaterialStateProperty<Color> {
+class _DefaultIconColor implements WidgetStateProperty<Color> {
   const _DefaultIconColor();
 
   @override
-  Color resolve(Set<MaterialState> states) {
-    if (states.contains(MaterialState.disabled)) {
+  Color resolve(Set<WidgetState> states) {
+    if (states.contains(WidgetState.disabled)) {
       return Colors.white.withOpacity(0.3628);
-    } else if (states.contains(MaterialState.pressed)) {
+    } else if (states.contains(WidgetState.pressed)) {
       return Colors.white.withOpacity(0.786);
     }
     return Colors.white;
   }
 }
 
-class _DefaultBackgroundColor implements MaterialStateProperty<Color?> {
+class _DefaultBackgroundColor implements WidgetStateProperty<Color?> {
   const _DefaultBackgroundColor();
 
   @override
-  Color? resolve(Set<MaterialState> states) {
-    if (states.contains(MaterialState.pressed)) {
+  Color? resolve(Set<WidgetState> states) {
+    if (states.contains(WidgetState.pressed)) {
       return Colors.white.withOpacity(0.0419);
-    } else if (states.contains(MaterialState.hovered)) {
+    } else if (states.contains(WidgetState.hovered)) {
       return Colors.white.withOpacity(0.0605);
     }
     return null;
   }
 }
 
-class _CloseIconColor implements MaterialStateProperty<Color> {
+class _CloseIconColor implements WidgetStateProperty<Color> {
   const _CloseIconColor();
 
   @override
-  Color resolve(Set<MaterialState> states) {
-    if (states.contains(MaterialState.disabled)) {
+  Color resolve(Set<WidgetState> states) {
+    if (states.contains(WidgetState.disabled)) {
       return Colors.white.withOpacity(0.3628);
-    } else if (states.contains(MaterialState.pressed)) {
+    } else if (states.contains(WidgetState.pressed)) {
       return Colors.white.withOpacity(0.7);
     }
     return Colors.white;
   }
 }
 
-class _CloseBackgroundColor implements MaterialStateProperty<Color?> {
+class _CloseBackgroundColor implements WidgetStateProperty<Color?> {
   const _CloseBackgroundColor();
 
   @override
-  Color? resolve(Set<MaterialState> states) {
-    if (states.contains(MaterialState.pressed)) {
+  Color? resolve(Set<WidgetState> states) {
+    if (states.contains(WidgetState.pressed)) {
       // opacity: Color(0x --> E6 <-- C42B1C)
       // 255 * 0.9 = 229.5
       // round 229.5. = 230
       // 230 = 0xE6
       return const Color(0xFFC42B1C).withOpacity(0.9);
-    } else if (states.contains(MaterialState.hovered)) {
+    } else if (states.contains(WidgetState.hovered)) {
       return const Color(0xFFC42B1C);
     }
     return null;
@@ -76,8 +76,8 @@ class WindowsTitleBarControl extends StatefulWidget {
 
   final bool compact;
 
-  final MaterialStateProperty<Color>? iconColor;
-  final MaterialStateProperty<Color?>? backgroundColor;
+  final WidgetStateProperty<Color>? iconColor;
+  final WidgetStateProperty<Color?>? backgroundColor;
 
   final Widget icon;
 
@@ -86,13 +86,12 @@ class WindowsTitleBarControl extends StatefulWidget {
 }
 
 class _WindowsTitleBarControlState extends State<WindowsTitleBarControl> {
-  late final MaterialStatesController _statesController;
+  late final WidgetStatesController _statesController;
 
   @override
   void initState() {
     super.initState();
-    _statesController = MaterialStatesController()
-      ..addListener(_statesListener);
+    _statesController = WidgetStatesController()..addListener(_statesListener);
     // ..addListener(() => setState(() {}));
   }
 
@@ -106,10 +105,7 @@ class _WindowsTitleBarControlState extends State<WindowsTitleBarControl> {
   void didUpdateWidget(covariant WindowsTitleBarControl oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.onPressed != oldWidget.onPressed) {
-      _statesController.update(
-        MaterialState.disabled,
-        widget.onPressed == null,
-      );
+      _statesController.update(WidgetState.disabled, widget.onPressed == null);
     }
   }
 
@@ -123,24 +119,20 @@ class _WindowsTitleBarControlState extends State<WindowsTitleBarControl> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final MaterialStateProperty<Color> iconColor =
+    final WidgetStateProperty<Color> iconColor =
         widget.iconColor ?? const _DefaultIconColor();
-    final MaterialStateProperty<Color?> backgroundColor =
+    final WidgetStateProperty<Color?> backgroundColor =
         widget.backgroundColor ?? const _DefaultBackgroundColor();
     return InkWell(
       statesController: _statesController,
       onTap: widget.onPressed,
-      hoverColor: backgroundColor.resolve({
-        MaterialState.hovered,
-      }),
-      highlightColor: backgroundColor.resolve({
-        MaterialState.pressed,
-      }),
+      hoverColor: backgroundColor.resolve({WidgetState.hovered}),
+      highlightColor: backgroundColor.resolve({WidgetState.pressed}),
       child: SizedBox(
         width: 46,
         height: widget.compact ? 32 : 48,
-        child: IconTheme.merge(
-          data: IconThemeData(
+        child: IconTheme.mergeWithData(
+          data: IconThemeDataPartial.from(
             size: 10,
             color: iconColor.resolve(_statesController.value),
           ),
@@ -151,11 +143,7 @@ class _WindowsTitleBarControlState extends State<WindowsTitleBarControl> {
   }
 }
 
-enum ControlType {
-  minimize,
-  maximize,
-  close,
-}
+enum ControlType { minimize, maximize, close }
 
 class WindowsTitleBarControls extends StatefulWidget {
   const WindowsTitleBarControls({
@@ -168,18 +156,12 @@ class WindowsTitleBarControls extends StatefulWidget {
     },
   }) : assert(controls.length > 0);
 
-  const WindowsTitleBarControls.minimize({
-    super.key,
-    this.compact = true,
-  }) : controls = const {ControlType.minimize};
-  const WindowsTitleBarControls.maximize({
-    super.key,
-    this.compact = true,
-  }) : controls = const {ControlType.maximize};
-  const WindowsTitleBarControls.close({
-    super.key,
-    this.compact = true,
-  }) : controls = const {ControlType.close};
+  const WindowsTitleBarControls.minimize({super.key, this.compact = true})
+    : controls = const {ControlType.minimize};
+  const WindowsTitleBarControls.maximize({super.key, this.compact = true})
+    : controls = const {ControlType.maximize};
+  const WindowsTitleBarControls.close({super.key, this.compact = true})
+    : controls = const {ControlType.close};
 
   final bool compact;
   final Set<ControlType> controls;
@@ -192,15 +174,9 @@ class WindowsTitleBarControls extends StatefulWidget {
 class _WindowsTitleBarControlsState extends State<WindowsTitleBarControls> {
   Widget _controlFor(ControlType type) {
     return switch (type) {
-      ControlType.minimize => _MinimizeControl(
-          compact: widget.compact,
-        ),
-      ControlType.maximize => _MaximizeControl(
-          compact: widget.compact,
-        ),
-      ControlType.close => _CloseControl(
-          compact: widget.compact,
-        ),
+      ControlType.minimize => _MinimizeControl(compact: widget.compact),
+      ControlType.maximize => _MaximizeControl(compact: widget.compact),
+      ControlType.close => _CloseControl(compact: widget.compact),
     };
   }
 
@@ -208,7 +184,7 @@ class _WindowsTitleBarControlsState extends State<WindowsTitleBarControls> {
   Widget build(BuildContext context) {
     return widget.controls.length == 1
         ? _controlFor(widget.controls.single)
-        : Row(
+        : Flex.horizontal(
             children: [
               if (widget.controls.contains(ControlType.minimize))
                 _controlFor(ControlType.minimize),
@@ -222,10 +198,7 @@ class _WindowsTitleBarControlsState extends State<WindowsTitleBarControls> {
 }
 
 class _MinimizeControl extends StatelessWidget {
-  const _MinimizeControl({
-    super.key,
-    required this.compact,
-  });
+  const _MinimizeControl({super.key, required this.compact});
 
   final bool compact;
 
@@ -240,10 +213,7 @@ class _MinimizeControl extends StatelessWidget {
 }
 
 class _MaximizeControl extends StatefulWidget {
-  const _MaximizeControl({
-    super.key,
-    this.compact = true,
-  });
+  const _MaximizeControl({super.key, this.compact = true});
 
   final bool compact;
 
@@ -290,10 +260,7 @@ class __MaximizeControlState extends State<_MaximizeControl>
 }
 
 class _CloseControl extends StatelessWidget {
-  const _CloseControl({
-    super.key,
-    required this.compact,
-  });
+  const _CloseControl({super.key, required this.compact});
 
   final bool compact;
 

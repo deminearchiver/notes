@@ -1,7 +1,5 @@
-import 'package:flutter/rendering.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class ScrollToTop extends StatefulWidget {
   const ScrollToTop({
@@ -27,14 +25,8 @@ class ScrollToTop extends StatefulWidget {
 
 class _ScrollToTopState extends State<ScrollToTop>
     with SingleTickerProviderStateMixin {
-  static final _offsetTween = Tween<double>(
-    begin: -28,
-    end: 0,
-  );
-  static final _opacityTween = Tween<double>(
-    begin: 0,
-    end: 1,
-  );
+  static final _offsetTween = Tween<double>(begin: -28, end: 0);
+  static final _opacityTween = Tween<double>(begin: 0, end: 1);
 
   final _dismissableKey = GlobalKey();
 
@@ -57,8 +49,8 @@ class _ScrollToTopState extends State<ScrollToTop>
     );
     _animation = CurvedAnimation(
       parent: _animationController,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
   }
 
@@ -80,7 +72,8 @@ class _ScrollToTopState extends State<ScrollToTop>
 
   void _scrollListener() {
     final top = _scrollController.position.pixels <= widget.minOffset;
-    final scrollingDown = _scrollController.position.userScrollDirection ==
+    final scrollingDown =
+        _scrollController.position.userScrollDirection ==
         ScrollDirection.reverse;
 
     _setShowButton(!top && scrollingDown);
@@ -128,17 +121,17 @@ class _ScrollToTopState extends State<ScrollToTop>
               },
               direction: DismissDirection.up,
               behavior: HitTestBehavior.deferToChild,
-              child: Column(
+              child: Flex.vertical(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                     height: MediaQuery.paddingOf(context).top + widget.top,
                   ),
-                  Center(
+                  Align.center(
                     child: FilledButton.tonalIcon(
                       onPressed: _scrollToTop,
-                      icon: const Icon(Symbols.north_rounded),
+                      icon: const Icon(MaterialSymbols.north_rounded),
                       label: Text(localizations.scroll_to_top),
                     ),
                   ),
@@ -156,9 +149,7 @@ class _ScrollToTopState extends State<ScrollToTop>
               );
               return !_animation.isDismissed
                   ? transition
-                  : IgnorePointer(
-                      child: transition,
-                    );
+                  : IgnorePointer(child: transition);
             },
           ),
         ),

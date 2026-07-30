@@ -1,1 +1,3 @@
-include: package:flutter_lints/flutter.yaml
+include:
+  - package:deminearchiver_lints/base.yaml
+  - package:deminearchiver_lints/app.yaml

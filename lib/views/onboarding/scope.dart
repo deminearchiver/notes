@@ -1,4 +1,4 @@
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 import 'pages/welcome.dart';
 
@@ -23,7 +23,7 @@ class OnboardingState extends State<OnboardingScope> {
 
   Future<T?> next<T>(Widget child) {
     return _navigatorKey.currentState!.push<T>(
-      MaterialRoute.sharedAxis(builder: (context) => child),
+      MaterialPageRoute(builder: (context) => child),
     );
   }
 
@@ -41,8 +41,7 @@ class OnboardingState extends State<OnboardingScope> {
       key: _navigatorKey,
       onGenerateInitialRoutes: (navigator, initialRoute) {
         return [
-          MaterialRoute.sharedAxis(
-              builder: (context) => const OnboardingWelcome()),
+          MaterialPageRoute(builder: (context) => const OnboardingWelcome()),
         ];
       },
     );

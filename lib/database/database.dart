@@ -1,22 +1,14 @@
 import 'package:fleather/fleather.dart';
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:notes/database/note.dart';
 import 'package:notes/database/todo.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:parchment/codecs.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:parchment_delta/parchment_delta.dart';
 
-enum NotesSortBy {
-  title,
-  createdAt,
-  updatedAt,
-}
+enum NotesSortBy { title, createdAt, updatedAt }
 
-enum TodosSortBy {
-  label,
-  date,
-}
+enum TodosSortBy { label, date }
 
 abstract class Database {
   static late final Isar isar;
@@ -67,8 +59,7 @@ abstract class Database {
       ),
       createNote(
         title: "Фреймворки",
-        content: markdownDocument(
-          """
+        content: markdownDocument("""
 Фреймворки
 
 1. [**Electron**](https://electronjs.org)
@@ -79,8 +70,7 @@ abstract class Database {
     * языки: [**Rust**](https://rust-lang.org) / JavaScript
 3. Flutter
     * язык: [**Dart**](https://dart.dev)
-""",
-        ),
+"""),
         createdAt: now.subtract(const Duration(days: 90)),
         updatedAt: now.subtract(const Duration(days: 25)),
       ),
@@ -172,7 +162,7 @@ abstract class Database {
 """),
         createdAt: now,
         updatedAt: now,
-      )
+      ),
     ];
 
     await addNotes(notes);
@@ -196,7 +186,7 @@ abstract class Database {
         details: "Информатика и английский язык",
         completed: false,
         date: now.add(const Duration(days: 1)),
-      )
+      ),
     ];
     await addTodos(todos);
   }
@@ -204,10 +194,7 @@ abstract class Database {
   static Future<void> init() async {
     final supportDir = await getApplicationSupportDirectory();
     isar = await Isar.open(
-      schemas: [
-        NoteSchema,
-        TodoSchema,
-      ],
+      schemas: [NoteSchema, TodoSchema],
       directory: supportDir.path,
     );
   }
@@ -228,12 +215,14 @@ abstract class Database {
     final notes = switch (sort) {
       NotesSortBy.title =>
         order == Sort.asc ? where.sortByTitle() : where.sortByTitleDesc(),
-      NotesSortBy.createdAt => order == Sort.asc
-          ? where.sortByCreatedAt()
-          : where.sortByCreatedAtDesc(),
-      NotesSortBy.updatedAt => order == Sort.asc
-          ? where.sortByUpdatedAt()
-          : where.sortByUpdatedAtDesc(),
+      NotesSortBy.createdAt =>
+        order == Sort.asc
+            ? where.sortByCreatedAt()
+            : where.sortByCreatedAtDesc(),
+      NotesSortBy.updatedAt =>
+        order == Sort.asc
+            ? where.sortByUpdatedAt()
+            : where.sortByUpdatedAtDesc(),
     };
     return notes.findAll();
   }
@@ -246,12 +235,14 @@ abstract class Database {
     final notes = switch (sort) {
       NotesSortBy.title =>
         order == Sort.asc ? where.sortByTitle() : where.sortByTitleDesc(),
-      NotesSortBy.createdAt => order == Sort.asc
-          ? where.sortByCreatedAt()
-          : where.sortByCreatedAtDesc(),
-      NotesSortBy.updatedAt => order == Sort.asc
-          ? where.sortByUpdatedAt()
-          : where.sortByUpdatedAtDesc(),
+      NotesSortBy.createdAt =>
+        order == Sort.asc
+            ? where.sortByCreatedAt()
+            : where.sortByCreatedAtDesc(),
+      NotesSortBy.updatedAt =>
+        order == Sort.asc
+            ? where.sortByUpdatedAt()
+            : where.sortByUpdatedAtDesc(),
     };
     return notes.watch(fireImmediately: true);
   }
@@ -267,19 +258,18 @@ abstract class Database {
         .where()
         .titleContains(query, caseSensitive: false)
         .or()
-        .contentTextContains(
-          query,
-          caseSensitive: false,
-        );
+        .contentTextContains(query, caseSensitive: false);
     final notes = switch (sort) {
       NotesSortBy.title =>
         order == Sort.asc ? filter.sortByTitle() : filter.sortByTitleDesc(),
-      NotesSortBy.createdAt => order == Sort.asc
-          ? filter.sortByCreatedAt()
-          : filter.sortByCreatedAtDesc(),
-      NotesSortBy.updatedAt => order == Sort.asc
-          ? filter.sortByUpdatedAt()
-          : filter.sortByUpdatedAtDesc(),
+      NotesSortBy.createdAt =>
+        order == Sort.asc
+            ? filter.sortByCreatedAt()
+            : filter.sortByCreatedAtDesc(),
+      NotesSortBy.updatedAt =>
+        order == Sort.asc
+            ? filter.sortByUpdatedAt()
+            : filter.sortByUpdatedAtDesc(),
     };
     return notes.watch(fireImmediately: true);
   }

@@ -1,14 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class Ringtone {
-  const Ringtone({
-    required this.id,
-    required this.title,
-    required this.uri,
-  });
+  const Ringtone({required this.id, required this.title, required this.uri});
 
   final String id;
   final String title;
@@ -25,17 +20,15 @@ class NativeService {
 
   static Future<List<Ringtone>> getAllAlarms() async {
     try {
-      final result = await platform.invokeListMethod("getAllAlarms");
-      return result?.map(
-            (e) {
-              final map = (e as Map).cast<String, dynamic>();
-              return Ringtone(
-                id: map["id"],
-                title: map["title"],
-                uri: Uri.parse(map["uri"]),
-              );
-            },
-          ).toList() ??
+      final result = await platform.invokeListMethod<Object?>("getAllAlarms");
+      return result?.map((e) {
+            final map = (e! as Map<Object?, Object?>).cast<String, Object?>();
+            return Ringtone(
+              id: map["id"]! as String,
+              title: map["title"]! as String,
+              uri: Uri.parse(map["uri"]! as String),
+            );
+          }).toList() ??
           [];
     } on PlatformException catch (_) {
       return [];
@@ -49,16 +42,17 @@ class NativeService {
   }
 
   static Future<bool> setWindowCaptionColor(Color color) async {
-    if (!Platform.isWindows) return false;
-    try {
-      await platform.invokeMethod(
-        "setWindowCaptionColor",
-        Uint8List.fromList([color.red, color.green, color.blue]),
-      );
-      return true;
-    } on PlatformException catch (error) {
-      debugPrint(error.toString());
-      return false;
-    }
+    return false;
+    // if (!Platform.isWindows) return false;
+    // try {
+    //   await platform.invokeMethod(
+    //     "setWindowCaptionColor",
+    //     Uint8List.fromList([color.red, color.green, color.blue]),
+    //   );
+    //   return true;
+    // } on PlatformException catch (error) {
+    //   debugPrint(error.toString());
+    //   return false;
+    // }
   }
 }

@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/note.dart';
 import 'package:notes/l10n/l10n.dart';
@@ -12,7 +11,7 @@ import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class AppViewNotesPage extends StatefulWidget {
   const AppViewNotesPage({
@@ -28,8 +27,10 @@ class AppViewNotesPage extends StatefulWidget {
   final ScrollController scrollController;
 
   final Widget Function(
-          BuildContext context, void Function(String value) onQueryChanged)?
-      headerBuilder;
+    BuildContext context,
+    void Function(String value) onQueryChanged,
+  )?
+  headerBuilder;
   final Widget Function(BuildContext context, Widget child) contentBuilder;
 
   @override
@@ -69,13 +70,11 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
     _refreshCompleter = Completer();
 
     _notesSubscription?.cancel();
-    _notesSubscription = notes.listen(
-      (event) {
-        _notes.add(event);
-        if (_refreshCompleter?.isCompleted ?? false) return;
-        _refreshCompleter?.complete();
-      },
-    );
+    _notesSubscription = notes.listen((event) {
+      _notes.add(event);
+      if (_refreshCompleter?.isCompleted ?? false) return;
+      _refreshCompleter?.complete();
+    });
 
     return _refreshCompleter?.future;
   }
@@ -108,10 +107,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             if (widget.headerBuilder != null)
-              widget.headerBuilder!(
-                context,
-                _setQuery,
-              ),
+              widget.headerBuilder!(context, _setQuery),
             widget.contentBuilder(
               context,
               SliverPadding(
@@ -126,41 +122,44 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                         types: [
                           SortType(
                             value: NotesSortBy.title,
-                            icon: const Icon(Symbols.sort_by_alpha_rounded),
+                            icon: const Icon(
+                              MaterialSymbols.sort_by_alpha_rounded,
+                            ),
                             label: localizations.app_notes_view_sort_title,
                           ),
                           SortType(
                             value: NotesSortBy.createdAt,
-                            icon: const Icon(Symbols.schedule_rounded),
+                            icon: const Icon(MaterialSymbols.schedule_rounded),
                             label: localizations.app_notes_view_sort_created,
                           ),
                           SortType(
                             value: NotesSortBy.updatedAt,
-                            icon: const Icon(Symbols.history_rounded),
+                            icon: const Icon(MaterialSymbols.history_rounded),
                             label: localizations.app_notes_view_sort_modified,
                           ),
                         ],
                       ),
                     ),
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 16),
-                    ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 16)),
                     StreamBuilder(
                       stream: _notes.stream,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const SliverFillRemaining(
-                            child: Center(child: CircularProgressIndicator()),
+                            child: Align.center(
+                              child: CircularProgressIndicator(value: null),
+                            ),
                           );
                         }
                         final notes = snapshot.data!;
                         return notes.isEmpty
                             ? SliverToBoxAdapter(
-                                child: Center(
+                                child: Align.center(
                                   child: Text(
                                     localizations.search_no_results,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge,
                                   ),
                                 ),
                               )
@@ -187,10 +186,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
 }
 
 class NoteCard extends StatefulWidget {
-  const NoteCard({
-    super.key,
-    required this.note,
-  });
+  const NoteCard({super.key, required this.note});
 
   final Note note;
 
@@ -220,20 +216,17 @@ class _NoteCardState extends State<NoteCard> {
       context: context,
       clipBehavior: Clip.antiAlias,
       showDragHandle: true,
-      builder: (context) => Column(
+      builder: (context) => Flex.vertical(
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             onTap: () => Navigator.pop(context, "share"),
-            leading: const Icon(
-              Symbols.share_rounded,
-              fill: 1,
-            ),
+            leading: const Icon(MaterialSymbols.share_rounded, fill: 1),
             title: Text(localizations.share),
           ),
           ListTile(
             onTap: () => Navigator.pop(context, "delete"),
-            leading: const Icon(Symbols.delete_rounded),
+            leading: const Icon(MaterialSymbols.delete_rounded),
             title: Text(localizations.delete),
           ),
           const SizedBox(height: 28),
@@ -262,22 +255,18 @@ class _NoteCardState extends State<NoteCard> {
       key: _cardKey,
       child: InkWell(
         onTap: () {
-          _cardKey.currentState?.openView(
-            (context) => NoteView(
-              note: _note,
-            ),
-          );
+          _cardKey.currentState?.openView((context) => NoteView(note: _note));
         },
         onLongPress: () => _showBottomSheet(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Column(
+          child: Flex.vertical(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Flex.horizontal(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  Flexible.tight(
                     child: Text(
                       _note.title,
                       maxLines: 1,
@@ -286,9 +275,7 @@ class _NoteCardState extends State<NoteCard> {
                     ),
                   ),
                   Text(
-                    formatter.format(
-                      _note.updatedAt,
-                    ),
+                    formatter.format(_note.updatedAt),
                     maxLines: 1,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
@@ -296,9 +283,14 @@ class _NoteCardState extends State<NoteCard> {
               ),
               const SizedBox(height: 8),
               Text(
-                _note.content.toPlainText().trim().split("\n").reduce(
-                    (value, element) =>
-                        value.length > element.length ? value : element),
+                _note.content
+                    .toPlainText()
+                    .trim()
+                    .split("\n")
+                    .reduce(
+                      (value, element) =>
+                          value.length > element.length ? value : element,
+                    ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodySmall,

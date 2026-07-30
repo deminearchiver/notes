@@ -1,15 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/utils/extensions.dart';
-import 'package:material/material.dart';
-import 'package:isar/isar.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
+import 'package:isar_plus/isar_plus.dart';
 
 class SortDetails<T> {
-  const SortDetails({
-    required this.sort,
-    required this.order,
-  });
+  const SortDetails({required this.sort, required this.order});
 
   final T sort;
   final Sort order;
@@ -33,33 +29,28 @@ class SortRow<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
-    return Row(
+    return Flex.horizontal(
       children: [
         IconButton(
           onPressed: () => onSortChanged(
-            SortDetails(
-              sort: selected,
-              order: order.reverse(),
-            ),
+            SortDetails(sort: selected, order: order.reverse()),
           ),
           icon: AnimatedRotation(
             turns: order == Sort.asc ? 0 : 0.5,
             duration: Durations.long2,
-            curve: Easing.emphasized,
-            child: const Icon(Symbols.north_rounded),
+            curve: Curves.easeInOutCubicEmphasized,
+            child: const Icon(MaterialSymbols.north_rounded),
           ),
           tooltip: order == Sort.asc
               ? localizations.sort_ascending
               : localizations.sort_descending,
         ),
-        VerticalDivider(
-          color: theme.colorScheme.onSurface,
-        ),
-        Expanded(
+        VerticalDivider(color: theme.colorScheme.onSurface),
+        Flexible.tight(
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            child: Row(
+            child: Flex.horizontal(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ...types.mapIndexed(
@@ -70,19 +61,17 @@ class SortRow<T> extends StatelessWidget {
                     ),
                     child: ChoiceChip(
                       onSelected: (value) => onSortChanged(
-                        SortDetails(
-                          sort: type.value,
-                          order: order,
-                        ),
+                        SortDetails(sort: type.value, order: order),
                       ),
                       selected: selected == type.value,
                       showCheckmark: false,
                       avatar: type.icon != null
-                          ? IconTheme.merge(
-                              data: IconThemeData(
+                          ? IconTheme.mergeWithData(
+                              data: IconThemeDataPartial.from(
                                 color: theme.colorScheme.onSecondaryContainer,
                               ),
-                              child: type.icon!)
+                              child: type.icon!,
+                            )
                           : null,
                       label: Text(type.label),
                     ),
@@ -91,18 +80,14 @@ class SortRow<T> extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }
 }
 
 class SortType<T> {
-  const SortType({
-    required this.value,
-    this.icon,
-    required this.label,
-  });
+  const SortType({required this.value, this.icon, required this.label});
 
   final T value;
   final Widget? icon;

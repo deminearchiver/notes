@@ -3,8 +3,7 @@
 
 // import 'package:fleather/fleather.dart';
 // import 'package:flutter/gestures.dart';
-// import 'package:material_symbols_icons/symbols.dart';
-// import 'package:notes/constants/images.dart';
+// // import 'package:notes/constants/images.dart';
 // import 'package:notes/database/database.dart';
 // import 'package:notes/database/note.dart';
 // import 'package:notes/theme.dart';
@@ -14,7 +13,7 @@
 // import 'package:notes/widgets/scroll_to_top.dart';
 // import 'package:notes/widgets/switcher/switcher.dart';
 // import 'package:notes/widgets/title_bar.dart';
-// import 'package:material/material.dart';
+// import 'package:notes/flutter.dart';
 // import 'package:window_manager/window_manager.dart';
 
 // class ExpandedApp extends StatefulWidget {
@@ -110,28 +109,28 @@
 //       selectedIndex: _page,
 //       children: [
 //         const SizedBox(height: 12),
-//         if (media.windowClass.isMedium)
+//         if (media.WindowWidthSizeClass.isMedium)
 //           Padding(
 //             padding: const EdgeInsets.symmetric(horizontal: 12),
 //             child: ListTile(
 //               onTap: () => _scaffoldKey.currentState?.closeDrawer(),
-//               leading: const Icon(Symbols.menu_open_rounded),
+//               leading: const Icon(MaterialSymbols.menu_open_rounded),
 //               shape: const StadiumBorder(),
 //             ),
 //           ),
 //         NavigationDrawerDestination(
-//           icon: Icon(Symbols.home_rounded, fill: 0),
-//           selectedIcon: Icon(Symbols.home_rounded, fill: 1),
+//           icon: Icon(MaterialSymbols.home_rounded, fill: 0),
+//           selectedIcon: Icon(MaterialSymbols.home_rounded, fill: 1),
 //           label: Text("Home"),
 //         ),
 //         NavigationDrawerDestination(
-//           icon: Icon(Symbols.notes_rounded, fill: 0),
-//           selectedIcon: Icon(Symbols.notes_rounded, fill: 1),
+//           icon: Icon(MaterialSymbols.notes_rounded, fill: 0),
+//           selectedIcon: Icon(MaterialSymbols.notes_rounded, fill: 1),
 //           label: Text("Notes"),
 //         ),
 //         NavigationDrawerDestination(
-//           icon: Icon(Symbols.task_alt_rounded, fill: 0),
-//           selectedIcon: Icon(Symbols.task_alt_rounded, fill: 1),
+//           icon: Icon(MaterialSymbols.task_alt_rounded, fill: 0),
+//           selectedIcon: Icon(MaterialSymbols.task_alt_rounded, fill: 1),
 //           label: Text("To-dos"),
 //         ),
 //         Padding(
@@ -139,12 +138,12 @@
 //           child: ListTile(
 //             onTap: () => Navigator.push(
 //               context,
-//               MaterialRoute.sharedAxis(
+//               MaterialPageRoute(
 //                 child: const SettingsView(),
 //               ),
 //             ),
 //             shape: const StadiumBorder(),
-//             leading: const Icon(Symbols.settings_rounded),
+//             leading: const Icon(MaterialSymbols.settings_rounded),
 //             title: Text("Settings"),
 //             titleTextStyle: theme.textTheme.labelLarge?.copyWith(
 //               color: theme.colorScheme.onSurfaceVariant,
@@ -159,30 +158,30 @@
 //           ? theme.colorScheme.surface
 //           : ElevationOverlay.applySurfaceTint(
 //               theme.colorScheme.surface, theme.colorScheme.surfaceTint, 1),
-//       child: Column(
+//       child: Flex.vertical(
 //         children: [
 //           TitleBarTest(),
-//           Expanded(
+//           Flexible.tight(
 //             child: Scaffold(
 //               key: _scaffoldKey,
 //               onDrawerChanged: (isOpened) => setState(() {}),
-//               drawer: media.windowClass >= WindowClass.large ? drawer : null,
-//               bottomNavigationBar: media.windowClass <= WindowClass.medium
+//               drawer: media.windowClass >= WindowWidthSizeClass.large ? drawer : null,
+//               bottomNavigationBar: media.windowClass <= WindowWidthSizeClass.medium
 //                   ? NavigationBar(
 //                       destinations: const [
 //                         NavigationDestination(
-//                           icon: Icon(Symbols.home_rounded, fill: 0),
-//                           selectedIcon: Icon(Symbols.home_rounded, fill: 1),
+//                           icon: Icon(MaterialSymbols.home_rounded, fill: 0),
+//                           selectedIcon: Icon(MaterialSymbols.home_rounded, fill: 1),
 //                           label: "Home",
 //                         ),
 //                         NavigationDestination(
-//                           icon: Icon(Symbols.notes_rounded, fill: 0),
-//                           selectedIcon: Icon(Symbols.notes_rounded, fill: 1),
+//                           icon: Icon(MaterialSymbols.notes_rounded, fill: 0),
+//                           selectedIcon: Icon(MaterialSymbols.notes_rounded, fill: 1),
 //                           label: "Notes",
 //                         ),
 //                         NavigationDestination(
-//                           icon: Icon(Symbols.task_alt_rounded, fill: 0),
-//                           selectedIcon: Icon(Symbols.task_alt_rounded, fill: 1),
+//                           icon: Icon(MaterialSymbols.task_alt_rounded, fill: 0),
+//                           selectedIcon: Icon(MaterialSymbols.task_alt_rounded, fill: 1),
 //                           label: "To-dos",
 //                         ),
 //                       ],
@@ -192,10 +191,10 @@
 //                 type: MaterialType.canvas,
 //                 elevation: 1,
 //                 surfaceTintColor: theme.colorScheme.surfaceTint,
-//                 child: Row(
+//                 child: Flex.horizontal(
 //                   children: [
-//                     if (media.windowClass > WindowClass.medium)
-//                       media.windowClass.isExtraLarge
+//                     if (media.windowClass > WindowWidthSizeClass.medium)
+//                       media.WindowWidthSizeClass.isExtraLarge
 //                           ? DrawerTheme(
 //                               data: const DrawerThemeData(
 //                                 shape: RoundedRectangleBorder(),
@@ -210,40 +209,40 @@
 //                               leading: IconButton(
 //                                 onPressed: () =>
 //                                     _scaffoldKey.currentState?.openDrawer(),
-//                                 icon: const Icon(Symbols.menu_rounded),
+//                                 icon: const Icon(MaterialSymbols.menu_rounded),
 //                               ),
 //                               trailing: IconButton(
 //                                 onPressed: () => Navigator.push(
 //                                   context,
-//                                   MaterialRoute.sharedAxis(
+//                                   MaterialPageRoute(
 //                                     child: const SettingsView(),
 //                                   ),
 //                                 ),
-//                                 icon: const Icon(Symbols.settings_rounded),
+//                                 icon: const Icon(MaterialSymbols.settings_rounded),
 //                               ),
 //                               destinations: const [
 //                                 NavigationRailDestination(
-//                                   icon: Icon(Symbols.home_rounded, fill: 0),
+//                                   icon: Icon(MaterialSymbols.home_rounded, fill: 0),
 //                                   selectedIcon:
-//                                       Icon(Symbols.home_rounded, fill: 1),
+//                                       Icon(MaterialSymbols.home_rounded, fill: 1),
 //                                   label: Text("Home"),
 //                                 ),
 //                                 NavigationRailDestination(
-//                                   icon: Icon(Symbols.notes_rounded, fill: 0),
+//                                   icon: Icon(MaterialSymbols.notes_rounded, fill: 0),
 //                                   selectedIcon:
-//                                       Icon(Symbols.notes_rounded, fill: 1),
+//                                       Icon(MaterialSymbols.notes_rounded, fill: 1),
 //                                   label: Text("Notes"),
 //                                 ),
 //                                 NavigationRailDestination(
-//                                   icon: Icon(Symbols.task_alt_rounded, fill: 0),
+//                                   icon: Icon(MaterialSymbols.task_alt_rounded, fill: 0),
 //                                   selectedIcon:
-//                                       Icon(Symbols.task_alt_rounded, fill: 1),
+//                                       Icon(MaterialSymbols.task_alt_rounded, fill: 1),
 //                                   label: Text("To-dos"),
 //                                 ),
 //                               ],
 //                             ),
-//                     Expanded(
-//                       flex: media.windowClass > WindowClass.medium ? 2 : 1,
+//                     Flexible.tight(
+//                       flex: media.windowClass > WindowWidthSizeClass.medium ? 2 : 1,
 //                       child: ScrollToTop(
 //                         controller: _scrollController,
 //                         top: 88,
@@ -260,7 +259,7 @@
 //                                 preferredSize: const Size.fromHeight(88),
 //                                 child: Padding(
 //                                   padding: EdgeInsets.fromLTRB(
-//                                     media.windowClass <= WindowClass.medium
+//                                     media.windowClass <= WindowWidthSizeClass.medium
 //                                         ? 16
 //                                         : 0,
 //                                     16,
@@ -271,11 +270,11 @@
 //                                     controller: _searchTextController,
 //                                     focusNode: _searchNode,
 //                                     // onChanged: _setQuery,
-//                                     padding: const MaterialStatePropertyAll(
+//                                     padding: const WidgetStatePropertyAll(
 //                                       EdgeInsets.symmetric(horizontal: 16),
 //                                     ),
-//                                     // elevation: const MaterialStatePropertyAll(6),
-//                                     shadowColor: const MaterialStatePropertyAll(
+//                                     // elevation: const WidgetStatePropertyAll(6),
+//                                     shadowColor: const WidgetStatePropertyAll(
 //                                         Colors.transparent),
 //                                     leading: Switcher.fadeThrough(
 //                                       duration: Durations.short4,
@@ -287,12 +286,12 @@
 //                                                 onPressed: () =>
 //                                                     _searchNode.unfocus(),
 //                                                 icon: const Icon(
-//                                                     Symbols.arrow_back_rounded),
+//                                                     MaterialSymbols.arrow_back_rounded),
 //                                               )
 //                                             : const SizedBox.square(
 //                                                 dimension: 40,
 //                                                 child: Icon(
-//                                                     Symbols.search_rounded),
+//                                                     MaterialSymbols.search_rounded),
 //                                               ),
 //                                       ),
 //                                     ),
@@ -303,12 +302,12 @@
 //                                               onPressed: () =>
 //                                                   _searchTextController.clear(),
 //                                               icon: const Icon(
-//                                                   Symbols.clear_rounded),
+//                                                   MaterialSymbols.clear_rounded),
 //                                             )
 //                                           : IconButton(
 //                                               onPressed: _refreshNotes,
 //                                               icon: const Icon(
-//                                                   Symbols.refresh_rounded),
+//                                                   MaterialSymbols.refresh_rounded),
 //                                             ),
 //                                     ],
 //                                   ),
@@ -317,7 +316,7 @@
 //                             ),
 //                             SliverPadding(
 //                               padding: EdgeInsets.fromLTRB(
-//                                   media.windowClass <= WindowClass.medium
+//                                   media.windowClass <= WindowWidthSizeClass.medium
 //                                       ? 24
 //                                       : 0,
 //                                   0,
@@ -328,8 +327,8 @@
 //                                 builder: (context, snapshot) {
 //                                   if (!snapshot.hasData) {
 //                                     return const SliverFillRemaining(
-//                                       child: Center(
-//                                         child: CircularProgressIndicator(),
+//                                       child: Align.center(
+//                                         child: CircularProgressIndicator(value:null),
 //                                       ),
 //                                     );
 //                                   }
@@ -338,7 +337,7 @@
 
 //                                   return notes.isEmpty
 //                                       ? SliverFillRemaining(
-//                                           child: Center(
+//                                           child: Align.center(
 //                                             child: Text(
 //                                               "No results found!",
 //                                               style: theme.textTheme.bodyLarge,
@@ -348,7 +347,7 @@
 //                                       : SliverList.separated(
 //                                           itemCount: notes.length,
 //                                           itemBuilder: (context, index) =>
-//                                               Card.elevated(
+//                                               Card(
 //                                             key: ValueKey(notes[index].id),
 //                                             elevation: 0,
 //                                             color: _note?.id == notes[index].id
@@ -361,13 +360,13 @@
 //                                               child: Padding(
 //                                                 padding:
 //                                                     const EdgeInsets.all(16),
-//                                                 child: Column(
+//                                                 child: Flex.vertical(
 //                                                   crossAxisAlignment:
 //                                                       CrossAxisAlignment.start,
 //                                                   children: [
-//                                                     Row(
+//                                                     Flex.horizontal(
 //                                                       children: [
-//                                                         Column(
+//                                                         Flex.vertical(
 //                                                           crossAxisAlignment:
 //                                                               CrossAxisAlignment
 //                                                                   .start,
@@ -389,7 +388,7 @@
 //                                                             ),
 //                                                           ],
 //                                                         ),
-//                                                         const Spacer(),
+//                                                         const Flexible.space(),
 //                                                         IconButton(
 //                                                           onPressed: () =>
 //                                                               setState(() => notes[
@@ -401,7 +400,7 @@
 //                                                                   .favorite
 //                                                               ? ButtonStyle(
 //                                                                   backgroundColor:
-//                                                                       MaterialStatePropertyAll(
+//                                                                       WidgetStatePropertyAll(
 //                                                                     theme
 //                                                                         .colorScheme
 //                                                                         .surface,
@@ -443,15 +442,15 @@
 //                         ),
 //                       ),
 //                     ),
-//                     Expanded(
-//                       flex: media.windowClass > WindowClass.medium ? 3 : 1,
+//                     Flexible.tight(
+//                       flex: media.windowClass > WindowWidthSizeClass.medium ? 3 : 1,
 //                       child: Padding(
 //                         padding: const EdgeInsets.fromLTRB(8, 16, 24, 16),
-//                         child: Card.elevated(
+//                         child: Card(
 //                           elevation: 0,
 //                           child: AnimatedSize(
 //                             duration: Durations.medium4,
-//                             curve: Easing.emphasized,
+//                             curve: Curves.easeInOutCubicEmphasized,
 //                             alignment: Alignment.centerRight,
 //                             child: _note != null
 //                                 ? NoteEditPage(
@@ -527,33 +526,33 @@
 //     return Scaffold(
 //       // floatingActionButton: FloatingActionButton(
 //       //   onPressed: () {},
-//       //   child: const Icon(Symbols.add_rounded),
+//       //   child: const Icon(MaterialSymbols.add_rounded),
 //       // ),
 //       // floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
 //       bottomNavigationBar: BottomAppBar(
 //         elevation: 0,
-//         child: Row(
+//         child: Flex.horizontal(
 //           children: [
-//             Expanded(
+//             Flexible.tight(
 //               child: SingleChildScrollView(
 //                 scrollDirection: Axis.horizontal,
-//                 child: Row(
+//                 child: Flex.horizontal(
 //                   mainAxisSize: MainAxisSize.min,
 //                   children: [
 //                     FleatherToggleStyleButton(
 //                       controller: _contentController,
 //                       attribute: ParchmentAttribute.bold,
-//                       icon: Symbols.format_bold_rounded,
+//                       icon: MaterialSymbols.format_bold_rounded,
 //                     ),
 //                     FleatherToggleStyleButton(
 //                       controller: _contentController,
 //                       attribute: ParchmentAttribute.italic,
-//                       icon: Symbols.format_italic_rounded,
+//                       icon: MaterialSymbols.format_italic_rounded,
 //                     ),
 //                     FleatherToggleStyleButton(
 //                       controller: _contentController,
 //                       attribute: ParchmentAttribute.underline,
-//                       icon: Symbols.format_underlined_rounded,
+//                       icon: MaterialSymbols.format_underlined_rounded,
 //                     ),
 //                     FleatherClearStyleButton(
 //                       controller: _contentController,
@@ -563,39 +562,39 @@
 //                       menuChildren: [
 //                         MenuItemButton(
 //                           onPressed: () {},
-//                           leadingIcon: const Icon(Symbols.format_h1_rounded),
+//                           leadingIcon: const Icon(MaterialSymbols.format_h1_rounded),
 //                           child: Text("Header 1"),
 //                         ),
 //                         MenuItemButton(
 //                           onPressed: () {},
-//                           leadingIcon: const Icon(Symbols.format_h2_rounded),
+//                           leadingIcon: const Icon(MaterialSymbols.format_h2_rounded),
 //                           child: Text("Header 2"),
 //                         ),
 //                         MenuItemButton(
 //                           onPressed: () {},
-//                           leadingIcon: const Icon(Symbols.format_h3_rounded),
+//                           leadingIcon: const Icon(MaterialSymbols.format_h3_rounded),
 //                           child: Text("Header 3"),
 //                         ),
 //                         MenuItemButton(
 //                           onPressed: () {},
-//                           leadingIcon: const Icon(Symbols.format_h4_rounded),
+//                           leadingIcon: const Icon(MaterialSymbols.format_h4_rounded),
 //                           child: Text("Header 4"),
 //                         ),
 //                         MenuItemButton(
 //                           onPressed: () {},
-//                           leadingIcon: const Icon(Symbols.format_h5_rounded),
+//                           leadingIcon: const Icon(MaterialSymbols.format_h5_rounded),
 //                           child: Text("Header 5"),
 //                         ),
 //                         MenuItemButton(
 //                           onPressed: () {},
-//                           leadingIcon: const Icon(Symbols.format_h6_rounded),
+//                           leadingIcon: const Icon(MaterialSymbols.format_h6_rounded),
 //                           child: Text("Header 6"),
 //                         ),
 //                       ],
 //                       builder: (context, controller, child) =>
 //                           FilledButton.tonalIcon(
 //                         onPressed: controller.open,
-//                         icon: const Icon(Symbols.add_rounded),
+//                         icon: const Icon(MaterialSymbols.add_rounded),
 //                         label: const Text("Header"),
 //                       ),
 //                     ),
@@ -603,22 +602,22 @@
 //                     FleatherToggleStyleButton(
 //                       controller: _contentController,
 //                       attribute: ParchmentAttribute.ol,
-//                       icon: Symbols.format_list_numbered_rounded,
+//                       icon: MaterialSymbols.format_list_numbered_rounded,
 //                     ),
 //                     FleatherToggleStyleButton(
 //                       controller: _contentController,
 //                       attribute: ParchmentAttribute.ul,
-//                       icon: Symbols.format_list_bulleted_rounded,
+//                       icon: MaterialSymbols.format_list_bulleted_rounded,
 //                     ),
 //                     FleatherToggleStyleButton(
 //                       controller: _contentController,
 //                       attribute: ParchmentAttribute.cl,
-//                       icon: Symbols.check_box_rounded,
+//                       icon: MaterialSymbols.check_box_rounded,
 //                     ),
 //                     FleatherToggleStyleButton(
 //                       controller: _contentController,
 //                       attribute: ParchmentAttribute.code,
-//                       icon: Symbols.code_blocks_rounded,
+//                       icon: MaterialSymbols.code_blocks_rounded,
 //                     ),
 //                     const VerticalDivider(),
 //                     FleatherIndentationButton(
@@ -648,7 +647,7 @@
 //             leading: widget.onBackButtonPressed != null
 //                 ? IconButton(
 //                     onPressed: widget.onBackButtonPressed!,
-//                     icon: const Icon(Symbols.arrow_back_rounded),
+//                     icon: const Icon(MaterialSymbols.arrow_back_rounded),
 //                   )
 //                 : null,
 //             title: Builder(
@@ -671,7 +670,7 @@
 //               const SizedBox(width: 16),
 //               FilledButton.tonalIcon(
 //                 onPressed: () {},
-//                 icon: const Icon(Symbols.save_rounded),
+//                 icon: const Icon(MaterialSymbols.save_rounded),
 //                 label: const Text("Save"),
 //               ),
 //               const SizedBox(width: 16),
@@ -716,7 +715,7 @@
 //           color: theme.colorScheme.surface,
 //           surfaceTintColor: theme.colorScheme.surfaceTint,
 //           elevation: 1,
-//           child: Row(
+//           child: Flex.horizontal(
 //             children: [
 //               const TitleBarBackButton(),
 //               // const SizedBox(width: 8),
@@ -725,7 +724,7 @@
 //                 customBorder: const StadiumBorder(),
 //                 child: Padding(
 //                   padding: const EdgeInsets.fromLTRB(8, 4, 12, 4),
-//                   child: Row(
+//                   child: Flex.horizontal(
 //                     children: [
 //                       const Image(
 //                         image: Images.ic_launcher,
@@ -750,7 +749,7 @@
 //                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
 //                   child: SizedBox(
 //                     height: 40,
-//                     child: Icon(Symbols.arrow_back),
+//                     child: Icon(MaterialSymbols.arrow_back),
 //                   ),
 //                 ),
 //               ),
@@ -762,7 +761,7 @@
 //                   padding: const EdgeInsets.fromLTRB(8, 4, 12, 4),
 //                   child: SizedBox(
 //                     height: 40,
-//                     child: Row(
+//                     child: Flex.horizontal(
 //                       children: [
 //                         const Image(
 //                           image: Images.ic_launcher,
@@ -779,11 +778,11 @@
 //                   ),
 //                 ),
 //               ),
-//               const Spacer(),
-//               if (media.windowClass >= WindowClass.medium)
+//               const Flexible.space(),
+//               if (media.windowClass >= WindowWidthSizeClass.medium)
 //                 SearchBarTheme(
 //                   data: const SearchBarThemeData(
-//                     shadowColor: MaterialStatePropertyAll(Colors.transparent),
+//                     shadowColor: WidgetStatePropertyAll(Colors.transparent),
 //                   ),
 //                   child: SearchAnchor.bar(
 //                     suggestionsBuilder: (context, controller) => [],
@@ -791,12 +790,12 @@
 //                     viewShape: RoundedRectangleBorder(
 //                         borderRadius: BorderRadius.circular(20)),
 //                     barLeading: Icon(
-//                       Symbols.search_rounded,
+//                       MaterialSymbols.search_rounded,
 //                       size: 20,
 //                       opticalSize: 20,
 //                     ),
 //                     barHintText: "Search",
-//                     barTextStyle: MaterialStatePropertyAll(
+//                     barTextStyle: WidgetStatePropertyAll(
 //                       theme.textTheme.bodySmall
 //                           ?.copyWith(color: theme.colorScheme.onSurface),
 //                     ),
@@ -808,16 +807,16 @@
 //               //     width: 40,
 //               //     height: 40,
 //               //     child: Icon(
-//               //       Symbols.search_rounded,
+//               //       MaterialSymbols.search_rounded,
 //               //       size: 20,
 //               //       opticalSize: 20,
 //               //     ),
 //               //   ),
 //               //   hintText: "Search",
-//               //   elevation: const MaterialStatePropertyAll(0),
-//               //   shadowColor: const MaterialStatePropertyAll(Colors.transparent),
+//               //   elevation: const WidgetStatePropertyAll(0),
+//               //   shadowColor: const WidgetStatePropertyAll(Colors.transparent),
 //               // ),
-//               const Spacer(),
+//               const Flexible.space(),
 //               TitleBarMinimizeButton(),
 //               TitleBarMaximizeButton(),
 //               TitleBarCloseButton(),
@@ -829,9 +828,9 @@
 //   }
 // }
 
-// final defaultForegroundColor = MaterialStateColor.resolveWith(
+// final defaultForegroundColor = WidgetStateColor.resolveWith(
 //   (states) {
-//     if (states.contains(MaterialState.pressed)) {
+//     if (states.contains(WidgetState.pressed)) {
 //       return Colors.white.withOpacity(0.786);
 //     }
 //     return Colors.white;
@@ -846,12 +845,12 @@
 // }
 
 // class _TitleBarMinimizeButtonState extends State<TitleBarMinimizeButton> {
-//   late MaterialStatesController _statesController;
+//   late WidgetStatesController _statesController;
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     _statesController = MaterialStatesController();
+//     _statesController = WidgetStatesController();
 //   }
 
 //   @override
@@ -927,14 +926,14 @@
 
 // class _TitleBarMaximizeButtonState extends State<TitleBarMaximizeButton>
 //     with WindowListener {
-//   late MaterialStatesController _statesController;
+//   late WidgetStatesController _statesController;
 
 //   bool _maximized = false;
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     _statesController = MaterialStatesController();
+//     _statesController = WidgetStatesController();
 //     windowManager.addListener(this);
 //   }
 
@@ -991,12 +990,12 @@
 // }
 
 // class _TitleBarCloseButtonState extends State<TitleBarCloseButton> {
-//   late MaterialStatesController _statesController;
+//   late WidgetStatesController _statesController;
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     _statesController = MaterialStatesController();
+//     _statesController = WidgetStatesController();
 //   }
 
 //   @override
@@ -1029,31 +1028,37 @@
 //     );
 //   }
 // }
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/constants/images.dart';
 import 'package:notes/icons/segoe.dart';
 import 'package:notes/native.dart';
 import 'package:notes/utils/extensions.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/title_bar/windows.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
 class AdaptiveInfo {
-  const AdaptiveInfo(this.media);
+  const AdaptiveInfo(this.windowWidthSizeClass);
 
-  final MediaQueryData media;
+  final WindowWidthSizeClass windowWidthSizeClass;
 
-  bool get shouldUseNavigationBar => media.windowClass <= WindowClass.medium;
+  bool get shouldUseNavigationBar =>
+      windowWidthSizeClass <= WindowWidthSizeClass.medium;
+
   bool get shouldUseNavigationDrawer =>
-      media.windowClass >= WindowClass.extraLarge;
+      windowWidthSizeClass >= WindowWidthSizeClass.extraLarge;
+
   bool get shouldUseNavigationRail =>
       !shouldUseNavigationBar && !shouldUseNavigationDrawer;
+
   bool get shouldUseSideNavigation =>
       shouldUseNavigationRail || shouldUseNavigationDrawer;
 
-  bool get shouldUseTwoPanelLayout => media.windowClass >= WindowClass.medium;
-  bool get shouldUseEqualPanels => media.windowClass <= WindowClass.medium;
+  bool get shouldUseTwoPanelLayout =>
+      windowWidthSizeClass >= WindowWidthSizeClass.medium;
+
+  bool get shouldUseEqualPanels =>
+      windowWidthSizeClass <= WindowWidthSizeClass.medium;
 }
 
 class AdaptiveDestination {
@@ -1074,18 +1079,18 @@ class AdaptiveDestination {
   final String label;
 
   NavigationDestination get barDestination => NavigationDestination(
-        // key: key,
-        enabled: enabled,
-        icon: icon,
-        selectedIcon: selectedIcon,
-        label: label,
-      );
+    // key: key,
+    enabled: enabled,
+    icon: icon,
+    selectedIcon: selectedIcon,
+    label: label,
+  );
   NavigationRailDestination get railDestination => NavigationRailDestination(
-        disabled: !enabled,
-        icon: icon,
-        selectedIcon: selectedIcon,
-        label: Text(label),
-      );
+    disabled: !enabled,
+    icon: icon,
+    selectedIcon: selectedIcon,
+    label: Text(label),
+  );
   NavigationDrawerDestination get drawerDestination =>
       NavigationDrawerDestination(
         // key: key,
@@ -1140,10 +1145,10 @@ class _ExpandedAppState extends State<ExpandedApp> {
   //   final media = MediaQuery.of(context);
   //   final windowClass = media.windowClass;
 
-  //   final shouldUseNavigationBar = windowClass <= WindowClass.medium;
-  //   final shouldUseNavigationRail = windowClass > WindowClass.medium;
-  //   final shouldUseNavigationDrawer = windowClass >= WindowClass.extraLarge;
-  //   final shouldUseTwoPanelLayout = windowClass >= WindowClass.medium;
+  //   final shouldUseNavigationBar = windowClass <= WindowWidthSizeClass.medium;
+  //   final shouldUseNavigationRail = windowClass > WindowWidthSizeClass.medium;
+  //   final shouldUseNavigationDrawer = windowClass >= WindowWidthSizeClass.extraLarge;
+  //   final shouldUseTwoPanelLayout = windowClass >= WindowWidthSizeClass.medium;
 
   //   debugPrint(
   //     <String, bool>{
@@ -1157,8 +1162,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context);
-    final adaptive = AdaptiveInfo(media);
+    final adaptive = AdaptiveInfo(WindowWidthSizeClass.of(context));
 
     final theme = Theme.of(context);
 
@@ -1170,36 +1174,18 @@ class _ExpandedAppState extends State<ExpandedApp> {
 
     const destinations = <AdaptiveDestination>[
       AdaptiveDestination(
-        icon: Icon(
-          Symbols.home_rounded,
-          fill: 0,
-        ),
-        selectedIcon: Icon(
-          Symbols.home_rounded,
-          fill: 1,
-        ),
+        icon: Icon(MaterialSymbols.home_rounded, fill: 0),
+        selectedIcon: Icon(MaterialSymbols.home_rounded, fill: 1),
         label: "Home",
       ),
       AdaptiveDestination(
-        icon: Icon(
-          Symbols.notes_rounded,
-          fill: 0,
-        ),
-        selectedIcon: Icon(
-          Symbols.notes_rounded,
-          fill: 1,
-        ),
+        icon: Icon(MaterialSymbols.notes_rounded, fill: 0),
+        selectedIcon: Icon(MaterialSymbols.notes_rounded, fill: 1),
         label: "Notes",
       ),
       AdaptiveDestination(
-        icon: Icon(
-          Symbols.task_alt_rounded,
-          fill: 0,
-        ),
-        selectedIcon: Icon(
-          Symbols.task_alt_rounded,
-          fill: 1,
-        ),
+        icon: Icon(MaterialSymbols.task_alt_rounded, fill: 0),
+        selectedIcon: Icon(MaterialSymbols.task_alt_rounded, fill: 1),
         label: "To-dos",
       ),
     ];
@@ -1207,7 +1193,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
     windowManager.setTitleBarStyle(TitleBarStyle.hidden);
     NativeService.setWindowCaptionColor(backgroundColor);
 
-    return Column(
+    return Flex.vertical(
       children: [
         Material(
           color: backgroundColor,
@@ -1217,7 +1203,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
             child: SizedBox(
               width: double.infinity,
               height: 48,
-              child: Row(
+              child: Flex.horizontal(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(4),
@@ -1226,34 +1212,22 @@ class _ExpandedAppState extends State<ExpandedApp> {
                       borderRadius: BorderRadius.circular(4),
                       child: SizedBox.square(
                         dimension: 40,
-                        child: const Icon(
-                          SegoeIcons.chrome_back,
-                          size: 10,
-                        ),
+                        child: const Icon(SegoeIcons.chrome_back, size: 10),
                       ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Image(
-                    image: Images.ic_launcher,
-                    width: 32,
-                    height: 32,
-                  ),
+                  Image(image: Images.ic_launcher, width: 32, height: 32),
                   const SizedBox(width: 8),
-                  Text(
-                    "Notes",
-                    style: theme.textTheme.bodySmall,
-                  ),
-                  const Spacer(),
-                  WindowsTitleBarControls(
-                    compact: false,
-                  ),
+                  Text("Notes", style: theme.textTheme.bodySmall),
+                  const Flexible.space(),
+                  WindowsTitleBarControls(compact: false),
                 ],
               ),
             ),
           ),
         ),
-        Expanded(
+        Flexible.tight(
           child: Scaffold(
             backgroundColor: backgroundColor,
             bottomNavigationBar: adaptive.shouldUseNavigationBar
@@ -1264,7 +1238,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
                   )
                 : null,
             body: adaptive.shouldUseTwoPanelLayout
-                ? Row(
+                ? Flex.horizontal(
                     children: [
                       if (adaptive.shouldUseNavigationRail)
                         NavigationRail(
@@ -1273,18 +1247,16 @@ class _ExpandedAppState extends State<ExpandedApp> {
                           backgroundColor: backgroundColor,
                           leading: IconButton(
                             onPressed: () {},
-                            icon: const Icon(Symbols.menu_rounded),
+                            icon: const Icon(MaterialSymbols.menu_rounded),
                           ),
                           labelType: NavigationRailLabelType.all,
                           destinations: destinations.toRailDestinations(),
                         ),
                       if (adaptive.shouldUseNavigationDrawer)
                         NavigationDrawer(
-                          children: [
-                            ...destinations.toDrawerDestinations(),
-                          ],
+                          children: [...destinations.toDrawerDestinations()],
                         ),
-                      Expanded(
+                      Flexible.tight(
                         flex: adaptive.shouldUseEqualPanels ? 1 : 2,
                         child: ScrollToTop(
                           controller: _scrollController,
@@ -1301,30 +1273,39 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                 // leadingWidth: 64,
                                 // leading: IconButton(
                                 //   onPressed: () {},
-                                //   icon: Icon(Symbols.arrow_back_rounded),
+                                //   icon: Icon(MaterialSymbols.arrow_back_rounded),
                                 // ),
                                 // title: Text("Home"),
                                 bottom: PreferredSize(
                                   preferredSize: Size.fromHeight(72),
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 0, 16, 16),
+                                    padding: const EdgeInsets.fromLTRB(
+                                      0,
+                                      0,
+                                      16,
+                                      16,
+                                    ),
                                     child: SearchBar(
                                       focusNode: _searchNode,
                                       // shadowColor:
-                                      //     MaterialStateColor.transparent,
-                                      padding: const MaterialStatePropertyAll(
-                                          EdgeInsets.symmetric(horizontal: 16)),
+                                      //     WidgetStateColor.transparent,
+                                      padding: const WidgetStatePropertyAll(
+                                        EdgeInsets.symmetric(horizontal: 16),
+                                      ),
                                       leading: SizedBox.square(
                                         dimension: 40,
-                                        child: Icon(Symbols.search_rounded),
+                                        child: Icon(
+                                          MaterialSymbols.search_rounded,
+                                        ),
                                       ),
                                       trailing: [
                                         CircleAvatar(
                                           child: IconButton(
                                             onPressed: () {},
                                             icon: Icon(
-                                                Symbols.account_circle_rounded),
+                                              MaterialSymbols
+                                                  .account_circle_rounded,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -1333,17 +1314,23 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                 ),
                               ),
                               SliverPadding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 0, 16, 16),
+                                padding: const EdgeInsets.fromLTRB(
+                                  0,
+                                  0,
+                                  16,
+                                  16,
+                                ),
                                 sliver: SliverList.separated(
                                   itemCount: 32,
                                   itemBuilder: (context, index) => KeyedSubtree(
                                     key: ValueKey(index),
-                                    child: Card.elevated(
-                                      animationDuration: Durations.short4,
+                                    child: Card(
+                                      // animationDuration: Durations.short4,
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              index == _selected ? 28 : 12)),
+                                        borderRadius: BorderRadius.circular(
+                                          index == _selected ? 28 : 12,
+                                        ),
+                                      ),
                                       color: index == _selected
                                           ? theme.colorScheme.secondaryContainer
                                           : null,
@@ -1353,8 +1340,10 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                             setState(() => _selected = index),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                              horizontal: 24, vertical: 24),
-                                          child: Column(
+                                            horizontal: 24,
+                                            vertical: 24,
+                                          ),
+                                          child: Flex.vertical(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.stretch,
                                             children: [
@@ -1370,7 +1359,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style:
                                                     theme.textTheme.bodyMedium,
-                                              )
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -1387,11 +1376,11 @@ class _ExpandedAppState extends State<ExpandedApp> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Expanded(
+                      Flexible.tight(
                         flex: adaptive.shouldUseEqualPanels ? 1 : 3,
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(0, 0, 24, 24),
-                          child: Card.elevated(
+                          child: Card(
                             elevation: 0,
                             child: Scaffold(
                               body: CustomScrollView(
@@ -1402,7 +1391,9 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                     scrolledUnderElevation: 0,
                                     leading: IconButton(
                                       onPressed: () {},
-                                      icon: const Icon(Symbols.close_rounded),
+                                      icon: const Icon(
+                                        MaterialSymbols.close_rounded,
+                                      ),
                                     ),
                                     title: Builder(
                                       builder: (context) => TextField(
@@ -1411,31 +1402,39 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                           border: InputBorder.none,
                                           hintText: "Give this note a title!",
                                         ),
-                                        style:
-                                            DefaultTextStyle.of(context).style,
+                                        style: DefaultTextStyle.of(
+                                          context,
+                                        ).style,
                                       ),
                                     ),
                                     actions: [
                                       IconButton(
                                         onPressed: () {},
-                                        icon: const Icon(Symbols.undo_rounded),
+                                        icon: const Icon(
+                                          MaterialSymbols.undo_rounded,
+                                        ),
                                       ),
                                       const SizedBox(width: 8),
                                       IconButton(
                                         onPressed: () {},
-                                        icon: const Icon(Symbols.redo_rounded),
+                                        icon: const Icon(
+                                          MaterialSymbols.redo_rounded,
+                                        ),
                                       ),
                                       const SizedBox(width: 16),
                                       FilledButton.icon(
                                         onPressed: () {},
-                                        icon: const Icon(Symbols.save_rounded),
+                                        icon: const Icon(
+                                          MaterialSymbols.save_rounded,
+                                        ),
                                         label: Text("Save"),
                                       ),
                                       const SizedBox(width: 16),
                                     ],
                                   ),
                                   const SliverToBoxAdapter(
-                                      child: SizedBox(height: 1000)),
+                                    child: SizedBox(height: 1000),
+                                  ),
                                 ],
                               ),
                             ),

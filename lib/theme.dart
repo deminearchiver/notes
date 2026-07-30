@@ -1,28 +1,9 @@
 import 'package:fleather/fleather.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CustomFleatherThemeData extends FleatherThemeData {
-  CustomFleatherThemeData({
-    required super.bold,
-    required super.italic,
-    required super.underline,
-    required super.strikethrough,
-    required super.inlineCode,
-    required super.link,
-    required super.paragraph,
-    required super.heading1,
-    required super.heading2,
-    required super.heading3,
-    required super.heading4,
-    required super.heading5,
-    required super.heading6,
-    required super.lists,
-    required super.quote,
-    required super.code,
-  });
-
-  static CustomFleatherThemeData fallback(ThemeData theme) {
+abstract final class CustomFleatherThemeData {
+  static FleatherThemeData fallback(ThemeData theme) {
     final baseStyle = theme.textTheme.bodyMedium!;
     const baseSpacing = VerticalSpacing(top: 6, bottom: 10);
 
@@ -30,11 +11,8 @@ class CustomFleatherThemeData extends FleatherThemeData {
       fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
     );
 
-    return CustomFleatherThemeData(
-      paragraph: TextBlockTheme(
-        style: baseStyle,
-        spacing: baseSpacing,
-      ),
+    return FleatherThemeData(
+      paragraph: TextBlockTheme(style: baseStyle, spacing: baseSpacing),
       bold: const TextStyle(fontWeight: FontWeight.bold),
       italic: const TextStyle(fontStyle: FontStyle.italic),
       underline: const TextStyle(decoration: TextDecoration.underline),
@@ -86,39 +64,35 @@ class CustomFleatherThemeData extends FleatherThemeData {
         spacing: const VerticalSpacing(),
       ),
       quote: TextBlockTheme(
-        style: const TextStyle(
-          fontStyle: FontStyle.italic,
-        ),
+        style: const TextStyle(fontStyle: FontStyle.italic),
         spacing: const VerticalSpacing(),
         decoration: BoxDecoration(
           border: Border(
-            left: BorderSide(
-              color: theme.disabledColor,
-              width: 4,
-            ),
+            left: BorderSide(color: theme.disabledColor, width: 4),
           ),
         ),
+      ),
+      horizontalRule: HorizontalRuleThemeData(
+        height: 16.0,
+        thickness: 1.0,
+        color: theme.colorScheme.outlineVariant,
       ),
     );
   }
 }
 
-const appBarTheme = AppBarTheme(
-  toolbarHeight: 64,
-);
+const appBarTheme = AppBarTheme(toolbarHeight: 64);
 
 class AppTheme {
-  static ThemeData createTheme({
-    required Brightness brightness,
-  }) {
+  static ThemeData createTheme({required Brightness brightness}) {
     return ThemeData(
       brightness: brightness,
       splashFactory: InkSparkle.splashFactory,
       // visualDensity: VisualDensity.standard,
       platform: TargetPlatform.android,
       searchBarTheme: const SearchBarThemeData(
-        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
-        shadowColor: MaterialStateColor.transparent,
+        padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
+        shadowColor: WidgetStateColor.transparent,
       ),
     );
   }

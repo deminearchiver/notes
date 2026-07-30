@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 part 'todo.g.dart';
 
 @collection
@@ -17,14 +17,8 @@ class Todo {
 
   @ignore
   @override
-  int get hashCode => Object.hashAll([
-        id,
-        label,
-        details,
-        important,
-        completed,
-        date,
-      ]);
+  int get hashCode =>
+      Object.hashAll([id, label, details, important, completed, date]);
 
   @override
   bool operator ==(Object other) {

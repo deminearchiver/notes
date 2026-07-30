@@ -1,5 +1,4 @@
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 enum OnboardingActionsLayout { column, row }
 
@@ -34,15 +33,15 @@ class OnboardingScaffold extends StatelessWidget {
 
     final heading = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
+      child: Flex.vertical(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (icon != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: IconTheme.merge(
-                data: IconThemeData(
+              child: IconTheme.mergeWithData(
+                data: IconThemeDataPartial.from(
                   size: 36,
                   color: theme.colorScheme.primary,
                 ),
@@ -72,26 +71,22 @@ class OnboardingScaffold extends StatelessWidget {
         leading: supportsBackAction && Navigator.canPop(context)
             ? IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Symbols.arrow_back_rounded),
+                icon: const Icon(MaterialSymbols.arrow_back_rounded),
               )
             : null,
       ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 16, bottom: 16),
-          child: Column(
+          child: Flex.vertical(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (content == null) Expanded(child: heading),
+              if (content == null) Flexible.tight(child: heading),
               if (content != null) ...[
                 heading,
                 const SizedBox(height: 16),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: content!,
-                  ),
-                ),
-                // const Spacer(),
+                Flexible.tight(child: SingleChildScrollView(child: content!)),
+                // const Flexible.space(),
               ],
               if (disclaimer != null) ...[
                 Text(
@@ -104,14 +99,16 @@ class OnboardingScaffold extends StatelessWidget {
                 const SizedBox(height: 8),
               ],
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: actionsLayout == OnboardingActionsLayout.column
-                    ? Column(
+                    ? Flex.vertical(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: actions,
                       )
-                    : Row(children: actions),
+                    : Flex.horizontal(children: actions),
               ),
             ],
           ),

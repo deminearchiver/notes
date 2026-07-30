@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/native.dart';
 
 class TitleBar extends StatelessWidget {
@@ -39,18 +39,18 @@ class _AnimatedTitleBarState extends AnimatedWidgetBaseState<AnimatedTitleBar> {
 
   @override
   void forEachTween(TweenVisitor<dynamic> visitor) {
-    _backgroundColor = visitor(
-      _backgroundColor,
-      widget.backgroundColor,
-      (targetValue) => ColorTween(begin: targetValue),
-    ) as ColorTween;
+    _backgroundColor =
+        visitor(
+              _backgroundColor,
+              widget.backgroundColor,
+              (targetValue) => ColorTween(begin: targetValue as Color?),
+            )!
+            as ColorTween;
   }
 
   @override
   Widget build(BuildContext context) {
-    NativeService.setWindowCaptionColor(
-      _backgroundColor!.evaluate(animation)!,
-    );
+    NativeService.setWindowCaptionColor(_backgroundColor!.evaluate(animation)!);
     return widget.child;
   }
 }

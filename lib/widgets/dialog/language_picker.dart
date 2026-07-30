@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 Future<Locale?> showLanguagePickerDialog({
   Key? key,
@@ -11,18 +11,13 @@ Future<Locale?> showLanguagePickerDialog({
   return await showDialog<Locale?>(
     context: context,
     useRootNavigator: useRootNavigator,
-    builder: (context) => LanguageChooserDialog(
-      key: key,
-      initialLocale: initialLocale,
-    ),
+    builder: (context) =>
+        LanguageChooserDialog(key: key, initialLocale: initialLocale),
   );
 }
 
 class LanguageChooserDialog extends StatefulWidget {
-  const LanguageChooserDialog({
-    super.key,
-    required this.initialLocale,
-  });
+  const LanguageChooserDialog({super.key, required this.initialLocale});
 
   final Locale? initialLocale;
 
@@ -59,12 +54,12 @@ class _LanguageChooserDialogState extends State<LanguageChooserDialog> {
     return AlertDialog(
       title: Text(localizations.pick_language),
       contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 24),
-      content: Column(
+      content: Flex.vertical(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Divider(height: 0),
           SingleChildScrollView(
-            child: Column(
+            child: Flex.vertical(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
@@ -77,30 +72,30 @@ class _LanguageChooserDialogState extends State<LanguageChooserDialog> {
                     groupValue: _locale,
                   ),
                   title: Text(
-                      localizations.settings_appearance_view_language_system),
+                    localizations.settings_appearance_view_language_system,
+                  ),
                   subtitle: Text(Intl.defaultLocale ?? "..."),
                 ),
-                ...AppLocalizations.supportedLocales.map(
-                  (locale) {
-                    return ListTile(
-                      onTap: () => _setLocale(locale),
-                      selected: _locale == locale,
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 24),
-                      leading: Radio<Locale?>(
-                        onChanged: _setLocale,
-                        value: locale,
-                        groupValue: _locale,
-                      ),
-                      title: Text(
-                        lookupAppLocalizations(locale)
-                            .locale_name(locale.languageCode),
-                      ),
-                      subtitle:
-                          Text(localizations.locale_name(locale.languageCode)),
-                    );
-                  },
-                ),
+                ...AppLocalizations.supportedLocales.map((locale) {
+                  return ListTile(
+                    onTap: () => _setLocale(locale),
+                    selected: _locale == locale,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+                    leading: Radio<Locale?>(
+                      onChanged: _setLocale,
+                      value: locale,
+                      groupValue: _locale,
+                    ),
+                    title: Text(
+                      lookupAppLocalizations(
+                        locale,
+                      ).locale_name(locale.languageCode),
+                    ),
+                    subtitle: Text(
+                      localizations.locale_name(locale.languageCode),
+                    ),
+                  );
+                }),
               ],
             ),
           ),

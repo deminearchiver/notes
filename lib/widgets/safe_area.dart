@@ -4,7 +4,7 @@
 
 import 'dart:ui';
 
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class RemoveSafeArea extends StatelessWidget {
   const RemoveSafeArea({
@@ -36,7 +36,8 @@ class RemoveSafeArea extends StatelessWidget {
     // // Bottom padding has been consumed - i.e. by the keyboard
     if (maintainBottomViewPadding) {
       safePadding = safePadding.copyWith(
-          bottom: MediaQuery.viewPaddingOf(context).bottom);
+        bottom: MediaQuery.viewPaddingOf(context).bottom,
+      );
     }
 
     final media = MediaQuery.of(context);

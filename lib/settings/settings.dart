@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:notes/utils/utils.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<T> sharedPreferences<T>(
-        FutureOr<T> Function(SharedPreferences preferences) onValue) =>
-    SharedPreferences.getInstance().then(onValue);
+  FutureOr<T> Function(SharedPreferences preferences) onValue,
+) => SharedPreferences.getInstance().then(onValue);
 
 class Settings with ChangeNotifier {
   Settings._() {
@@ -84,9 +84,7 @@ class Settings with ChangeNotifier {
   set firstRun(bool value) {
     _firstRun = value;
     notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setBool("firstRun", value),
-    );
+    sharedPreferences((preferences) => preferences.setBool("firstRun", value));
   }
 
   Locale? _locale;
@@ -96,10 +94,7 @@ class Settings with ChangeNotifier {
     notifyListeners();
     sharedPreferences(
       (preferences) => value != null
-          ? preferences.setString(
-              "locale",
-              value.toLanguageTag(),
-            )
+          ? preferences.setString("locale", value.toLanguageTag())
           : preferences.remove("locale"),
     );
   }
@@ -129,9 +124,7 @@ class Settings with ChangeNotifier {
   set demoMode(bool value) {
     _demoMode = value;
     notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setBool("demoMode", value),
-    );
+    sharedPreferences((preferences) => preferences.setBool("demoMode", value));
   }
 }
 
