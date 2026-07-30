@@ -2,16 +2,27 @@
 
 import 'package:material/material.dart';
 
-class SegoeIconData extends IconData {
-  const SegoeIconData(super.codePoint)
-    : super(fontFamily: "Segoe Fluent Icons");
-}
-
 @staticIconProvider
 abstract final class SegoeIcons {
-  static const chrome_close = SegoeIconData(0xE8BB);
-  static const chrome_minimize = SegoeIconData(0xE921);
-  static const chrome_maximize = SegoeIconData(0xE922);
-  static const chrome_restore = SegoeIconData(0xE923);
-  static const chrome_back = SegoeIconData(0xE830);
+  static const chrome_close = IconData(
+    0xE8BB,
+    fontFamily: "Segoe Fluent Icons",
+  );
+
+  static const chrome_minimize = IconData(
+    0xE921,
+    fontFamily: "Segoe Fluent Icons",
+  );
+
+  static const chrome_maximize = IconData(
+    0xE922,
+    fontFamily: "Segoe Fluent Icons",
+  );
+
+  static const chrome_restore = IconData(
+    0xE923,
+    fontFamily: "Segoe Fluent Icons",
+  );
+
+  static const chrome_back = IconData(0xE830, fontFamily: "Segoe Fluent Icons");
 }
