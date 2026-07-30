@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material/material.dart';
 import 'package:notes/native.dart';
 
 class TitleBar extends StatefulWidget {

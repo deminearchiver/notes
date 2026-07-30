@@ -6,7 +6,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/note.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:notes/views/app/card.dart';
+import 'package:notes/views/app/old/card.dart';
 import 'package:notes/views/note/note.dart';
 import 'package:notes/widgets/nothing_found.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
@@ -97,91 +97,83 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    return RefreshIndicator(
-      onRefresh: _reload,
-      child: ScrollToTop(
-        controller: widget.scrollController,
-        top: 72 + 16 + 32 + 8,
-        minOffset: 160,
-        child: CustomScrollView(
-          key: widget.scrollableKey,
-          controller: widget.scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            if (widget.headerBuilder != null)
-              widget.headerBuilder!(
-                context,
-                _setQuery,
-              ),
-            widget.contentBuilder(
-              context,
-              MultiSliver(
-                children: [
-                  SliverPinnedHeader(
-                    child: Material(
-                      child: SortRow(
-                        onSortChanged: _setSort,
-                        selected: _sortBy,
-                        order: _sortOrder,
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                        types: [
-                          SortType(
-                            value: NotesSortBy.title,
-                            icon: const Icon(Symbols.sort_by_alpha_rounded),
-                            label: localizations.app_notes_view_sort_title,
-                          ),
-                          SortType(
-                            value: NotesSortBy.createdAt,
-                            icon: const Icon(Symbols.schedule_rounded),
-                            label: localizations.app_notes_view_sort_created,
-                          ),
-                          SortType(
-                            value: NotesSortBy.updatedAt,
-                            icon: const Icon(Symbols.history_rounded),
-                            label: localizations.app_notes_view_sort_modified,
-                          ),
-                        ],
+    return CustomScrollView(
+      key: widget.scrollableKey,
+      controller: widget.scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        if (widget.headerBuilder != null)
+          widget.headerBuilder!(
+            context,
+            _setQuery,
+          ),
+        widget.contentBuilder(
+          context,
+          MultiSliver(
+            children: [
+              SliverPinnedHeader(
+                child: Material(
+                  child: SortRow(
+                    onSortChanged: _setSort,
+                    selected: _sortBy,
+                    order: _sortOrder,
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    types: [
+                      SortType(
+                        value: NotesSortBy.title,
+                        icon: const Icon(Symbols.sort_by_alpha_rounded),
+                        label: localizations.app_notes_view_sort_title,
                       ),
-                    ),
+                      SortType(
+                        value: NotesSortBy.createdAt,
+                        icon: const Icon(Symbols.schedule_rounded),
+                        label: localizations.app_notes_view_sort_created,
+                      ),
+                      SortType(
+                        value: NotesSortBy.updatedAt,
+                        icon: const Icon(Symbols.history_rounded),
+                        label: localizations.app_notes_view_sort_modified,
+                      ),
+                    ],
                   ),
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                    sliver: StreamBuilder(
-                      stream: _notes.stream,
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return const SliverFillRemaining(
-                            child: Center(child: CircularProgressIndicator()),
-                          );
-                        }
-                        final notes = snapshot.data!;
-                        return notes.isEmpty
-                            ? const SliverFillRemaining(
-                                hasScrollBody: false,
-                                child: Center(
-                                  child: NothingFound(
-                                    icon: Icon(Symbols.find_in_page_rounded),
-                                  ),
-                                ),
-                              )
-                            : SliverList.separated(
-                                itemCount: notes.length,
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 8),
-                                itemBuilder: (context, index) => NoteCard(
-                                  key: ValueKey(notes[index].id),
-                                  note: notes[index],
-                                ),
-                              );
-                      },
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                sliver: StreamBuilder(
+                  stream: _notes.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const SliverFillRemaining(
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+                    final notes = snapshot.data!;
+                    return notes.isEmpty
+                        ? const SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(
+                              child: NothingFound(
+                                icon: Icon(Symbols.find_in_page_rounded),
+                              ),
+                            ),
+                          )
+                        : SliverList.separated(
+                            itemCount: notes.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 8),
+                            itemBuilder: (context, index) => NoteCard(
+                              key: ValueKey(notes[index].id),
+                              note: notes[index],
+                            ),
+                          );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

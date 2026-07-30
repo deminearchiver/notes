@@ -57,8 +57,8 @@ class _ScrollToTopState extends State<ScrollToTop>
     );
     _animation = CurvedAnimation(
       parent: _animationController,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
   }
 

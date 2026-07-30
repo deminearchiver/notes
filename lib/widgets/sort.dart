@@ -49,7 +49,7 @@ class SortRow<T> extends StatelessWidget {
             icon: AnimatedRotation(
               turns: order == Sort.asc ? 0 : 0.5,
               duration: Durations.long2,
-              curve: Easing.emphasized,
+              curve: Curves.easeInOutCubicEmphasized,
               child: const Icon(Symbols.north_rounded),
             ),
             tooltip: order == Sort.asc

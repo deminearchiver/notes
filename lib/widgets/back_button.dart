@@ -12,8 +12,14 @@ class _BackIconButtonTag {
 class BackIconButton extends StatelessWidget {
   const BackIconButton({
     super.key,
+    this.enabled = true,
+    this.onPressed,
     this.heroTag,
   });
+
+  final bool enabled;
+  final VoidCallback? onPressed;
+
   final Object? heroTag;
 
   @override
@@ -21,12 +27,16 @@ class BackIconButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     final navigator = Navigator.of(context);
-    return Hero(
-      tag: heroTag ?? const _BackIconButtonTag(),
-      child: IconButton(
-        onPressed: navigator.canPop() ? navigator.pop : null,
-        icon: const Icon(Symbols.arrow_back_rounded),
-        color: theme.colorScheme.onSurface,
+    return Center(
+      child: Hero(
+        tag: heroTag ?? const _BackIconButtonTag(),
+        child: IconButton(
+          onPressed: enabled
+              ? onPressed ?? (navigator.canPop() ? navigator.pop : null)
+              : null,
+          icon: const Icon(Symbols.arrow_back_rounded),
+          color: theme.colorScheme.onSurface,
+        ),
       ),
     );
   }

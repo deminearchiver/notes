@@ -95,8 +95,8 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
       Animation<double> _) {
     final animation = CurvedAnimation(
       parent: linearAnimation,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
     final navigatorBox = Navigator.of(buttonKey.currentContext!)
         .context
@@ -126,17 +126,13 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
     final opacitySequence = TweenSequence([
       TweenSequenceItem(
         tween: Tween<double>(begin: 1, end: 0).chain(
-          CurveTween(
-            const Interval(0, 1 / 3),
-          ),
+          CurveTween(curve: const Interval(0, 1 / 3)),
         ),
         weight: 1,
       ),
       TweenSequenceItem(
         tween: Tween<double>(begin: 1 / 3, end: 1).chain(
-          CurveTween(
-            const Interval(0.5, 1),
-          ),
+          CurveTween(curve: const Interval(0.5, 1)),
         ),
         weight: 1,
       ),

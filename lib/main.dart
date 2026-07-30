@@ -1,5 +1,5 @@
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:notes/app.dart';
 import 'package:notes/constants/images.dart';
 import 'package:notes/database/database.dart';
@@ -8,10 +8,10 @@ import 'package:notes/settings/settings.dart';
 import 'package:material/material.dart';
 import 'package:flutter_timezone_plus/flutter_timezone_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
-import 'package:window_manager/window_manager.dart';
 
 Future<void> loadTimezone() async {
   tz.initializeTimeZones();
@@ -36,7 +36,15 @@ void main() async {
   // Begin initialization
   await loadTimezone();
 
-  await Settings.instance.reload();
+  final settings = await Settings.initialize(
+    sharedPreferences: await SharedPreferences.getInstance(),
+    secureStorage: const FlutterSecureStorage(
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      ),
+    ),
+  );
+
   await Database.init();
   await Images.init();
 
@@ -55,9 +63,9 @@ void main() async {
   //   await windowManager.focus();
   // });
 
-  if (!Settings.instance.firstRun) {
-    await NotificationService.requestPermission();
-  }
+  // if (!Settings.instance.firstRun) {
+  //   await NotificationService.requestPermission();
+  // }
 
   //? We are not removing the splash screen because we will end the initialization in our app
 
@@ -78,11 +86,14 @@ void main() async {
       default:
         runApp(
           App(
+            settings: settings,
             todo: todo,
           ),
         );
     }
   } else {
-    runApp(const App());
+    runApp(
+      App(settings: settings),
+    );
   }
 }

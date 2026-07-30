@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:notes/widgets/route/route.dart';
 import 'package:notes/widgets/safe_area.dart';
 import 'package:material/material.dart';
 
@@ -96,8 +97,8 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   Widget buildModalBarrier() {
     final animation = CurvedAnimation(
       parent: this.animation!,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
 
     Widget barrier;
@@ -109,8 +110,9 @@ class _ItemCardRoute<T> extends PageRoute<T> {
           begin: barrierColor!.withOpacity(0.0),
           end:
               barrierColor, // changedInternalState is called if barrierColor updates
-        ).chain(CurveTween(
-            barrierCurve)), // changedInternalState is called if barrierCurve updates
+        ).chain(
+          CurveTween(curve: barrierCurve),
+        ), // changedInternalState is called if barrierCurve updates
       );
       barrier = AnimatedModalBarrier(
         color: color,
@@ -147,13 +149,15 @@ class _ItemCardRoute<T> extends PageRoute<T> {
 
   final opacitySequence = TweenSequence([
     TweenSequenceItem(
-      tween: Tween<double>(begin: 1, end: 0)
-          .chain(CurveTween(const Interval(0, 0.5))),
+      tween: Tween<double>(begin: 1, end: 0).chain(
+        CurveTween(curve: const Interval(0, 0.5)),
+      ),
       weight: 1,
     ),
     TweenSequenceItem(
-      tween: Tween<double>(begin: 0, end: 1)
-          .chain(CurveTween(const Interval(0.5, 1))),
+      tween: Tween<double>(begin: 0, end: 1).chain(
+        CurveTween(curve: const Interval(0.5, 1)),
+      ),
       weight: 1,
     ),
   ]);
@@ -212,8 +216,8 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   ) {
     final animation = CurvedAnimation(
       parent: linearAnimation,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
 
     final navigatorBox = Navigator.of(cardKey.currentContext!)

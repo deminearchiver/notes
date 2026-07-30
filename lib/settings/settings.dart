@@ -1,145 +1,231 @@
-import 'dart:async';
-import 'package:notes/utils/utils.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:material/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<T> sharedPreferences<T>(
-        FutureOr<T> Function(SharedPreferences preferences) onValue) =>
-    SharedPreferences.getInstance().then(onValue);
+import 'store/store.dart';
+import 'store/adapter.dart';
 
-class Settings with ChangeNotifier {
-  Settings._() {
-    reload();
+mixin _SettingsBase on Iterable<PersistedStore>, ChangeNotifier {
+  final firstRunStore = MemoryStore<bool>(
+    true.store,
+  ).persist("first_run");
+
+  final useSystemBrightnessStore = MemoryStore<bool>(
+    true.store,
+  ).persist("use_system_brightness");
+
+  final brightnessStore = MemoryStore<Brightness>(
+    PlatformDispatcher.instance.platformBrightness.store,
+  ).persistWith(
+    key: "brightness",
+    deserialize: (value) => switch (value) {
+      "light" => Brightness.light,
+      "dark" => Brightness.dark,
+      _ => null,
+    },
+    serialize: (value) => switch (value) {
+      Brightness.light => "light",
+      Brightness.dark => "dark",
+    },
+  );
+
+  final useDynamicColorStore = MemoryStore<bool>(
+    true.store,
+  ).persist("use_dynamic_color");
+
+  final exchangeKindsStore = MemoryStore<Set<ExchangeKind>>(
+    {ExchangeKind.plainText}.store,
+  ).persistWith(
+    key: "export_kinds",
+    deserialize: (value) {
+      ExchangeKind? deserialize(String value) => switch (value) {
+            "plain_text" => ExchangeKind.plainText,
+            "markdown" => ExchangeKind.markdown,
+            "json" => ExchangeKind.json,
+            _ => null,
+          };
+      return value
+          .split(",")
+          .map((value) => deserialize(value.trim()))
+          .whereNotNull()
+          .toSet();
+    },
+    serialize: (values) {
+      String serialize(ExchangeKind value) => switch (value) {
+            ExchangeKind.plainText => "plain_text",
+            ExchangeKind.markdown => "markdown",
+            ExchangeKind.json => "json",
+          };
+      return values.map(serialize).join(", ");
+    },
+  );
+
+  final localeStore = MemoryStore<SupportedLocale>(
+    SupportedLocale.system.store,
+  ).persistWith(
+    key: "locale",
+    deserialize: (value) => switch (value) {
+      "en" => SupportedLocale.en,
+      "ru" => SupportedLocale.ru,
+      _ => null,
+    },
+    serialize: (value) => switch (value) {
+      SupportedLocale.system => "system",
+      SupportedLocale.en => "en",
+      SupportedLocale.ru => "ru",
+    },
+  );
+
+  final editorKindStore =
+      MemoryStore<EditorKind>(EditorKind.fleather.store).persistWith(
+    key: "editor_kind",
+    deserialize: (value) => switch (value.toLowerCase()) {
+      "flutter_quill" => EditorKind.flutterQuill,
+      "fleather" => EditorKind.fleather,
+      "super_editor" => EditorKind.superEditor,
+      _ => null,
+    },
+    serialize: (value) => switch (value) {
+      EditorKind.flutterQuill => "flutter_quill",
+      EditorKind.fleather => "fleather",
+      EditorKind.superEditor => "super",
+    },
+  );
+
+  @override
+  Iterator<PersistedStore> get iterator => <PersistedStore>[
+        firstRunStore,
+        useSystemBrightnessStore,
+        brightnessStore,
+        useDynamicColorStore,
+        exchangeKindsStore,
+        localeStore,
+        editorKindStore,
+      ].iterator;
+}
+
+class Settings extends Iterable<PersistedStore>
+    with ChangeNotifier, _SettingsBase {
+  static Settings read(BuildContext context) {
+    return context.read<Settings>();
   }
 
-  static final _instance = Settings._();
-  static Settings get instance => _instance;
-
-  Future<void> reload() async {
-    final preferences = await SharedPreferences.getInstance();
-    {
-      final value = preferences.getInt("databaseVersion");
-      if (value != null) {
-        _databaseVersion = value;
-      }
-    }
-    {
-      final value = preferences.getBool("firstRun");
-      if (value != null) {
-        _firstRun = value;
-      }
-    }
-    {
-      final value = preferences.getString("locale");
-      if (value != null) {
-        final parsed = tryParseLocale(value);
-        if (parsed != null) _locale = parsed;
-      } else {
-        _locale = null;
-      }
-    }
-    {
-      final name = preferences.getString("themeMode") ?? "";
-      final value = ThemeMode.values.byNameOptional(name);
-      if (value != null) {
-        _themeMode = value;
-      }
-    }
-    {
-      final value = preferences.getBool("developerMode");
-      if (value != null) {
-        _developerMode = value;
-      }
-    }
-    {
-      final value = preferences.getBool("demoMode");
-      if (value != null) {
-        _demoMode = value;
-      }
-    }
-    notifyListeners();
+  static Settings watch(BuildContext context) {
+    return context.watch<Settings>();
   }
 
-  void reset() {
-    databaseVersion = 1;
-    firstRun = true;
-    locale = null;
-    themeMode = ThemeMode.system;
-    developerMode = false;
-    demoMode = false;
-  }
-
-  int _databaseVersion = 1;
-  int get databaseVersion => _databaseVersion;
-  set databaseVersion(int value) {
-    _databaseVersion = value;
-    notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setInt("databaseVersion", value),
+  static Future<Settings> initialize({
+    required SharedPreferences sharedPreferences,
+    required FlutterSecureStorage secureStorage,
+  }) async {
+    final settings = Settings(
+      sharedPreferences: sharedPreferences,
+      secureStorage: secureStorage,
     );
+    await settings.load();
+    return settings;
   }
 
-  bool _firstRun = true;
-  bool get firstRun => _firstRun;
-  set firstRun(bool value) {
-    _firstRun = value;
-    notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setBool("firstRun", value),
-    );
+  Settings({
+    required SharedPreferences sharedPreferences,
+    required FlutterSecureStorage secureStorage,
+  }) : _adapters = {
+          SharedStoreAdapter(sharedPreferences),
+          SecureStoreAdapter(secureStorage),
+        } {
+    for (final store in this) {
+      store.addListener(
+        () async {
+          notifyListeners();
+          if (!store.saved) {
+            await store.save(_adapters);
+          }
+        },
+      );
+    }
   }
 
-  Locale? _locale;
-  Locale? get locale => _locale;
-  set locale(Locale? value) {
-    _locale = value;
-    notifyListeners();
-    sharedPreferences(
-      (preferences) => value != null
-          ? preferences.setString(
-              "locale",
-              value.toLanguageTag(),
-            )
-          : preferences.remove("locale"),
-    );
+  final Set<StoreAdapter> _adapters;
+
+  Future<void> load() async {
+    await Future.wait([
+      for (final store in this) store.load(_adapters),
+    ]);
   }
 
-  ThemeMode _themeMode = ThemeMode.system;
-  ThemeMode get themeMode => _themeMode;
-  set themeMode(ThemeMode value) {
-    _themeMode = value;
-    notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setString("themeMode", value.name),
-    );
+  Future<void> save() async {
+    await Future.wait([
+      for (final store in this) store.save(_adapters),
+    ]);
   }
 
-  bool _developerMode = false;
-  bool get developerMode => _developerMode;
-  set developerMode(bool value) {
-    _developerMode = value;
-    notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setBool("developerMode", value),
-    );
+  void resetAll() {
+    for (final store in this) {
+      store.reset();
+    }
   }
 
-  bool _demoMode = false;
-  bool get demoMode => _demoMode;
-  set demoMode(bool value) {
-    _demoMode = value;
-    notifyListeners();
-    sharedPreferences(
-      (preferences) => preferences.setBool("demoMode", value),
-    );
+  bool get firstRun => firstRunStore.value;
+  set firstRun(bool? value) => firstRunStore.value = value;
+
+  bool get useSystemBrightness => useSystemBrightnessStore.value;
+  set useSystemBrightness(bool? value) =>
+      useSystemBrightnessStore.value = value;
+
+  Brightness get brightness => brightnessStore.value;
+  set brightness(Brightness? value) => brightnessStore.value = value;
+
+  ThemeMode get themeMode =>
+      useSystemBrightness ? ThemeMode.system : brightness.themeMode;
+
+  bool get useDynamicColor => useDynamicColorStore.value;
+  set useDynamicColor(bool? value) => useDynamicColorStore.value = value;
+
+  Set<ExchangeKind> get exchangeKinds => exchangeKindsStore.value;
+  set exchangeKinds(Set<ExchangeKind>? value) =>
+      exchangeKindsStore.value = value;
+
+  SupportedLocale get locale => localeStore.value;
+  set locale(SupportedLocale? value) => localeStore.value = value;
+
+  EditorKind get editorKind => editorKindStore.value;
+  set editorKind(EditorKind? value) => editorKindStore.value = value;
+}
+
+enum ExchangeKind {
+  plainText,
+  markdown,
+  json,
+}
+
+enum SupportedLocale {
+  system,
+  en,
+  ru;
+
+  Locale? get locale => switch (this) {
+        SupportedLocale.system => null,
+        SupportedLocale.en => const Locale("en"),
+        SupportedLocale.ru => const Locale("ru"),
+      };
+
+  String nameOf(BuildContext context) {
+    return name;
   }
 }
 
-extension EnumByName<T extends Enum> on Iterable<T> {
-  T? byNameOptional(String name) {
-    for (final value in this) {
-      if (value.name == name) return value;
-    }
-    return null;
-  }
+extension BrightnessExtension on Brightness {
+  ThemeMode get themeMode => switch (this) {
+        Brightness.light => ThemeMode.light,
+        Brightness.dark => ThemeMode.dark,
+      };
+}
+
+enum EditorKind {
+  flutterQuill,
+  fleather,
+  superEditor,
 }

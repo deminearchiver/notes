@@ -115,7 +115,7 @@ class Switcher extends StatelessWidget {
   ) {
     final opacityTween = Tween<double>(begin: 0, end: 1).chain(
       CurveTween(
-        const Interval(0.5, 1),
+        curve: const Interval(0.5, 1),
       ),
     );
     return AnimatedBuilder(

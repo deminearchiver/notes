@@ -1,25 +1,32 @@
 import 'package:fleather/fleather.dart';
+import 'package:flutter/foundation.dart';
 import 'package:material/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static ThemeData createTheme({
     required Brightness brightness,
+    ColorScheme? colorScheme,
   }) {
     return ThemeData(
-      brightness: brightness,
+      colorScheme: colorScheme,
+      brightness: colorScheme == null ? brightness : null,
       splashFactory: InkSparkle.splashFactory,
       // visualDensity: VisualDensity.standard,
-      // platform: kDebugMode ? TargetPlatform.android : null,
+      platform: kDebugMode ? TargetPlatform.android : null,
       searchBarTheme: const SearchBarThemeData(
-        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
-        shadowColor: MaterialStateColor.transparent,
+        padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
+        shadowColor: WidgetStateColor.transparent,
+      ),
+      cardTheme: const CardTheme(
+        margin: EdgeInsets.zero,
+        clipBehavior: Clip.antiAlias,
+      ),
+      appBarTheme: const AppBarTheme(
+        toolbarHeight: 64,
       ),
     );
   }
-
-  static ThemeData light() => createTheme(brightness: Brightness.light);
-  static ThemeData dark() => createTheme(brightness: Brightness.dark);
 }
 
 class CustomFleatherThemeData extends FleatherThemeData {
@@ -40,6 +47,7 @@ class CustomFleatherThemeData extends FleatherThemeData {
     required super.lists,
     required super.quote,
     required super.code,
+    required super.horizontalRule,
   });
 
   static CustomFleatherThemeData fallback(ThemeData theme) {
@@ -51,6 +59,11 @@ class CustomFleatherThemeData extends FleatherThemeData {
     );
 
     return CustomFleatherThemeData(
+      horizontalRule: HorizontalRuleThemeData(
+        height: 16,
+        thickness: 1,
+        color: theme.colorScheme.outlineVariant,
+      ),
       paragraph: TextBlockTheme(
         style: baseStyle,
         spacing: baseSpacing,

@@ -1,13 +1,14 @@
-import "package:notes/gen/l10n/app_localizations.dart" as l10n;
+import "package:notes/gen/app_localizations.dart" as l10n;
 import "package:material/material.dart";
 
-export "package:notes/gen/l10n/app_localizations.dart"
-    show lookupAppLocalizations;
+export "package:notes/gen/app_localizations.dart" show lookupAppLocalizations;
 
-abstract class AppLocalizations {
+abstract final class AppLocalizations {
   static l10n.AppLocalizations? maybeOf(BuildContext context) {
     return Localizations.of<l10n.AppLocalizations>(
-        context, l10n.AppLocalizations);
+      context,
+      l10n.AppLocalizations,
+    );
   }
 
   static l10n.AppLocalizations of(BuildContext context) {

@@ -1,5 +1,7 @@
 {
-    "dart.flutterSdkPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter",
-    "dart.sdkPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter\\bin\\cache\\dart-sdk",
-    "build-runner.flutterPath": "C:\\Users\\DeMineArchiver\\.puro\\envs\\main\\flutter"
+  "workbench.editor.customLabels.enabled": true,
+  "workbench.editor.customLabels.patterns": {
+    "**/lib/views/**/*": "[View] ${dirname}/${filename}.${extname}",
+    "**/lib/widgets/**/*": "[Widget] ${dirname}/${filename}.${extname}",
+  }
 }

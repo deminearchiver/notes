@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material/material.dart';
 
 class DenseBox extends StatelessWidget {
   const DenseBox({

@@ -38,7 +38,7 @@ class SectionHeader extends StatelessWidget {
               if (icon != null) const SizedBox(width: 8),
               Text(
                 text,
-                style: theme.textTheme.titleMedium?.copyWith(
+                style: theme.textTheme.labelLarge?.copyWith(
                   color: enabled
                       ? theme.colorScheme.secondary
                       : theme.disabledColor,

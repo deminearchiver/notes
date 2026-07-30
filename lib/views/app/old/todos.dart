@@ -7,7 +7,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/todo.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:notes/views/app/card.dart';
+import 'package:notes/views/app/old/card.dart';
 import 'package:notes/views/todo/todo.dart';
 import 'package:notes/widgets/nothing_found.dart';
 import 'package:notes/widgets/safe_area.dart';
@@ -158,29 +158,21 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _reload,
-      child: ScrollToTop(
-        controller: widget.scrollController,
-        top: 72 + 16 + 32 + 8,
-        minOffset: 160,
-        child: CustomScrollView(
-          key: widget.scrollableKey,
-          controller: widget.scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            if (widget.headerBuilder != null)
-              widget.headerBuilder!(
-                context,
-                _setQuery,
-              ),
-            widget.contentBuilder(
-              context,
-              _buildContent(context),
-            ),
-          ],
+    return CustomScrollView(
+      key: widget.scrollableKey,
+      controller: widget.scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        if (widget.headerBuilder != null)
+          widget.headerBuilder!(
+            context,
+            _setQuery,
+          ),
+        widget.contentBuilder(
+          context,
+          _buildContent(context),
         ),
-      ),
+      ],
     );
   }
 }
@@ -395,8 +387,8 @@ class _TodoCardState extends State<TodoCard> {
 //       Animation<double> secondaryAnimation) {
 //     final animation = CurvedAnimation(
 //       parent: linearAnimation,
-//       curve: Easing.emphasized,
-//       reverseCurve: Easing.emphasized.flipped,
+//       curve: Curves.easeInOutCubicEmphasized,
+//       reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
 //     );
 
 //     final navigatorObject = Navigator.of(cardKey.currentContext!)
