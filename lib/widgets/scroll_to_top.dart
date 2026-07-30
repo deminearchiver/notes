@@ -1,7 +1,6 @@
 import 'package:flutter/rendering.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class ScrollToTop extends StatefulWidget {
   const ScrollToTop({
@@ -51,8 +50,8 @@ class _ScrollToTopState extends State<ScrollToTop>
     );
     _animation = CurvedAnimation(
       parent: _animationController,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
   }
 
@@ -123,17 +122,17 @@ class _ScrollToTopState extends State<ScrollToTop>
               },
               direction: DismissDirection.up,
               behavior: HitTestBehavior.deferToChild,
-              child: Column(
+              child: Flex.vertical(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
                     height: MediaQuery.paddingOf(context).top + widget.top,
                   ),
-                  Center(
+                  Align.center(
                     child: ElevatedButton.icon(
                       onPressed: _scrollToTop,
-                      icon: const Icon(Symbols.north_rounded),
+                      icon: const Icon(MaterialSymbols.north_rounded),
                       label: Text(localizations.scroll_to_top),
                     ),
                   ),

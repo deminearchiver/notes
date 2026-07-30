@@ -1,4 +1,4 @@
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class SearchAppBar extends StatefulWidget {
   const SearchAppBar({super.key, this.bottom});
@@ -41,6 +41,6 @@ class _SearchAppBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Column(children: [SearchBar(), if (bottom != null) bottom!]);
+    return Flex.vertical(children: [SearchBar(), if (bottom != null) bottom!]);
   }
 }

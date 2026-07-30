@@ -1,5 +1,4 @@
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/widgets/back_button.dart';
 
 enum _SettingsScaffoldVariant { sliver, list }

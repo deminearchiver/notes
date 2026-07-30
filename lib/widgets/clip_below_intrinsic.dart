@@ -1,5 +1,5 @@
 import 'package:flutter/rendering.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class ClipBelowIntrinsic extends SingleChildRenderObjectWidget {
   const ClipBelowIntrinsic({super.key, this.clipWidth = false, super.child});

@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 Future<Locale?> showLanguagePickerDialog({
   Key? key,
@@ -54,12 +54,12 @@ class _LanguageChooserDialogState extends State<LanguageChooserDialog> {
     return AlertDialog(
       title: Text(localizations.pick_language),
       contentPadding: const EdgeInsets.fromLTRB(0, 16, 0, 24),
-      content: Column(
+      content: Flex.vertical(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Divider(height: 0),
           SingleChildScrollView(
-            child: Column(
+            child: Flex.vertical(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(

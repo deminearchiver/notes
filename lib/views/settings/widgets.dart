@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 enum _SettingsListTileVariant { regular, topLevel }
 
@@ -51,8 +50,8 @@ class SettingsListTile extends StatelessWidget {
     final theme = Theme.of(context);
 
     final leadingChild = leading != null
-        ? IconTheme.merge(
-            data: IconThemeData(
+        ? IconTheme.mergeWithData(
+            data: IconThemeDataPartial.from(
               color: enabled
                   ? theme.colorScheme.onSurface
                   : theme.disabledColor,
@@ -102,7 +101,7 @@ class _ToggleSettingsListTile extends SettingsListTile {
     super.subtitle,
   }) : super(
          onTap: onChanged != null ? () => onChanged(!value) : null,
-         trailing: Switch(onChanged: onChanged, value: value),
+         trailing: SwitchLegacy(onChanged: onChanged, value: value),
          enabled: onChanged != null,
        );
 }
@@ -117,7 +116,7 @@ class SettingsSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
+    return Flex.vertical(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(

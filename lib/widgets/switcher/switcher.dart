@@ -1,5 +1,5 @@
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 Widget minimumSizeLayoutBuilder(
   Widget? currentChild,
@@ -114,7 +114,7 @@ class Switcher extends StatelessWidget {
     final opacityTween = Tween<double>(
       begin: 0,
       end: 1,
-    ).chain(CurveTween(const Interval(0.5, 1)));
+    ).chain(CurveTween(curve: const Interval(0.5, 1)));
     return AnimatedBuilder(
       key: ValueKey(child.key),
       animation: animation,

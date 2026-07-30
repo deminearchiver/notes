@@ -1,5 +1,5 @@
 import 'package:notes/widgets/switcher/switcher.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class TopLevelSwitcher extends Switcher {
   const TopLevelSwitcher({super.key, super.alignment, required super.child})

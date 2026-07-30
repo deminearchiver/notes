@@ -1,6 +1,5 @@
 import 'package:fleather/fleather.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 Widget customToggleStyleButtonBuilder(
   BuildContext context,
@@ -70,8 +69,8 @@ class FleatherIndentationButton extends StatelessWidget {
           onPressed: enabled ? _onPressed : null,
           icon: Icon(
             increase
-                ? Symbols.format_indent_increase
-                : Symbols.format_indent_decrease,
+                ? MaterialSymbols.format_indent_increase
+                : MaterialSymbols.format_indent_decrease,
           ),
         );
       },
@@ -107,7 +106,7 @@ class FleatherClearStyleButton extends StatelessWidget {
       builder: (context, child) {
         return IconButton(
           onPressed: _onPressed,
-          icon: const Icon(Symbols.format_clear_rounded),
+          icon: const Icon(MaterialSymbols.format_clear_rounded),
         );
       },
     );
@@ -152,8 +151,8 @@ class FleatherHistoryButton extends StatelessWidget {
       listenable: controller,
       builder: (context, child) {
         final icon = _variant == _UndoRedoButtonVariant.undo
-            ? Symbols.undo_rounded
-            : Symbols.redo_rounded;
+            ? MaterialSymbols.undo_rounded
+            : MaterialSymbols.redo_rounded;
         final isEnabled = _isEnabled();
         return IconButton(
           onPressed: isEnabled ? _onPressed : null,

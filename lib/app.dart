@@ -11,7 +11,7 @@ import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/reminder/reminder.dart';
 import 'package:notes/widgets/title_bar.dart';
 import 'package:provider/provider.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class App extends StatefulWidget {
   const App({super.key, this.todo});
@@ -50,9 +50,7 @@ class _AppState extends State<App> {
         default:
           if (mounted) {
             _navigatorKey.currentState?.push(
-              MaterialRoute.adaptive(
-                builder: (context) => ReminderView(todo: todo),
-              ),
+              MaterialPageRoute(builder: (context) => ReminderView(todo: todo)),
             );
           }
       }
@@ -97,17 +95,17 @@ class _AppState extends State<App> {
             final results = <Route>[];
 
             results.add(
-              MaterialRoute.adaptive(builder: (context) => const AppView()),
+              MaterialPageRoute(builder: (context) => const AppView()),
             );
             if (settings.firstRun) {
               results.add(
-                MaterialRoute.adaptive(
+                MaterialPageRoute(
                   builder: (context) => const OnboardingScope(),
                 ),
               );
             } else if (widget.todo != null) {
               results.add(
-                MaterialRoute.adaptive(
+                MaterialPageRoute(
                   builder: (context) => ReminderView(todo: widget.todo!),
                 ),
               );
@@ -115,9 +113,7 @@ class _AppState extends State<App> {
             return results;
           },
           onGenerateRoute: (settings) {
-            return MaterialRoute.adaptive(
-              builder: (context) => const AppView(),
-            );
+            return MaterialPageRoute(builder: (context) => const AppView());
           },
         );
       },

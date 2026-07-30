@@ -1,5 +1,5 @@
 import "package:notes/gen/l10n/app_localizations.dart" as l10n;
-import "package:material/material.dart";
+import "package:notes/flutter.dart";
 
 export "package:notes/gen/l10n/app_localizations.dart"
     show lookupAppLocalizations;

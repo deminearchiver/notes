@@ -1,5 +1,4 @@
-import 'package:material/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/l10n/l10n.dart';
 
 class NothingFound extends StatelessWidget {
@@ -11,11 +10,14 @@ class NothingFound extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
-    return Column(
+    return Flex.vertical(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        IconTheme.merge(
-          data: IconThemeData(size: 36, color: theme.colorScheme.primary),
+        IconTheme.mergeWithData(
+          data: IconThemeDataPartial.from(
+            size: 36,
+            color: theme.colorScheme.primary,
+          ),
           child: icon,
         ),
         const SizedBox(height: 16),

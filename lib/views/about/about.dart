@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/constants/images.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/main.dart';
@@ -10,7 +9,7 @@ import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -63,11 +62,11 @@ class _AboutViewState extends State<AboutView> {
                     style: theme.textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 16),
-                  Center(
+                  Align.center(
                     child: FilledButton.tonalIcon(
                       onPressed: () => Navigator.push(
                         context,
-                        MaterialRoute.sharedAxis(
+                        MaterialPageRoute(
                           builder: (context) => LicensePage(
                             applicationIcon: const Padding(
                               padding: EdgeInsets.all(16),
@@ -81,19 +80,19 @@ class _AboutViewState extends State<AboutView> {
                           ),
                         ),
                       ),
-                      icon: const Icon(Symbols.license_rounded),
+                      icon: const Icon(MaterialSymbols.license_rounded),
                       label: const Text("View open source licenses"),
                     ),
                   ),
-                  Center(
+                  Align.center(
                     child: FilledButton.tonalIcon(
                       onPressed: () => Navigator.push(
                         context,
-                        MaterialRoute.sharedAxis(
+                        MaterialPageRoute(
                           builder: (context) => const LicensesView(),
                         ),
                       ),
-                      icon: const Icon(Symbols.license_rounded),
+                      icon: const Icon(MaterialSymbols.license_rounded),
                       label: const Text("View open source licenses"),
                     ),
                   ),
@@ -106,16 +105,16 @@ class _AboutViewState extends State<AboutView> {
                   //   leading: const Icon(SimpleIcons.flutter),
                   //   title: const Text("Flutter"),
                   //   subtitle: Text(localizations.framework),
-                  //   trailing: const Icon(Symbols.open_in_new_rounded),
+                  //   trailing: const Icon(MaterialSymbols.open_in_new_rounded),
                   // ),
                   // ListTile(
                   //   onTap: () => launchUrl(
                   //       Uri.parse("https://m3.material.io")),
                   //   leading:
-                  //       const Icon(Symbols.design_services_rounded),
+                  //       const Icon(MaterialSymbols.design_services_rounded),
                   //   title: const Text("Material Design"),
                   //   subtitle: Text(localizations.design_system),
-                  //   trailing: const Icon(Symbols.open_in_new_rounded),
+                  //   trailing: const Icon(MaterialSymbols.open_in_new_rounded),
                   // ),
                   // ListTile(
                   //   onTap: () => launchUrl(
@@ -124,7 +123,7 @@ class _AboutViewState extends State<AboutView> {
                   //       const Icon(SimpleIcons.materialdesignicons),
                   //   title: const Text("Material Symbols"),
                   //   subtitle: Text(localizations.icons),
-                  //   trailing: const Icon(Symbols.open_in_new_rounded),
+                  //   trailing: const Icon(MaterialSymbols.open_in_new_rounded),
                   // ),
                   // if (settings.developerMode)
                   //   ListTile(
@@ -133,7 +132,7 @@ class _AboutViewState extends State<AboutView> {
                   //     leading: const Icon(SimpleIcons.googlefonts),
                   //     title: const Text("Noto Sans"),
                   //     subtitle: Text(localizations.font),
-                  //     trailing: const Icon(Symbols.open_in_new_rounded),
+                  //     trailing: const Icon(MaterialSymbols.open_in_new_rounded),
                   //   ),
                   // const Divider(),
                   // SectionHeader(localizations.about_view_links),
@@ -143,12 +142,12 @@ class _AboutViewState extends State<AboutView> {
                   //   leading: const Icon(SimpleIcons.github),
                   //   title: Text("GitHub"),
                   //   subtitle: Text("deminearchiver/notes"),
-                  //   trailing: const Icon(Symbols.open_in_new_rounded),
+                  //   trailing: const Icon(MaterialSymbols.open_in_new_rounded),
                   // ),
                   // ListTile(
                   //   onTap: () => Navigator.push(
                   //     context,
-                  //     MaterialRoute.adaptive(
+                  //     MaterialPageRoute(
                   //       builder: (context) => LicensePage(
                   //         applicationIcon: Padding(
                   //           padding: const EdgeInsets.all(8),
@@ -162,11 +161,11 @@ class _AboutViewState extends State<AboutView> {
                   //       ),
                   //     ),
                   //   ),
-                  //   leading: const Icon(Symbols.license_rounded),
+                  //   leading: const Icon(MaterialSymbols.license_rounded),
                   //   subtitle: const Text(copyright),
                   //   title: Text(localizations.about_view_licenses),
                   //   trailing:
-                  //       const Icon(Symbols.navigate_next_rounded),
+                  //       const Icon(MaterialSymbols.navigate_next_rounded),
                   // ),
                 ],
               ),
@@ -212,7 +211,7 @@ class _AboutViewState extends State<AboutView> {
                     LinkCard(
                       onTap: () =>
                           launchUrl(Uri.parse("https://m3.material.io")),
-                      icon: const Icon(Symbols.design_services_rounded),
+                      icon: const Icon(MaterialSymbols.design_services_rounded),
                       title: const Text("Material You"),
                       subtitle: const Text("Design system"),
                       tooltip: "m3.material.io",
@@ -221,7 +220,7 @@ class _AboutViewState extends State<AboutView> {
                       onTap: () => launchUrl(
                         Uri.parse("https://fonts.google.com/icons"),
                       ),
-                      icon: const Icon(Symbols.design_services_rounded),
+                      icon: const Icon(MaterialSymbols.design_services_rounded),
                       title: const Text("Material Symbols"),
                       subtitle: const Text("Icons"),
                       tooltip: "fonts.google.com/icons",
@@ -230,7 +229,7 @@ class _AboutViewState extends State<AboutView> {
                       onTap: () => launchUrl(
                         Uri.parse("https://fleather-editor.github.io"),
                       ),
-                      icon: const Icon(Symbols.font_download_rounded),
+                      icon: const Icon(MaterialSymbols.font_download_rounded),
                       title: const Text("Fleather"),
                       subtitle: const Text("Rich text editor"),
                       tooltip: "fleather-editor.github.io",
@@ -271,11 +270,14 @@ class LinkCard extends StatelessWidget {
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
+          child: Flex.vertical(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconTheme.merge(
-                data: IconThemeData(color: theme.colorScheme.primary, size: 36),
+              IconTheme.mergeWithData(
+                data: IconThemeDataPartial.from(
+                  color: theme.colorScheme.primary,
+                  size: 36,
+                ),
                 child: icon,
               ),
               const SizedBox(height: 8),

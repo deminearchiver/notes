@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/note.dart';
 import 'package:notes/database/models/todo.dart';
@@ -11,7 +10,7 @@ import 'package:notes/views/app/todos.dart';
 import 'package:notes/widgets/nothing_found.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/section_header.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class AppViewHomePage extends StatefulWidget {
   const AppViewHomePage({
@@ -105,7 +104,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
 
   Widget _buildLoadingIndicator() {
     return const SliverFillRemaining(
-      child: Center(child: CircularProgressIndicator()),
+      child: Align.center(child: CircularProgressIndicator(value: null)),
     );
   }
 
@@ -149,9 +148,9 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                       if (notes.isEmpty && todos.isEmpty) {
                         return const SliverFillRemaining(
                           hasScrollBody: false,
-                          child: Center(
+                          child: Align.center(
                             child: NothingFound(
-                              icon: Icon(Symbols.receipt_long_rounded),
+                              icon: Icon(MaterialSymbols.receipt_long_rounded),
                             ),
                           ),
                         );
@@ -190,7 +189,9 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                               localizations.app_home_view_overdue(
                                 overdueTodos.length,
                               ),
-                              icon: const Icon(Symbols.priority_high_rounded),
+                              icon: const Icon(
+                                MaterialSymbols.priority_high_rounded,
+                              ),
                             ),
                           ...overdueTodos.map(
                             (todo) => _buildPadding(
@@ -202,7 +203,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                               localizations.app_home_view_recent(
                                 recentNotes.length,
                               ),
-                              icon: const Icon(Symbols.update_rounded),
+                              icon: const Icon(MaterialSymbols.update_rounded),
                             ),
                           ...recentNotes.map(
                             (note) => _buildPadding(
@@ -215,7 +216,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                                 otherTodos.length,
                               ),
                               icon: const Icon(
-                                Symbols.radio_button_unchecked_rounded,
+                                MaterialSymbols.radio_button_unchecked_rounded,
                               ),
                             ),
                           ...otherTodos.map(
@@ -228,7 +229,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                               localizations.app_home_view_notes(
                                 otherNotes.length,
                               ),
-                              icon: const Icon(Symbols.notes_rounded),
+                              icon: const Icon(MaterialSymbols.notes_rounded),
                             ),
                           ...otherNotes.map(
                             (note) => _buildPadding(
@@ -240,7 +241,9 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
                               localizations.app_home_view_completed(
                                 completedTodos.length,
                               ),
-                              icon: const Icon(Symbols.task_alt_rounded),
+                              icon: const Icon(
+                                MaterialSymbols.task_alt_rounded,
+                              ),
                             ),
                           ...completedTodos.map(
                             (todo) => _buildPadding(

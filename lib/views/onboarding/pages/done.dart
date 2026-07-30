@@ -1,10 +1,9 @@
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/onboarding/scaffold.dart';
 import 'package:provider/provider.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class OnboardingDone extends StatelessWidget {
   const OnboardingDone({super.key});
@@ -13,18 +12,18 @@ class OnboardingDone extends StatelessWidget {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     return OnboardingScaffold(
-      icon: const Icon(Symbols.celebration_rounded),
+      icon: const Icon(MaterialSymbols.celebration_rounded),
       title: localizations.onboarding_done_view_title,
       subtitle: localizations.onboarding_done_view_subtitle,
       actions: [
-        Expanded(
+        Flexible.tight(
           child: TextButton(
             onPressed: OnboardingScope.of(context).back,
             child: Text(localizations.onboarding_back),
           ),
         ),
         const SizedBox(width: 8),
-        Expanded(
+        Flexible.tight(
           child: FilledButton(
             onPressed: () {
               context.read<Settings>().firstRun = false;

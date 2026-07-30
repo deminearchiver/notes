@@ -1,12 +1,11 @@
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/settings/scaffold.dart';
 import 'package:notes/views/settings/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:material/material.dart';
+import 'package:sliver_tools/sliver_tools.dart' show SliverPinnedHeader;
+import 'package:notes/flutter.dart';
 
 class SettingsViewDeveloperPage extends StatefulWidget {
   const SettingsViewDeveloperPage({super.key});
@@ -42,7 +41,7 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
                   vertical: 8,
                 ),
                 leading: Icon(
-                  Symbols.code_rounded,
+                  MaterialSymbols.code_rounded,
                   color: theme.colorScheme.onSecondaryContainer,
                 ),
                 title: Text(
@@ -51,7 +50,7 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
                     color: theme.colorScheme.onSecondaryContainer,
                   ),
                 ),
-                trailing: Switch(
+                trailing: SwitchLegacy(
                   onChanged: (value) => settings.developerMode = value,
                   value: settings.developerMode,
                 ),
@@ -68,7 +67,7 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
               ),
               SettingsListTile(
                 enabled: settings.developerMode,
-                leading: Icon(Symbols.podium_rounded),
+                leading: Icon(MaterialSymbols.podium_rounded),
                 title: Text("Демо записи"),
                 subtitle: Text("Заметки и задачи для презентации"),
                 trailing: FilledButton.tonal(
@@ -81,19 +80,19 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
                         }
                       : null,
                   clipBehavior: Clip.antiAlias,
-                  child: Row(
+                  child: Flex.horizontal(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       AnimatedSize(
                         duration: Durations.medium4,
-                        curve: Easing.emphasized,
+                        curve: Curves.easeInOutCubicEmphasized,
                         alignment: Alignment.centerRight,
                         clipBehavior: Clip.none,
                         child: _createdDemos
                             ? const Padding(
                                 padding: EdgeInsets.only(right: 8),
-                                child: Icon(Symbols.check_rounded),
+                                child: Icon(MaterialSymbols.check_rounded),
                               )
                             : const SizedBox.shrink(),
                       ),
@@ -104,7 +103,7 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
               ),
               SettingsListTile(
                 enabled: settings.developerMode,
-                leading: const Icon(Symbols.delete_forever_rounded),
+                leading: const Icon(MaterialSymbols.delete_forever_rounded),
                 title: Text("Очистить базу данных"),
                 subtitle: Text("Удалить все записи из базы данных"),
                 trailing: OutlinedButton(
@@ -122,7 +121,7 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
               // SettingsListTile.toggle(
               //   onChanged: settings.developerMode ? (value) {} : null,
               //   value: false,
-              //   leading: Icon(Symbols.update_rounded),
+              //   leading: Icon(MaterialSymbols.update_rounded),
               //   title: Text("Авто-обновление"),
               //   subtitle: Text("Обновлять демо-записи при запуске"),
               // ),

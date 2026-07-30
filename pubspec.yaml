@@ -1,4 +1,5 @@
 name: notes
+description: Note-taking and to-dos app built with Flutter.
 version: 1.1.0
 homepage: https://github.com/deminearchiver/notes
 repository: https://github.com/deminearchiver/notes
@@ -16,9 +17,22 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # Path dependencies
+  # Git dependencies (1P)
+  animation:
+    git:
+      url: https://github.com/deminearchiver/dart-flutter-packages.git
+      ref: 2cabf358cb9d954e70ff2f70ffa2962d255d11a4
+      path: packages/framework/animation
+  layout:
+    git:
+      url: https://github.com/deminearchiver/dart-flutter-packages.git
+      ref: 2cabf358cb9d954e70ff2f70ffa2962d255d11a4
+      path: packages/framework/layout
   material:
-    path: ../../material
+    git:
+      url: https://github.com/deminearchiver/dart-flutter-packages.git
+      ref: 2cabf358cb9d954e70ff2f70ffa2962d255d11a4
+      path: packages/framework/material
 
   # Hosted dependencies
   async: ^2.13.1
@@ -30,7 +44,7 @@ dependencies:
   flutter_local_notifications: ^22.2.0
   flutter_markdown: ^0.7.7+1
   flutter_native_splash: ^2.4.8
-  flutter_timezone_plus: ^1.1.3
+  flutter_timezone: ^5.1.0
   freezed_annotation: ^3.1.0
   google_fonts: ^8.2.0
   http: ^1.6.0
@@ -39,9 +53,10 @@ dependencies:
   isar_plus_flutter_libs: ^1.3.7
   isar_plus: ^1.3.7
   json_annotation: ^4.12.0
+  linked_layouts: ^0.6.0
   local_notifier: ^0.1.6
   markdown: ^7.3.1
-  material_symbols_icons: ^4.2960.0
+  meta: ^1.18.0
   package_info_plus: ^10.2.1
   parchment_delta: ^1.0.0
   parchment: ^1.27.0
@@ -53,6 +68,7 @@ dependencies:
   skeletonizer: ^2.1.3
   sliver_tools: ^0.2.12
   timezone: ^0.11.1
+  touch_targets: ^0.5.0
   url_launcher: ^6.3.2
   visibility_detector: ^0.4.0+2
   window_manager: ^0.5.2
@@ -72,7 +88,6 @@ dev_dependencies:
   msix: ^3.18.0
 
 flutter:
-  # generate: true
   uses-material-design: true
   assets:
     - assets/images/

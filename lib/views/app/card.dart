@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:notes/widgets/safe_area.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class ViewCard extends StatefulWidget {
   const ViewCard({super.key, this.shape, required this.child});
@@ -28,7 +28,7 @@ class ViewCardState extends State<ViewCard> {
 
   void openView(WidgetBuilder builder) {
     final navigator = Navigator.of(context);
-    navigator.push(MaterialRoute.sharedAxis(builder: builder));
+    navigator.push(MaterialPageRoute(builder: builder));
     // navigator.push(
     //   _ItemCardRoute(
     //     capturedThemes: InheritedTheme.capture(
@@ -88,8 +88,8 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   Widget buildModalBarrier() {
     final animation = CurvedAnimation(
       parent: this.animation!,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
 
     Widget barrier;
@@ -102,7 +102,7 @@ class _ItemCardRoute<T> extends PageRoute<T> {
           end:
               barrierColor, // changedInternalState is called if barrierColor updates
         ).chain(
-          CurveTween(barrierCurve),
+          CurveTween(curve: barrierCurve),
         ), // changedInternalState is called if barrierCurve updates
       );
       barrier = AnimatedModalBarrier(
@@ -141,14 +141,14 @@ class _ItemCardRoute<T> extends PageRoute<T> {
       tween: Tween<double>(
         begin: 1,
         end: 0,
-      ).chain(CurveTween(const Interval(0, 0.5))),
+      ).chain(CurveTween(curve: const Interval(0, 0.5))),
       weight: 1,
     ),
     TweenSequenceItem(
       tween: Tween<double>(
         begin: 0,
         end: 1,
-      ).chain(CurveTween(const Interval(0.5, 1))),
+      ).chain(CurveTween(curve: const Interval(0.5, 1))),
       weight: 1,
     ),
   ]);
@@ -205,8 +205,8 @@ class _ItemCardRoute<T> extends PageRoute<T> {
   ) {
     final animation = CurvedAnimation(
       parent: linearAnimation,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
 
     final navigatorBox =

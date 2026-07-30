@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 @staticIconProvider
 abstract final class SegoeIcons {

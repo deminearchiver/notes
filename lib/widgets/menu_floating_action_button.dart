@@ -1,6 +1,5 @@
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/widgets/intrinsic_align.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 enum _MenuFloatingActionButtonVariant { regular, large }
 
@@ -131,8 +130,8 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
   ) {
     final animation = CurvedAnimation(
       parent: linearAnimation,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
 
     final theme = Theme.of(context);
@@ -148,8 +147,8 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
     final iconSizeTween = Tween<double>(begin: 36, end: 24);
     final linearTween = Tween<double>(begin: 0, end: 1);
 
-    final enterInterval = CurveTween(const Interval(0, 0.5));
-    final exitInterval = CurveTween(const Interval(0.5, 1));
+    final enterInterval = CurveTween(curve: const Interval(0, 0.5));
+    final exitInterval = CurveTween(curve: const Interval(0.5, 1));
     final enterOpacityTween = Tween<double>(
       begin: 1,
       end: 0,
@@ -171,15 +170,15 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
             offset:
                 box.localToGlobal(box.size.bottomRight(Offset.zero)) -
                 navigatorBox.size.bottomRight(Offset.zero),
-            child: Card.elevated(
+            child: Card(
               shape: RoundedRectangleBorder(borderRadius: borderRadius),
               child: IntrinsicWidth(
-                child: Column(
+                child: Flex.vertical(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ...<(IconData, String)>[
-                      (Symbols.note_add_rounded, "Заметка"),
-                      (Symbols.add_task_rounded, "Задача"),
+                      (MaterialSymbols.note_add_rounded, "Заметка"),
+                      (MaterialSymbols.add_task_rounded, "Задача"),
                     ].map(
                       (item) => IntrinsicAlign(
                         alignment: Alignment.bottomCenter,
@@ -188,14 +187,14 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                         child: InkWell(
                           onTap: () => Navigator.pushReplacement(
                             context,
-                            MaterialRoute.adaptive(
+                            MaterialPageRoute(
                               builder: (context) => Scaffold(appBar: AppBar()),
                             ),
                           ),
                           child: Padding(
                             // padding: const EdgeInsets.only(left: 16, right: 20),
                             padding: const EdgeInsets.fromLTRB(16, 16, 20, 16),
-                            child: Row(
+                            child: Flex.horizontal(
                               children: [
                                 Icon(
                                   item.$1,
@@ -229,10 +228,10 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                               16,
                             ),
                           ).evaluate(animation),
-                          child: Row(
+                          child: Flex.horizontal(
                             children: [
-                              IconTheme.merge(
-                                data: IconThemeData(
+                              IconTheme.mergeWithData(
+                                data: IconThemeDataPartial.from(
                                   size: iconSize,
                                   color: theme.colorScheme.onPrimaryContainer,
                                 ),
@@ -241,7 +240,9 @@ class _MenuFloatingActionButtonRoute extends PopupRoute {
                                       ? exitOpacityTween.evaluate(animation)
                                       : enterOpacityTween.evaluate(animation),
                                   child: animation.value >= 0.5
-                                      ? const Icon(Symbols.arrow_back_rounded)
+                                      ? const Icon(
+                                          MaterialSymbols.arrow_back_rounded,
+                                        )
                                       : icon,
                                 ),
                               ),

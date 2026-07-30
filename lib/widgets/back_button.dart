@@ -1,5 +1,4 @@
-import 'package:material/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class _BackIconButtonTag {
@@ -18,13 +17,10 @@ class BackIconButton extends StatelessWidget {
     final theme = Theme.of(context);
 
     final navigator = Navigator.of(context);
-    return Hero(
-      tag: heroTag ?? const _BackIconButtonTag(),
-      child: IconButton(
-        onPressed: navigator.canPop() ? navigator.pop : null,
-        icon: const Icon(Symbols.arrow_back_rounded),
-        color: theme.colorScheme.onSurface,
-      ),
+    return IconButton(
+      onPressed: navigator.canPop() ? navigator.pop : null,
+      icon: const Icon(MaterialSymbols.arrow_back_rounded),
+      color: theme.colorScheme.onSurface,
     );
   }
 }

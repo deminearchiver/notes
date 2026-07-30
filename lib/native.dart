@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class Ringtone {
   const Ringtone({required this.id, required this.title, required this.uri});
@@ -43,16 +43,17 @@ class NativeService {
   }
 
   static Future<bool> setWindowCaptionColor(Color color) async {
-    if (!Platform.isWindows) return false;
-    try {
-      await platform.invokeMethod(
-        "setWindowCaptionColor",
-        Uint8List.fromList([color.red, color.green, color.blue]),
-      );
-      return true;
-    } on PlatformException catch (error) {
-      debugPrint(error.toString());
-      return false;
-    }
+    return false;
+    // if (!Platform.isWindows) return false;
+    // try {
+    //   await platform.invokeMethod(
+    //     "setWindowCaptionColor",
+    //     Uint8List.fromList([color.red, color.green, color.blue]),
+    //   );
+    //   return true;
+    // } on PlatformException catch (error) {
+    //   debugPrint(error.toString());
+    //   return false;
+    // }
   }
 }

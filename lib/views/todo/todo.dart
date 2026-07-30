@@ -1,11 +1,10 @@
 import 'package:intl/intl.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/constants/constants.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/widgets/section_header.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class TodoView extends StatefulWidget {
   const TodoView({super.key, this.todo});
@@ -102,7 +101,7 @@ class _TodoViewState extends State<TodoView> {
             leadingWidth: 64,
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(Symbols.arrow_back_rounded),
+              icon: const Icon(MaterialSymbols.arrow_back_rounded),
             ),
             title: Builder(
               builder: (context) => TextField(
@@ -119,7 +118,7 @@ class _TodoViewState extends State<TodoView> {
             //   const SizedBox(width: 16),
             //   FilledButton(
             //     onPressed: () {},
-            //     child: Icon(Symbols.save_rounded),
+            //     child: Icon(MaterialSymbols.save_rounded),
             //   ),
             //   const SizedBox(width: 16),
             // ],
@@ -127,7 +126,7 @@ class _TodoViewState extends State<TodoView> {
             //   IconButton(
             //     onPressed: () {},
             //     icon: const Icon(
-            //       Symbols.share_rounded,
+            //       MaterialSymbols.share_rounded,
             //       fill: 1,
             //     ),
             //     tooltip: "Поделиться",
@@ -137,7 +136,7 @@ class _TodoViewState extends State<TodoView> {
             //     message: "Сохранить",
             //     child: FilledButton(
             //       onPressed: _save,
-            //       child: const Icon(Symbols.save_rounded),
+            //       child: const Icon(MaterialSymbols.save_rounded),
             //     ),
             //   ),
             //   const SizedBox(width: 16),
@@ -168,12 +167,12 @@ class _TodoViewState extends State<TodoView> {
                   vertical: 8,
                 ),
                 child: Card.outlined(
-                  child: Column(
+                  child: Flex.vertical(
                     children: [
                       ListTile(
                         onTap: () => _setTodo(completed: !_todo.completed),
-                        leading: const Icon(Symbols.task_alt_rounded),
-                        trailing: Checkbox(
+                        leading: const Icon(MaterialSymbols.task_alt_rounded),
+                        trailing: CheckboxLegacy(
                           onChanged: (value) => _setTodo(completed: value),
                           value: _todo.completed,
                         ),
@@ -181,9 +180,11 @@ class _TodoViewState extends State<TodoView> {
                       ),
                       ListTile(
                         onTap: () => _setTodo(important: !_todo.important),
-                        leading: const Icon(Symbols.priority_high_rounded),
+                        leading: const Icon(
+                          MaterialSymbols.priority_high_rounded,
+                        ),
                         title: Text(localizations.todo_view_important),
-                        trailing: Switch(
+                        trailing: SwitchLegacy(
                           onChanged: (value) => _setTodo(important: value),
                           value: _todo.important,
                         ),
@@ -203,20 +204,20 @@ class _TodoViewState extends State<TodoView> {
                       horizontal: 16,
                       vertical: 16,
                     ),
-                    child: Column(
+                    child: Flex.vertical(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Row(
+                        Flex.horizontal(
                           children: [
                             const Padding(
                               padding: EdgeInsets.only(left: 8, right: 16),
                               child: Icon(
-                                Symbols.notifications_active_rounded,
+                                MaterialSymbols.notifications_active_rounded,
                                 size: 32,
                               ),
                             ),
-                            Expanded(
-                              child: Column(
+                            Flexible.tight(
+                              child: Flex.vertical(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   Text(
@@ -238,9 +239,9 @@ class _TodoViewState extends State<TodoView> {
                           ],
                         ),
                         const SizedBox(height: 16),
-                        Row(
+                        Flex.horizontal(
                           children: [
-                            Expanded(
+                            Flexible.tight(
                               child: FilledButton.tonalIcon(
                                 onPressed: () => showDatePicker(
                                   context: context,
@@ -248,14 +249,16 @@ class _TodoViewState extends State<TodoView> {
                                   firstDate: _now,
                                   lastDate: kMaxDate,
                                 ),
-                                icon: const Icon(Symbols.date_range_rounded),
+                                icon: const Icon(
+                                  MaterialSymbols.date_range_rounded,
+                                ),
                                 label: Text(
                                   localizations.todo_view_reminder_date,
                                 ),
                               ),
                             ),
                             const SizedBox(width: 8),
-                            Expanded(
+                            Flexible.tight(
                               child: FilledButton.tonalIcon(
                                 onPressed: () async {
                                   final result = await showTimePicker(
@@ -273,7 +276,9 @@ class _TodoViewState extends State<TodoView> {
                                     );
                                   }
                                 },
-                                icon: const Icon(Symbols.schedule_rounded),
+                                icon: const Icon(
+                                  MaterialSymbols.schedule_rounded,
+                                ),
                                 label: Text(
                                   localizations.todo_view_reminder_time,
                                 ),

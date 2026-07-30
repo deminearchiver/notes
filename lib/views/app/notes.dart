@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:intl/intl.dart';
 import 'package:isar_plus/isar_plus.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/note.dart';
 import 'package:notes/l10n/l10n.dart';
@@ -13,7 +12,7 @@ import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class AppViewNotesPage extends StatefulWidget {
   const AppViewNotesPage({
@@ -124,17 +123,19 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                         types: [
                           SortType(
                             value: NotesSortBy.title,
-                            icon: const Icon(Symbols.sort_by_alpha_rounded),
+                            icon: const Icon(
+                              MaterialSymbols.sort_by_alpha_rounded,
+                            ),
                             label: localizations.app_notes_view_sort_title,
                           ),
                           SortType(
                             value: NotesSortBy.createdAt,
-                            icon: const Icon(Symbols.schedule_rounded),
+                            icon: const Icon(MaterialSymbols.schedule_rounded),
                             label: localizations.app_notes_view_sort_created,
                           ),
                           SortType(
                             value: NotesSortBy.updatedAt,
-                            icon: const Icon(Symbols.history_rounded),
+                            icon: const Icon(MaterialSymbols.history_rounded),
                             label: localizations.app_notes_view_sort_modified,
                           ),
                         ],
@@ -148,16 +149,20 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                       builder: (context, snapshot) {
                         if (!snapshot.hasData) {
                           return const SliverFillRemaining(
-                            child: Center(child: CircularProgressIndicator()),
+                            child: Align.center(
+                              child: CircularProgressIndicator(value: null),
+                            ),
                           );
                         }
                         final notes = snapshot.data!;
                         return notes.isEmpty
                             ? const SliverFillRemaining(
                                 hasScrollBody: false,
-                                child: Center(
+                                child: Align.center(
                                   child: NothingFound(
-                                    icon: Icon(Symbols.find_in_page_rounded),
+                                    icon: Icon(
+                                      MaterialSymbols.find_in_page_rounded,
+                                    ),
                                   ),
                                 ),
                               )
@@ -214,17 +219,17 @@ class _NoteCardState extends State<NoteCard> {
       context: context,
       clipBehavior: Clip.antiAlias,
       showDragHandle: true,
-      builder: (context) => Column(
+      builder: (context) => Flex.vertical(
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             onTap: () => Navigator.pop(context, "share"),
-            leading: const Icon(Symbols.share_rounded, fill: 1),
+            leading: const Icon(MaterialSymbols.share_rounded, fill: 1),
             title: Text(localizations.share),
           ),
           ListTile(
             onTap: () => Navigator.pop(context, "delete"),
-            leading: const Icon(Symbols.delete_rounded),
+            leading: const Icon(MaterialSymbols.delete_rounded),
             title: Text(localizations.delete),
           ),
           const SizedBox(height: 28),
@@ -258,13 +263,13 @@ class _NoteCardState extends State<NoteCard> {
         onLongPress: () => _showBottomSheet(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Column(
+          child: Flex.vertical(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Flex.horizontal(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  Flexible.tight(
                     child: Text(
                       _note.title,
                       maxLines: 1,

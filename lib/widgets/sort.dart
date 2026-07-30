@@ -1,9 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/utils/extensions.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:isar_plus/isar_plus.dart';
-import 'package:material_symbols_icons/symbols.dart';
 
 class SortDetails<T> {
   const SortDetails({required this.sort, required this.order});
@@ -34,7 +33,7 @@ class SortRow<T> extends StatelessWidget {
     final localizations = AppLocalizations.of(context);
     return Padding(
       padding: padding.copyWith(right: 0),
-      child: Row(
+      child: Flex.horizontal(
         children: [
           IconButton(
             onPressed: () => onSortChanged(
@@ -43,20 +42,20 @@ class SortRow<T> extends StatelessWidget {
             icon: AnimatedRotation(
               turns: order == Sort.asc ? 0 : 0.5,
               duration: Durations.long2,
-              curve: Easing.emphasized,
-              child: const Icon(Symbols.north_rounded),
+              curve: Curves.easeInOutCubicEmphasized,
+              child: const Icon(MaterialSymbols.north_rounded),
             ),
             tooltip: order == Sort.asc
                 ? localizations.sort_ascending
                 : localizations.sort_descending,
           ),
           VerticalDivider(color: theme.colorScheme.onSurface),
-          Expanded(
+          Flexible.tight(
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               padding: EdgeInsets.only(right: padding.right),
-              child: Row(
+              child: Flex.horizontal(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...types.mapIndexed(
@@ -72,8 +71,8 @@ class SortRow<T> extends StatelessWidget {
                         selected: selected == type.value,
                         showCheckmark: false,
                         avatar: type.icon != null
-                            ? IconTheme.merge(
-                                data: IconThemeData(
+                            ? IconTheme.mergeWithData(
+                                data: IconThemeDataPartial.from(
                                   color: theme.colorScheme.onSecondaryContainer,
                                 ),
                                 child: type.icon!,

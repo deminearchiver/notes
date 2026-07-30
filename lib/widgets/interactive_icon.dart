@@ -1,6 +1,6 @@
 // import 'package:flutter/foundation.dart';
 // import 'package:notes/widgets/icon.dart';
-// import 'package:material/material.dart';
+// import 'package:notes/flutter.dart';
 
 // class InteractiveIconScope extends StatefulWidget {
 //   const InteractiveIconScope({
@@ -18,27 +18,27 @@
 //   @override
 //   State<InteractiveIconScope> createState() => _InteractiveIconScopeState();
 
-//   static Set<MaterialState>? maybeOf(BuildContext context) {
+//   static Set<WidgetState>? maybeOf(BuildContext context) {
 //     return context
 //         .dependOnInheritedWidgetOfExactType<_InteractiveIconProvider>()
 //         ?.states;
 //   }
 
-//   static Set<MaterialState> of(BuildContext context) {
+//   static Set<WidgetState> of(BuildContext context) {
 //     final result = maybeOf(context);
 //     return result!;
 //   }
 // }
 
 // class _InteractiveIconScopeState extends State<InteractiveIconScope> {
-//   late MaterialStatesController _statesController;
+//   late WidgetStatesController _statesController;
 
 //   @override
 //   void initState() {
 //     super.initState();
-//     _statesController = MaterialStatesController({
-//       if (widget.selected) MaterialState.selected,
-//       if (!widget.enabled) MaterialState.disabled,
+//     _statesController = WidgetStatesController({
+//       if (widget.selected) WidgetState.selected,
+//       if (!widget.enabled) WidgetState.disabled,
 //     })
 //       ..addListener(_statesListener);
 //   }
@@ -57,23 +57,23 @@
 //   void didUpdateWidget(InteractiveIconScope oldWidget) {
 //     super.didUpdateWidget(oldWidget);
 //     if (oldWidget.selected != widget.selected) {
-//       _statesController.update(MaterialState.selected, widget.selected);
+//       _statesController.update(WidgetState.selected, widget.selected);
 //     }
 //     if (oldWidget.enabled != widget.enabled) {
-//       _statesController.update(MaterialState.disabled, !widget.enabled);
+//       _statesController.update(WidgetState.disabled, !widget.enabled);
 //     }
 //   }
 
 //   @override
 //   Widget build(BuildContext context) {
 //     return MouseRegion(
-//       onEnter: (event) => _statesController.update(MaterialState.hovered, true),
-//       onExit: (event) => _statesController.update(MaterialState.hovered, false),
+//       onEnter: (event) => _statesController.update(WidgetState.hovered, true),
+//       onExit: (event) => _statesController.update(WidgetState.hovered, false),
 //       child: Listener(
 //         onPointerDown: (event) =>
-//             _statesController.update(MaterialState.pressed, true),
+//             _statesController.update(WidgetState.pressed, true),
 //         onPointerUp: (event) =>
-//             _statesController.update(MaterialState.pressed, false),
+//             _statesController.update(WidgetState.pressed, false),
 //         child: _InteractiveIconProvider(
 //           states: _statesController.value,
 //           child: widget.child,
@@ -90,7 +90,7 @@
 //     required super.child,
 //   });
 
-//   final Set<MaterialState> states;
+//   final Set<WidgetState> states;
 
 //   @override
 //   bool updateShouldNotify(_InteractiveIconProvider oldWidget) {
@@ -109,9 +109,9 @@
 
 //   final IconData icon;
 
-//   final MaterialStateProperty<Color?>? color;
-//   final MaterialStateProperty<double>? weight;
-//   final MaterialStateProperty<double>? fill;
+//   final WidgetStateProperty<Color?>? color;
+//   final WidgetStateProperty<double>? weight;
+//   final WidgetStateProperty<double>? fill;
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -142,29 +142,29 @@
 //   final BuildContext context;
 //   ThemeData get theme => Theme.of(context);
 
-//   MaterialStateProperty<Color?> get color =>
-//       MaterialStateProperty.resolveWith((states) {
-//         if (states.contains(MaterialState.disabled)) return theme.disabledColor;
+//   WidgetStateProperty<Color?> get color =>
+//       WidgetStateProperty.resolveWith((states) {
+//         if (states.contains(WidgetState.disabled)) return theme.disabledColor;
 //         return null;
 //       });
-//   MaterialStateProperty<double> get weight =>
-//       MaterialStateProperty.resolveWith((states) {
-//         if (states.contains(MaterialState.selected)) {
-//           return states.contains(MaterialState.pressed)
+//   WidgetStateProperty<double> get weight =>
+//       WidgetStateProperty.resolveWith((states) {
+//         if (states.contains(WidgetState.selected)) {
+//           return states.contains(WidgetState.pressed)
 //               ? 300
-//               : states.contains(MaterialState.hovered)
+//               : states.contains(WidgetState.hovered)
 //                   ? 400
 //                   : 700;
 //         }
-//         return states.contains(MaterialState.pressed)
+//         return states.contains(WidgetState.pressed)
 //             ? 200
-//             : states.contains(MaterialState.hovered)
+//             : states.contains(WidgetState.hovered)
 //                 ? 700
 //                 : 400;
 //       });
-//   MaterialStateProperty<double> get fill =>
-//       MaterialStateProperty.resolveWith((states) {
-//         if (states.contains(MaterialState.selected)) return 1;
+//   WidgetStateProperty<double> get fill =>
+//       WidgetStateProperty.resolveWith((states) {
+//         if (states.contains(WidgetState.selected)) return 1;
 //         return 0;
 //       });
 // }

@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/widgets/back_button.dart';
 
 class OnboardingScaffold extends StatelessWidget {
@@ -29,15 +28,18 @@ class OnboardingScaffold extends StatelessWidget {
 
     final heading = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
+      child: Flex.vertical(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (icon != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 16),
-              child: IconTheme.merge(
-                data: IconThemeData(size: 36, color: theme.colorScheme.primary),
+              child: IconTheme.mergeWithData(
+                data: IconThemeDataPartial.from(
+                  size: 36,
+                  color: theme.colorScheme.primary,
+                ),
                 child: icon!,
               ),
             ),
@@ -65,15 +67,15 @@ class OnboardingScaffold extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: content != null ? 64 : 16, bottom: 16),
-          child: Column(
+          child: Flex.vertical(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (content == null) Expanded(child: heading),
+              if (content == null) Flexible.tight(child: heading),
               if (content != null) ...[
                 heading,
                 const SizedBox(height: 16),
-                Expanded(child: SingleChildScrollView(child: content!)),
-                // const Spacer(),
+                Flexible.tight(child: SingleChildScrollView(child: content!)),
+                // const Flexible.space(),
               ],
               if (disclaimer != null) ...[
                 Text(
@@ -90,7 +92,7 @@ class OnboardingScaffold extends StatelessWidget {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: Row(children: actions),
+                child: Flex.horizontal(children: actions),
               ),
             ],
           ),

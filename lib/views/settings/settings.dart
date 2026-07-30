@@ -1,5 +1,4 @@
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/settings/pages/developer.dart';
@@ -9,7 +8,7 @@ import 'package:notes/views/about/about.dart';
 import 'package:notes/widgets/dialog/language_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:markdown/markdown.dart' as md;
 import 'package:url_launcher/url_launcher.dart';
@@ -48,7 +47,7 @@ class _SettingsViewState extends State<SettingsView> {
       //                     builder: (context) => AlertDialog(
       //                       title: const Text("Обновление"),
       //                       content: const SingleChildScrollView(
-      //                         child: Column(
+      //                         child: Flex.vertical(
       //                           crossAxisAlignment: CrossAxisAlignment.stretch,
       //                           children: [
       //                             Text("Найдена новая версия!"),
@@ -72,14 +71,14 @@ class _SettingsViewState extends State<SettingsView> {
       //                     ),
       //                   );
       //                 },
-      //                 icon: const Icon(Symbols.update_rounded),
+      //                 icon: const Icon(MaterialSymbols.update_rounded),
       //               ),
       //               const SizedBox(width: 16),
       //             ],
       children: [
         // SettingsListTile.topLevel(
         //   leading: const Icon(
-        //     Symbols.account_circle_rounded,
+        //     MaterialSymbols.account_circle_rounded,
         //     fill: 1,
         //     size: 36,
         //   ),
@@ -89,7 +88,7 @@ class _SettingsViewState extends State<SettingsView> {
         //   ),
         //   trailing: FilledButton(
         //     onPressed: _showAccountPage,
-        //     child: const Icon(Symbols.login_rounded),
+        //     child: const Icon(MaterialSymbols.login_rounded),
         //   ),
         // ),
         // SettingsListTile.topLevel(
@@ -104,7 +103,7 @@ class _SettingsViewState extends State<SettingsView> {
         //   trailing: FilledButton.tonal(
         //     onPressed: _showAccountPage,
         //     // child: Text("Параметры"),
-        //     child: const Icon(Symbols.settings_rounded),
+        //     child: const Icon(MaterialSymbols.settings_rounded),
         //   ),
         // ),
         SettingsSectionHeader(localizations.settings_view_options),
@@ -112,52 +111,52 @@ class _SettingsViewState extends State<SettingsView> {
         //   SettingsListTile.topLevel(
         //     onTap: () => Navigator.push(
         //       context,
-        //       MaterialRoute.sharedAxis(
+        //       MaterialPageRoute(
         //         builder: (context) => const SettingsViewGeneralPage(),
         //       ),
         //     ),
-        //     leading: const Icon(Symbols.settings_rounded),
+        //     leading: const Icon(MaterialSymbols.settings_rounded),
         //     title: Text(localizations.settings_general_view),
         //     subtitle: Text(localizations.settings_general_view_description),
-        //     trailing: const Icon(Symbols.navigate_next_rounded),
+        //     trailing: const Icon(MaterialSymbols.navigate_next_rounded),
         //   ),
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialRoute.sharedAxis(
+            MaterialPageRoute(
               builder: (context) => const SettingsViewAppearancePage(),
             ),
           ),
-          leading: const Icon(Symbols.brush_rounded, fill: 1),
+          leading: const Icon(MaterialSymbols.brush_rounded, fill: 1),
           title: Text(localizations.settings_appearance_view),
           subtitle: Text(localizations.settings_appearance_view_description),
-          trailing: const Icon(Symbols.navigate_next_rounded),
+          trailing: const Icon(MaterialSymbols.navigate_next_rounded),
         ),
         SettingsSectionHeader(localizations.settings_view_other),
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialRoute.sharedAxis(builder: (context) => const AboutView()),
+            MaterialPageRoute(builder: (context) => const AboutView()),
           ),
-          leading: const Icon(Symbols.info_rounded),
+          leading: const Icon(MaterialSymbols.info_rounded),
           title: Text(localizations.settings_view_about),
           subtitle: Text(localizations.settings_view_about_description),
-          trailing: const Icon(Symbols.navigate_next_rounded),
+          trailing: const Icon(MaterialSymbols.navigate_next_rounded),
         ),
         // SettingsListTile(
         //   onTap: () => settings.developerMode = !settings.developerMode,
-        //   leading: const Icon(Symbols.code_rounded),
+        //   leading: const Icon(MaterialSymbols.code_rounded),
         //   title: Text(localizations.settings_view_developer_mode),
         //   subtitle:
         //       Text(localizations.settings_view_developer_mode_description),
-        //   trailing: Switch(
+        //   trailing: SwitchLegacy(
         //     onChanged: (value) => settings.developerMode = value,
         //     value: settings.developerMode,
         //   ),
         // ),
         // if (settings.developerMode)
         //   SettingsListTile(
-        //     leading: const Icon(Symbols.podium_rounded),
+        //     leading: const Icon(MaterialSymbols.podium_rounded),
         //     title: Text(localizations.settings_view_demo_mode),
         //     subtitle: Text(localizations.settings_view_demo_mode_description),
         //     trailing: FilledButton(
@@ -167,7 +166,7 @@ class _SettingsViewState extends State<SettingsView> {
         //   ),
         // if (settings.developerMode)
         //   SettingsListTile(
-        //     leading: const Icon(Symbols.clear_all_rounded),
+        //     leading: const Icon(MaterialSymbols.clear_all_rounded),
         //     title: Text(localizations.settings_view_clear_database),
         //     subtitle:
         //         Text(localizations.settings_view_clear_database_description),
@@ -179,23 +178,23 @@ class _SettingsViewState extends State<SettingsView> {
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
             context,
-            MaterialRoute.sharedAxis(
+            MaterialPageRoute(
               builder: (context) => const SettingsViewDeveloperPage(),
             ),
           ),
-          leading: const Icon(Symbols.code_rounded),
+          leading: const Icon(MaterialSymbols.code_rounded),
           title: Text("Для разработчиков"),
           subtitle: Text("Продвинутая функциональность"),
-          trailing: const Icon(Symbols.navigate_next_rounded),
+          trailing: const Icon(MaterialSymbols.navigate_next_rounded),
         ),
         const SizedBox(height: 16),
-        Center(
+        Align.center(
           child: TextButton.icon(
             onPressed: () async {
               final result = await showDialog<bool?>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  icon: const Icon(Symbols.reset_wrench_rounded),
+                  icon: const Icon(MaterialSymbols.reset_wrench_rounded),
                   title: Text(localizations.reset_settings),
                   content: Text(localizations.reset_settings_confirmation),
                   actions: [
@@ -225,7 +224,7 @@ class _SettingsViewState extends State<SettingsView> {
                 );
               }
             },
-            icon: const Icon(Symbols.reset_wrench_rounded),
+            icon: const Icon(MaterialSymbols.reset_wrench_rounded),
             label: Text(localizations.reset_settings),
           ),
         ),
@@ -269,7 +268,7 @@ class SettingsViewAppearancePage extends StatelessWidget {
       children: [
         SettingsListTile(
           onTap: () => _chooseLanguage(context),
-          leading: const Icon(Symbols.language_rounded),
+          leading: const Icon(MaterialSymbols.language_rounded),
           title: Text(localizations.settings_appearance_view_language),
           subtitle: Text(
             localizations.locale_name(
@@ -279,7 +278,7 @@ class SettingsViewAppearancePage extends StatelessWidget {
         ),
         const Divider(),
         SettingsListTile(
-          leading: const Icon(Symbols.brightness_6_rounded),
+          leading: const Icon(MaterialSymbols.brightness_6_rounded),
           title: Text(localizations.settings_appearance_view_theme_mode),
         ),
         Padding(
@@ -291,19 +290,19 @@ class SettingsViewAppearancePage extends StatelessWidget {
               segments: [
                 ButtonSegment(
                   value: ThemeMode.light,
-                  icon: const Icon(Symbols.light_mode_rounded),
+                  icon: const Icon(MaterialSymbols.light_mode_rounded),
                   label: Text(localizations.theme_light),
                   tooltip: localizations.theme_light_tooltip,
                 ),
                 ButtonSegment(
                   value: ThemeMode.system,
-                  icon: const Icon(Symbols.auto_mode_rounded),
+                  icon: const Icon(MaterialSymbols.auto_mode_rounded),
                   label: Text(localizations.theme_auto),
                   tooltip: localizations.theme_auto_tooltip,
                 ),
                 ButtonSegment(
                   value: ThemeMode.dark,
-                  icon: const Icon(Symbols.dark_mode_rounded),
+                  icon: const Icon(MaterialSymbols.dark_mode_rounded),
                   label: Text(localizations.theme_dark),
                   tooltip: localizations.theme_dark_tooltip,
                 ),
@@ -368,7 +367,7 @@ class _SettingsViewChangelogPageState extends State<SettingsViewChangelogPage> {
       actions: [
         IconButton(
           onPressed: () => launchUrl(_changelogUrl),
-          icon: const Icon(Symbols.open_in_new_rounded),
+          icon: const Icon(MaterialSymbols.open_in_new_rounded),
         ),
         const SizedBox(width: 16),
       ],
@@ -378,7 +377,7 @@ class _SettingsViewChangelogPageState extends State<SettingsViewChangelogPage> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return SliverFillRemaining(
-                child: Center(
+                child: Align.center(
                   child: Text(
                     "Failed to load changelog!\n"
                     "${snapshot.error}",
@@ -401,7 +400,9 @@ class _SettingsViewChangelogPageState extends State<SettingsViewChangelogPage> {
                     ),
                   )
                 : const SliverFillRemaining(
-                    child: Center(child: CircularProgressIndicator()),
+                    child: Align.center(
+                      child: CircularProgressIndicator(value: null),
+                    ),
                   );
           },
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 import 'pages/welcome.dart';
 
@@ -40,7 +40,7 @@ class OnboardingState extends State<OnboardingScope> {
 
   Future<T?> next<T>(Widget child) {
     return _navigatorKey.currentState!.push<T>(
-      MaterialRoute.sharedAxis(builder: (context) => child),
+      MaterialPageRoute(builder: (context) => child),
     );
   }
 
@@ -54,19 +54,14 @@ class OnboardingState extends State<OnboardingScope> {
 
   @override
   Widget build(BuildContext context) {
-    return HeroControllerScope(
-      controller: _heroController,
-      child: Navigator(
-        key: _navigatorKey,
-        observers: [_heroController],
-        onGenerateInitialRoutes: (navigator, initialRoute) {
-          return [
-            MaterialRoute.sharedAxis(
-              builder: (context) => const OnboardingWelcome(),
-            ),
-          ];
-        },
-      ),
+    return Navigator(
+      key: _navigatorKey,
+      observers: [_heroController],
+      onGenerateInitialRoutes: (navigator, initialRoute) {
+        return [
+          MaterialPageRoute(builder: (context) => const OnboardingWelcome()),
+        ];
+      },
     );
   }
 }

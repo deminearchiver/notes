@@ -1,5 +1,5 @@
 import 'package:fleather/fleather.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
@@ -10,8 +10,8 @@ class AppTheme {
       // visualDensity: VisualDensity.standard,
       // platform: kDebugMode ? TargetPlatform.android : null,
       searchBarTheme: const SearchBarThemeData(
-        padding: MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
-        shadowColor: MaterialStateColor.transparent,
+        padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
+        shadowColor: WidgetStateColor.transparent,
       ),
     );
   }

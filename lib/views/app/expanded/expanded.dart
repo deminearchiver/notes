@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:intl/intl.dart';
-import 'package:material/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/note.dart';
 import 'package:notes/l10n/l10n.dart';
@@ -10,7 +9,6 @@ import 'package:notes/views/note/note.dart';
 import 'package:notes/widgets/dense_box.dart';
 import 'package:notes/widgets/title_bar.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:sliver_tools/sliver_tools.dart';
 
 const _kResizeDuration = Durations.long4;
 
@@ -43,38 +41,39 @@ class _ExpandedAppState extends State<ExpandedApp> {
 
   @override
   Widget build(BuildContext context) {
-    final media = MediaQuery.of(context);
+    final windowWidthSizeClass = WindowWidthSizeClass.of(context);
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
 
     final destinations = [
       AdaptiveDestination(
-        icon: const Icon.outlined(Symbols.home_rounded),
-        selectedIcon: const Icon.filled(Symbols.home_rounded),
+        icon: const Icon(MaterialSymbols.home_rounded, fill: 0.0),
+        selectedIcon: const Icon(MaterialSymbols.home_rounded, fill: 1.0),
         label: localizations.app_home_view,
       ),
       AdaptiveDestination(
-        icon: const Icon(Symbols.notes_rounded),
+        icon: const Icon(MaterialSymbols.notes_rounded),
         label: localizations.app_notes_view,
       ),
       AdaptiveDestination(
-        icon: const Icon(Symbols.task_alt_rounded),
+        icon: const Icon(MaterialSymbols.task_alt_rounded),
         label: localizations.app_todos_view,
       ),
-      if (media.windowClass > WindowClass.compact)
+      if (windowWidthSizeClass > WindowWidthSizeClass.compact)
         AdaptiveDestination(
-          icon: const Icon(Symbols.settings_rounded),
-          selectedIcon: const Icon.filled(Symbols.settings_rounded),
+          icon: const Icon(MaterialSymbols.settings_rounded),
+          selectedIcon: const Icon(MaterialSymbols.settings_rounded, fill: 1.0),
           label: localizations.settings_view,
         ),
     ];
 
-    final backgroundColor = media.windowClass >= WindowClass.medium
+    final backgroundColor = windowWidthSizeClass >= WindowWidthSizeClass.medium
         ? theme.colorScheme.surfaceContainer
         : theme.colorScheme.surface;
 
-    final useNavigationRail = media.windowClass > WindowClass.medium;
-    // &&    media.windowClass < WindowClass.extraLarge;
+    final useNavigationRail =
+        windowWidthSizeClass > WindowWidthSizeClass.medium;
+    // &&    windowWidthSizeClass < WindowWidthSizeClass.extraLarge;
 
     final navigationDrawer = NavigationDrawer(
       onDestinationSelected: _setPage,
@@ -86,24 +85,24 @@ class _ExpandedAppState extends State<ExpandedApp> {
     );
     final navigationBar = AnimatedAlign(
       duration: _kResizeDuration,
-      curve: Easing.emphasized,
+      curve: Curves.easeInOutCubicEmphasized,
       alignment: Alignment.topCenter,
-      heightFactor: media.windowClass <= WindowClass.medium ? 1 : 0,
+      heightFactor: windowWidthSizeClass <= WindowWidthSizeClass.medium ? 1 : 0,
       child: NavigationBar(
         onDestinationSelected: _setPage,
         selectedIndex: _page,
-        destinations: destinations.toBarDestinations(),
+        destinations: destinations.toBarDestinations().toList(growable: false),
       ),
     );
 
     return _BackgroundColorBuilder(
       backgroundColor: backgroundColor,
       child: SafeArea(
-        child: Row(
+        child: Flex.horizontal(
           children: [
             AnimatedAlign(
               duration: _kResizeDuration,
-              curve: Easing.emphasized,
+              curve: Curves.easeInOutCubicEmphasized,
               alignment: Alignment.centerRight,
               widthFactor: useNavigationRail ? 1 : 0,
               child: NavigationRail(
@@ -113,12 +112,14 @@ class _ExpandedAppState extends State<ExpandedApp> {
                 backgroundColor: backgroundColor,
                 leading: IconButton(
                   onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-                  icon: const Icon(Symbols.menu_rounded),
+                  icon: const Icon(MaterialSymbols.menu_rounded),
                 ),
-                destinations: destinations.toRailDestinations(),
+                destinations: destinations.toRailDestinations().toList(
+                  growable: false,
+                ),
               ),
             ),
-            Expanded(
+            Flexible.tight(
               child: switch (_page) {
                 1 => const _NotesBody(),
                 _ => const SizedBox.shrink(),
@@ -233,10 +234,10 @@ class __NotesBodyState extends State<_NotesBody> {
     final localizations = AppLocalizations.of(context);
 
     final dateFormat = DateFormat.yMMMEd(localizations.localeName);
-    return Row(
+    return Flex.horizontal(
       children: [
-        Expanded(
-          child: Column(
+        Flexible.tight(
+          child: Flex.vertical(
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 16, 8),
@@ -246,16 +247,16 @@ class __NotesBodyState extends State<_NotesBody> {
                   leading: _searchNode.hasFocus
                       ? IconButton(
                           onPressed: _searchNode.unfocus,
-                          icon: const Icon(Symbols.arrow_back_rounded),
+                          icon: const Icon(MaterialSymbols.arrow_back_rounded),
                         )
                       : const DenseBox.square(
                           dimension: 48,
-                          child: Icon(Symbols.search_rounded),
+                          child: Icon(MaterialSymbols.search_rounded),
                         ),
                   hintText: localizations.app_notes_view_search,
                 ),
               ),
-              Expanded(
+              Flexible.tight(
                 child: StreamBuilder(
                   stream: _notesController.stream,
                   builder: (context, snapshot) {
@@ -278,7 +279,7 @@ class __NotesBodyState extends State<_NotesBody> {
                           const SizedBox(height: 8),
                       itemBuilder: (context, index) {
                         final note = notes[index];
-                        return Card.surface(
+                        return Card.filled(
                           color: _selected?.id == note.id
                               ? theme.colorScheme.secondaryContainer
                               : theme.colorScheme.surface,
@@ -289,16 +290,16 @@ class __NotesBodyState extends State<_NotesBody> {
                                 horizontal: 16,
                                 vertical: 8,
                               ),
-                              child: Column(
+                              child: Flex.vertical(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  Row(
+                                  Flex.horizontal(
                                     children: [
                                       Text(
                                         note.title,
                                         style: theme.textTheme.titleMedium,
                                       ),
-                                      const Spacer(),
+                                      const Flexible.space(),
                                       Text(
                                         dateFormat.format(note.updatedAt),
                                         style: theme.textTheme.labelMedium,
@@ -324,10 +325,11 @@ class __NotesBodyState extends State<_NotesBody> {
             ],
           ),
         ),
-        Expanded(
+        Flexible.tight(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 16, 24, 24),
-            child: Card.surface(
+            child: Card.filled(
+              color: theme.colorScheme.surface,
               child: _selected != null
                   ? NoteView(key: ValueKey(_selected!.id), note: _selected)
                   : const SizedBox.shrink(),

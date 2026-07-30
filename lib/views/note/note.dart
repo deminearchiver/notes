@@ -6,8 +6,7 @@ import 'package:notes/theme.dart';
 import 'package:notes/utils/utils.dart';
 import 'package:notes/views/settings/settings.dart';
 import 'package:notes/widgets/fleather/buttons.dart';
-import 'package:material/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
 
 class NoteView extends StatefulWidget {
   const NoteView({super.key, this.note});
@@ -86,7 +85,7 @@ class _NoteViewState extends State<NoteView> {
       // TODO: implement embedding images using MenuFAB
       // floatingActionButton: Padding(
       //   padding: MediaQuery.viewInsetsOf(context),
-      //   child: Column(
+      //   child: Flex.vertical(
       //     mainAxisSize: MainAxisSize.min,
       //     crossAxisAlignment: CrossAxisAlignment.end,
       //     children: [
@@ -97,7 +96,7 @@ class _NoteViewState extends State<NoteView> {
       //       const SizedBox(height: 16),
       //       FloatingActionButton(
       //         onPressed: () {},
-      //         child: Icon(Symbols.add_rounded),
+      //         child: Icon(MaterialSymbols.add_rounded),
       //       ),
       //       const SizedBox(height: 12),
       //     ],
@@ -106,34 +105,34 @@ class _NoteViewState extends State<NoteView> {
       // floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
       bottomNavigationBar: Padding(
         padding: MediaQuery.viewInsetsOf(context),
-        child: Column(
+        child: Flex.vertical(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             BottomAppBar(
-              child: Row(
+              child: Flex.horizontal(
                 children: [
-                  Expanded(
+                  Flexible.tight(
                     child: SingleChildScrollView(
                       controller: _toolbarController,
                       scrollDirection: Axis.horizontal,
-                      child: Row(
+                      child: Flex.horizontal(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.bold,
-                            icon: Symbols.format_bold_rounded,
+                            icon: MaterialSymbols.format_bold_rounded,
                           ),
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.italic,
-                            icon: Symbols.format_italic_rounded,
+                            icon: MaterialSymbols.format_italic_rounded,
                           ),
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.underline,
-                            icon: Symbols.format_underlined_rounded,
+                            icon: MaterialSymbols.format_underlined_rounded,
                           ),
                           FleatherClearStyleButton(
                             controller: _contentController,
@@ -142,17 +141,17 @@ class _NoteViewState extends State<NoteView> {
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.ol,
-                            icon: Symbols.format_list_numbered_rounded,
+                            icon: MaterialSymbols.format_list_numbered_rounded,
                           ),
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.ul,
-                            icon: Symbols.format_list_bulleted_rounded,
+                            icon: MaterialSymbols.format_list_bulleted_rounded,
                           ),
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.cl,
-                            icon: Symbols.check_box_rounded,
+                            icon: MaterialSymbols.check_box_rounded,
                           ),
                           const VerticalDivider(),
                           FleatherIndentationButton(
@@ -166,19 +165,19 @@ class _NoteViewState extends State<NoteView> {
                           const VerticalDivider(),
                           FleatherToggleStyleButton(
                             attribute: ParchmentAttribute.h1,
-                            icon: Symbols.format_h1_rounded,
+                            icon: MaterialSymbols.format_h1_rounded,
                             controller: _contentController,
                           ),
                           const VerticalDivider(),
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.inlineCode,
-                            icon: Symbols.code_rounded,
+                            icon: MaterialSymbols.code_rounded,
                           ),
                           FleatherToggleStyleButton(
                             controller: _contentController,
                             attribute: ParchmentAttribute.code,
-                            icon: Symbols.code_blocks_rounded,
+                            icon: MaterialSymbols.code_blocks_rounded,
                           ),
                         ],
                       ),
@@ -198,7 +197,7 @@ class _NoteViewState extends State<NoteView> {
           SliverAppBar.medium(
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(Symbols.arrow_back_rounded),
+              icon: const Icon(MaterialSymbols.arrow_back_rounded),
             ),
             expandedHeight: 112,
             title: Builder(
@@ -219,7 +218,7 @@ class _NoteViewState extends State<NoteView> {
               // const SizedBox(width: 16),
               // FilledButton(
               //   onPressed: () {},
-              //   child: Icon(Symbols.save_rounded),
+              //   child: Icon(MaterialSymbols.save_rounded),
               // ),
               const SizedBox(width: 16),
             ],

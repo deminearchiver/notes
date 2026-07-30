@@ -7,8 +7,7 @@ import 'package:notes/views/note/note.dart';
 import 'package:notes/views/settings/settings.dart';
 import 'package:notes/views/todo/todo.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
-import 'package:material/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/widgets/switcher/top_level.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -87,7 +86,6 @@ class _AppViewState extends State<AppView> {
     BuildContext context,
     void Function(String value) onQueryChanged,
   ) {
-    final media = MediaQuery.of(context);
     final theme = Theme.of(context);
 
     final localizations = AppLocalizations.of(context);
@@ -98,7 +96,7 @@ class _AppViewState extends State<AppView> {
       toolbarHeight: 72,
       flexibleSpace: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-        child: Center(
+        child: Align.center(
           child: SearchBar(
             controller: _searchController,
             onChanged: onQueryChanged,
@@ -111,12 +109,12 @@ class _AppViewState extends State<AppView> {
                 child: _searchNode.hasFocus
                     ? IconButton(
                         onPressed: _unfocusSearch,
-                        icon: const Icon(Symbols.arrow_back_rounded),
+                        icon: const Icon(MaterialSymbols.arrow_back_rounded),
                       )
                     : SizedBox.square(
                         dimension:
                             48 + theme.visualDensity.baseSizeAdjustment.dx,
-                        child: const Icon(Symbols.search_rounded),
+                        child: const Icon(MaterialSymbols.search_rounded),
                       ),
               ),
             ),
@@ -132,16 +130,19 @@ class _AppViewState extends State<AppView> {
                       onPressed: _searchController.text.isNotEmpty
                           ? _searchController.clear
                           : null,
-                      icon: const Icon(Symbols.clear_rounded),
+                      icon: const Icon(MaterialSymbols.clear_rounded),
                     )
                   : IconButton(
                       onPressed: () => Navigator.push(
                         context,
-                        MaterialRoute.sharedAxis(
+                        MaterialPageRoute(
                           builder: (context) => const SettingsView(),
                         ),
                       ),
-                      icon: const Icon.filled(Symbols.settings_rounded),
+                      icon: const Icon(
+                        MaterialSymbols.settings_rounded,
+                        fill: 1.0,
+                      ),
                     ),
             ],
           ),
@@ -168,18 +169,21 @@ class _AppViewState extends State<AppView> {
         selectedIndex: _page,
         destinations: [
           AdaptiveDestination(
-            icon: const Icon.outlined(Symbols.home_rounded),
-            selectedIcon: const Icon.filled(Symbols.home_rounded),
+            icon: const Icon(MaterialSymbols.home_rounded, fill: 0.0),
+            selectedIcon: const Icon(MaterialSymbols.home_rounded, fill: 1.0),
             label: localizations.app_home_view,
           ),
           AdaptiveDestination(
-            icon: const Icon.outlined(Symbols.notes_rounded),
-            selectedIcon: const Icon.filled(Symbols.notes_rounded),
+            icon: const Icon(MaterialSymbols.notes_rounded, fill: 0.0),
+            selectedIcon: const Icon(MaterialSymbols.notes_rounded, fill: 1.0),
             label: localizations.app_notes_view,
           ),
           AdaptiveDestination(
-            icon: const Icon.outlined(Symbols.task_alt_rounded),
-            selectedIcon: const Icon.filled(Symbols.task_alt_rounded),
+            icon: const Icon(MaterialSymbols.task_alt_rounded, fill: 0.0),
+            selectedIcon: const Icon(
+              MaterialSymbols.task_alt_rounded,
+              fill: 1.0,
+            ),
             label: localizations.app_todos_view,
           ),
         ],
@@ -189,17 +193,17 @@ class _AppViewState extends State<AppView> {
       //   1 => FloatingActionButton.extended(
       //       onPressed: () => Navigator.push(
       //         context,
-      //         MaterialRoute.adaptive(
+      //         MaterialPageRoute(
       //           builder: (context) => const NoteView(),
       //         ),
       //       ),
       //       icon: const Icon(
-      //         Symbols.note_add_rounded,
+      //         MaterialSymbols.note_add_rounded,
       //       ),
       //       label: AnimatedSize(
       //         key: const ValueKey("fab_size"),
       //         duration: Durations.medium4,
-      //         curve: Easing.emphasized,
+      //         curve: Curves.easeInOutCubicEmphasized,
       //         child: Switcher.fadeThrough(
       //           duration: Durations.short4,
       //           layoutBuilder: minimumSizeLayoutBuilder,
@@ -213,17 +217,17 @@ class _AppViewState extends State<AppView> {
       //   2 => FloatingActionButton.extended(
       //       onPressed: () => Navigator.push(
       //         context,
-      //         MaterialRoute.adaptive(
+      //         MaterialPageRoute(
       //           builder: (context) => const TodoView(),
       //         ),
       //       ),
       //       icon: const Icon(
-      //         Symbols.add_task_rounded,
+      //         MaterialSymbols.add_task_rounded,
       //       ),
       //       label: AnimatedSize(
       //         key: const ValueKey("fab_size"),
       //         duration: Durations.medium4,
-      //         curve: Easing.emphasized,
+      //         curve: Curves.easeInOutCubicEmphasized,
       //         child: Text(
       //           localizations.app_todos_view_create,
       //         ),
@@ -231,23 +235,25 @@ class _AppViewState extends State<AppView> {
       //     ),
       //   _ => null,
       // },
-      floatingActionButton: switch (_page) {
-        1 => FloatingActionButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialRoute.adaptive(builder: (context) => const NoteView()),
-          ),
-          child: const Icon(Symbols.note_add_rounded),
-        ),
-        2 => FloatingActionButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialRoute.adaptive(builder: (context) => const TodoView()),
-          ),
-          child: const Icon(Symbols.add_task_rounded),
-        ),
-        _ => null,
-      },
+
+      // floatingActionButton: switch (_page) {
+      //   1 => FloatingActionButton(
+      //     onPressed: () => Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => const NoteView()),
+      //     ),
+      //     child: const Icon(MaterialSymbols.note_add_rounded),
+      //   ),
+      //   2 => FloatingActionButton(
+      //     onPressed: () => Navigator.push(
+      //       context,
+      //       MaterialPageRoute(builder: (context) => const TodoView()),
+      //     ),
+      //     child: const Icon(MaterialSymbols.add_task_rounded),
+      //   ),
+      //   _ => null,
+      // },
+
       // bottomNavigationBar: NavigationBar(
       //         // onDestinationSelected: (value) => setState(() => _page = value),
       //         onDestinationSelected: _goToPage,
@@ -255,33 +261,33 @@ class _AppViewState extends State<AppView> {
       //         destinations: [
       //           NavigationDestination(
       //             icon: const Icon(
-      //               Symbols.home_rounded,
+      //               MaterialSymbols.home_rounded,
       //               fill: 0,
       //             ),
       //             selectedIcon: const Icon(
-      //               Symbols.home_rounded,
+      //               MaterialSymbols.home_rounded,
       //               fill: 1,
       //             ),
       //             label: localizations.app_home_view,
       //           ),
       //           NavigationDestination(
       //             icon: const Icon(
-      //               Symbols.notes_rounded,
+      //               MaterialSymbols.notes_rounded,
       //               fill: 0,
       //             ),
       //             selectedIcon: const Icon(
-      //               Symbols.notes_rounded,
+      //               MaterialSymbols.notes_rounded,
       //               fill: 1,
       //             ),
       //             label: localizations.app_notes_view,
       //           ),
       //           NavigationDestination(
       //             icon: const Icon(
-      //               Symbols.task_alt_rounded,
+      //               MaterialSymbols.task_alt_rounded,
       //               fill: 0,
       //             ),
       //             selectedIcon: const Icon(
-      //               Symbols.task_alt_rounded,
+      //               MaterialSymbols.task_alt_rounded,
       //               fill: 1,
       //             ),
       //             label: localizations.app_todos_view,

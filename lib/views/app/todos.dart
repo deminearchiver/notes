@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:intl/intl.dart';
 import 'package:isar_plus/isar_plus.dart';
-import 'package:material_symbols_icons/symbols.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/database/models/todo.dart';
 import 'package:notes/l10n/l10n.dart';
@@ -14,7 +13,7 @@ import 'package:notes/widgets/safe_area.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class AppViewTodosPage extends StatefulWidget {
   const AppViewTodosPage({
@@ -108,12 +107,12 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
               types: [
                 SortType(
                   value: TodosSortBy.label,
-                  icon: const Icon(Symbols.sort_by_alpha_rounded),
+                  icon: const Icon(MaterialSymbols.sort_by_alpha_rounded),
                   label: localizations.app_todos_view_sort_label,
                 ),
                 SortType(
                   value: TodosSortBy.date,
-                  icon: const Icon(Symbols.schedule_rounded),
+                  icon: const Icon(MaterialSymbols.schedule_rounded),
                   label: localizations.app_todos_view_sort_date,
                 ),
               ],
@@ -127,16 +126,18 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Align.center(
+                    child: CircularProgressIndicator(value: null),
+                  ),
                 );
               }
               final todos = snapshot.data!;
               return todos.isEmpty
                   ? const SliverFillRemaining(
                       hasScrollBody: false,
-                      child: Center(
+                      child: Align.center(
                         child: NothingFound(
-                          icon: Icon(Symbols.document_scanner_rounded),
+                          icon: Icon(MaterialSymbols.document_scanner_rounded),
                         ),
                       ),
                     )
@@ -224,12 +225,12 @@ class _TodoCardState extends State<TodoCard> {
       context: context,
       clipBehavior: Clip.antiAlias,
       showDragHandle: true,
-      builder: (context) => Column(
+      builder: (context) => Flex.vertical(
         mainAxisSize: MainAxisSize.min,
         children: [
           ListTile(
             onTap: () => Navigator.pop(context, "delete"),
-            leading: const Icon(Symbols.delete_rounded),
+            leading: const Icon(MaterialSymbols.delete_rounded),
             title: Text(localizations.delete),
           ),
           const SizedBox(height: 28),
@@ -285,14 +286,14 @@ class _TodoCardState extends State<TodoCard> {
         onSecondaryTap: () => _showBottomSheet(context),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-          child: Row(
+          child: Flex.horizontal(
             children: [
-              Checkbox(
+              CheckboxLegacy(
                 onChanged: (value) => _setTodo(completed: value),
                 value: _todo.completed,
               ),
               const SizedBox(width: 8),
-              Column(
+              Flex.vertical(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -308,7 +309,7 @@ class _TodoCardState extends State<TodoCard> {
                         WidgetSpan(
                           alignment: PlaceholderAlignment.middle,
                           child: Icon(
-                            Symbols.calendar_month_rounded,
+                            MaterialSymbols.calendar_month_rounded,
                             opticalSize: 20,
                             size: 16,
                             color: iconColor,
@@ -318,7 +319,7 @@ class _TodoCardState extends State<TodoCard> {
                         WidgetSpan(
                           alignment: PlaceholderAlignment.middle,
                           child: Icon(
-                            Symbols.schedule_rounded,
+                            MaterialSymbols.schedule_rounded,
                             opticalSize: 20,
                             size: 16,
                             color: iconColor,
@@ -331,11 +332,11 @@ class _TodoCardState extends State<TodoCard> {
                   ),
                 ],
               ),
-              const Spacer(),
+              const Flexible.space(),
               if (_todo.important) ...[
                 const SizedBox(width: 8),
                 Icon(
-                  Symbols.priority_high_rounded,
+                  MaterialSymbols.priority_high_rounded,
                   color: _todo.completed ? theme.disabledColor : Colors.red,
                 ),
               ],
@@ -378,8 +379,8 @@ class _TodoCardState extends State<TodoCard> {
 //       Animation<double> secondaryAnimation) {
 //     final animation = CurvedAnimation(
 //       parent: linearAnimation,
-//       curve: Easing.emphasized,
-//       reverseCurve: Easing.emphasized.flipped,
+//       curve: Curves.easeInOutCubicEmphasized,
+//       reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
 //     );
 
 //     final navigatorObject = Navigator.of(cardKey.currentContext!)
@@ -421,11 +422,11 @@ class _TodoCardState extends State<TodoCard> {
 //     );
 //     final borderWidthTween = Tween<double>(begin: 1, end: 0);
 
-//     final exit = CurveTween(
+//     final exit = CurveTween(curve:
 //       curve: const Interval(0, 0.5),
 //     );
 
-//     final enter = CurveTween(
+//     final enter = CurveTween(curve:
 //       curve: const Interval(0.5, 1),
 //     );
 
@@ -449,14 +450,14 @@ class _TodoCardState extends State<TodoCard> {
 
 //     final Widget childContent = Padding(
 //       padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-//       child: Row(
+//       child: Flex.horizontal(
 //         children: [
 //           Checkbox(
 //             onChanged: (value) {},
 //             value: todo.completed,
 //           ),
 //           const SizedBox(width: 8),
-//           Column(
+//           Flex.vertical(
 //             mainAxisAlignment: MainAxisAlignment.center,
 //             crossAxisAlignment: CrossAxisAlignment.start,
 //             children: [
@@ -473,7 +474,7 @@ class _TodoCardState extends State<TodoCard> {
 //                   WidgetSpan(
 //                     alignment: PlaceholderAlignment.middle,
 //                     child: Icon(
-//                       Symbols.calendar_month_rounded,
+//                       MaterialSymbols.calendar_month_rounded,
 //                       opticalSize: 20,
 //                       size: 16,
 //                       color: iconColor,
@@ -485,7 +486,7 @@ class _TodoCardState extends State<TodoCard> {
 //                   WidgetSpan(
 //                     alignment: PlaceholderAlignment.middle,
 //                     child: Icon(
-//                       Symbols.schedule_rounded,
+//                       MaterialSymbols.schedule_rounded,
 //                       opticalSize: 20,
 //                       size: 16,
 //                       color: iconColor,
@@ -499,11 +500,11 @@ class _TodoCardState extends State<TodoCard> {
 //               )
 //             ],
 //           ),
-//           const Spacer(),
+//           const Flexible.space(),
 //           if (todo.important) ...[
 //             const SizedBox(width: 8),
 //             Icon(
-//               Symbols.priority_high_rounded,
+//               MaterialSymbols.priority_high_rounded,
 //               color: todo.completed ? theme.disabledColor : Colors.red,
 //             ),
 //           ],

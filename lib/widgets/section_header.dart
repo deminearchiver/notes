@@ -1,5 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader(
@@ -22,17 +21,19 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
+    return Flex.vertical(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (showDivider) const Divider(),
         Padding(
           padding: padding ?? const EdgeInsets.fromLTRB(16, 16, 16, 16),
-          child: Row(
+          child: Flex.horizontal(
             children: [
               if (icon != null)
-                IconTheme.merge(
-                  data: IconThemeData(color: theme.colorScheme.secondary),
+                IconTheme.mergeWithData(
+                  data: IconThemeDataPartial.from(
+                    color: theme.colorScheme.secondary,
+                  ),
                   child: icon!,
                 ),
               if (icon != null) const SizedBox(width: 8),

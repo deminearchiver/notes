@@ -1,7 +1,5 @@
-import 'dart:ui';
-
 import 'package:notes/widgets/safe_area.dart';
-import 'package:material/material.dart';
+import 'package:notes/flutter.dart';
 
 class ExpandableFloatingActionButton extends StatefulWidget {
   const ExpandableFloatingActionButton({
@@ -98,8 +96,8 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
   ) {
     final animation = CurvedAnimation(
       parent: linearAnimation,
-      curve: Easing.emphasized,
-      reverseCurve: Easing.emphasized.flipped,
+      curve: Curves.easeInOutCubicEmphasized,
+      reverseCurve: Curves.easeInOutCubicEmphasized.flipped,
     );
     final navigatorBox =
         Navigator.of(buttonKey.currentContext!).context.findRenderObject()!
@@ -128,14 +126,14 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
         tween: Tween<double>(
           begin: 1,
           end: 0,
-        ).chain(CurveTween(const Interval(0, 1 / 3))),
+        ).chain(CurveTween(curve: const Interval(0, 1 / 3))),
         weight: 1,
       ),
       TweenSequenceItem(
         tween: Tween<double>(
           begin: 1 / 3,
           end: 1,
-        ).chain(CurveTween(const Interval(0.5, 1))),
+        ).chain(CurveTween(curve: const Interval(0.5, 1))),
         weight: 1,
       ),
     ]);
@@ -156,14 +154,14 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
             child: SizedBox(
               width: rect.width,
               height: rect.height,
-              child: Material(
-                type: MaterialType.button,
+              child: Surface(
                 shadowColor: theme.colorScheme.shadow,
                 elevation: 6,
                 clipBehavior: Clip.antiAlias,
-                animationDuration: Duration.zero,
                 color: theme.colorScheme.primaryContainer,
-                borderRadius: borderRadiusTween.evaluate(animation),
+                shape: RoundedRectangleBorder(
+                  borderRadius: borderRadiusTween.evaluate(animation)!,
+                ),
                 child: Opacity(
                   opacity: opacitySequence.evaluate(animation),
                   child: shouldSwitch
@@ -186,10 +184,10 @@ class _FloatingActionButtonRoute<T> extends PageRoute<T> {
                             child: SizedBox(
                               width: buttonRect.width,
                               height: buttonRect.height,
-                              child: Row(
+                              child: Flex.horizontal(
                                 children: [
-                                  IconTheme.merge(
-                                    data: IconThemeData(
+                                  IconTheme.mergeWithData(
+                                    data: IconThemeDataPartial.from(
                                       color:
                                           theme.colorScheme.onPrimaryContainer,
                                     ),

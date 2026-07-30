@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:material/material.dart';
-import 'package:material_symbols_icons/symbols.dart';
+import 'package:notes/flutter.dart';
 import 'package:notes/widgets/back_button.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -101,7 +100,7 @@ class _LicensesViewState extends State<LicensesView> {
                               onTap: licenses.isNotEmpty
                                   ? () => Navigator.push(
                                       context,
-                                      MaterialRoute.sharedAxis(
+                                      MaterialPageRoute(
                                         builder: (context) => _LicenseView(
                                           packageName: packageName,
                                           licenses: licenses,
