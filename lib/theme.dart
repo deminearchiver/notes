@@ -1,15 +1,12 @@
 import 'package:fleather/fleather.dart';
 import 'package:notes/flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 abstract final class CustomFleatherThemeData {
   static FleatherThemeData fallback(ThemeData theme) {
     final baseStyle = theme.textTheme.bodyMedium!;
     const baseSpacing = VerticalSpacing(top: 6, bottom: 10);
 
-    final codeStyle = TextStyle(
-      fontFamily: GoogleFonts.jetBrainsMono().fontFamily,
-    );
+    const codeStyle = TextStyle(fontFamily: "Monaspace Argon");
 
     return FleatherThemeData(
       paragraph: TextBlockTheme(style: baseStyle, spacing: baseSpacing),
