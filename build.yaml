@@ -1,0 +1,30 @@
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        enabled: false
+      slang_build_runner:legacy:
+        enabled: true
+        options:
+          base_locale: en
+          fallback_strategy: base_locale_empty_string
+
+          input_directory: assets/i18n
+          input_file_pattern: .json
+          output_directory: lib/i18n
+
+          lazy: false
+          flat_map: false
+
+          # imports: []
+          # generate_enum: false
+          # contexts: {}
+
+          obfuscation:
+            enabled: false
+
+          format:
+            enabled: true
+            width: 80
+
+          timestamp: false
