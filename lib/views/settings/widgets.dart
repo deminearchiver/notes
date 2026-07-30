@@ -101,7 +101,7 @@ class _ToggleSettingsListTile extends SettingsListTile {
     super.subtitle,
   }) : super(
          onTap: onChanged != null ? () => onChanged(!value) : null,
-         trailing: SwitchLegacy(onChanged: onChanged, value: value),
+         trailing: Switch(onCheckedChanged: onChanged, checked: value),
          enabled: onChanged != null,
        );
 }

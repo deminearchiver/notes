@@ -151,7 +151,7 @@ class _SettingsViewState extends State<SettingsView> {
         //   title: Text(localizations.settings_view_developer_mode),
         //   subtitle:
         //       Text(localizations.settings_view_developer_mode_description),
-        //   trailing: SwitchLegacy(
+        //   trailing: Switch(
         //     onChanged: (value) => settings.developerMode = value,
         //     value: settings.developerMode,
         //   ),

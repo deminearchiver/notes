@@ -77,24 +77,3 @@ abstract final class CustomFleatherThemeData {
     );
   }
 }
-
-const appBarTheme = AppBarTheme(toolbarHeight: 64);
-
-class AppTheme {
-  static ThemeData createTheme({required Brightness brightness}) {
-    return ThemeData(
-      brightness: brightness,
-      splashFactory: InkSparkle.splashFactory,
-      // visualDensity: VisualDensity.standard,
-      platform: TargetPlatform.android,
-      searchBarTheme: const SearchBarThemeData(
-        padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
-        shadowColor: WidgetStateColor.transparent,
-      ),
-      cardTheme: const CardThemeData(margin: EdgeInsets.zero),
-    );
-  }
-
-  static ThemeData light() => createTheme(brightness: Brightness.light);
-  static ThemeData dark() => createTheme(brightness: Brightness.dark);
-}

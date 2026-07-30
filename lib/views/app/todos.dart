@@ -283,9 +283,9 @@ class _TodoCardState extends State<TodoCard> {
           padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
           child: Flex.horizontal(
             children: [
-              CheckboxLegacy(
-                onChanged: (value) => _setTodo(completed: value),
-                value: _todo.completed,
+              Checkbox.bistate(
+                onCheckedChanged: (value) => _setTodo(completed: value),
+                checked: _todo.completed,
               ),
               const SizedBox(width: 8),
               Flex.vertical(
@@ -447,7 +447,7 @@ class _TodoCardState extends State<TodoCard> {
 //       padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
 //       child: Flex.horizontal(
 //         children: [
-//           CheckboxLegacy(
+//           Checkbox(
 //             onChanged: (value) {},
 //             value: todo.completed,
 //           ),

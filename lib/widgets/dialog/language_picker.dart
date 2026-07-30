@@ -66,7 +66,7 @@ class _LanguageChooserDialogState extends State<LanguageChooserDialog> {
                   onTap: () => _setLocale(null),
                   selected: _locale == null,
                   contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-                  leading: Radio<Locale?>(
+                  leading: RadioGroupButton<Locale?>(
                     onChanged: _setLocale,
                     value: null,
                     groupValue: _locale,
@@ -81,7 +81,7 @@ class _LanguageChooserDialogState extends State<LanguageChooserDialog> {
                     onTap: () => _setLocale(locale),
                     selected: _locale == locale,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-                    leading: Radio<Locale?>(
+                    leading: RadioGroupButton<Locale?>(
                       onChanged: _setLocale,
                       value: locale,
                       groupValue: _locale,

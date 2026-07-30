@@ -50,9 +50,9 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
                     color: theme.colorScheme.onSecondaryContainer,
                   ),
                 ),
-                trailing: SwitchLegacy(
-                  onChanged: (value) => settings.developerMode = value,
-                  value: settings.developerMode,
+                trailing: Switch(
+                  onCheckedChanged: (value) => settings.developerMode = value,
+                  checked: settings.developerMode,
                 ),
               ),
             ),

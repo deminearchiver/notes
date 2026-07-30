@@ -174,9 +174,10 @@ class _TodoViewState extends State<TodoView> {
                       ListTile(
                         onTap: () => _setTodo(completed: !_todo.completed),
                         leading: const Icon(MaterialSymbols.task_alt_rounded),
-                        trailing: CheckboxLegacy(
-                          onChanged: (value) => _setTodo(completed: value),
-                          value: _todo.completed,
+                        trailing: Checkbox.bistate(
+                          onCheckedChanged: (value) =>
+                              _setTodo(completed: value),
+                          checked: _todo.completed,
                         ),
                         title: Text(localizations.todo_view_completed),
                       ),
@@ -186,9 +187,10 @@ class _TodoViewState extends State<TodoView> {
                           MaterialSymbols.priority_high_rounded,
                         ),
                         title: Text(localizations.todo_view_important),
-                        trailing: SwitchLegacy(
-                          onChanged: (value) => _setTodo(important: value),
-                          value: _todo.important,
+                        trailing: Switch(
+                          onCheckedChanged: (value) =>
+                              _setTodo(important: value),
+                          checked: _todo.important,
                         ),
                       ),
                     ],
@@ -244,7 +246,7 @@ class _TodoViewState extends State<TodoView> {
                         Flex.horizontal(
                           children: [
                             Flexible.tight(
-                              child: FilledButton.tonalIcon(
+                              child: FilledButton.icon(
                                 onPressed: () => showDatePicker(
                                   context: context,
                                   initialDate: _todo.date,

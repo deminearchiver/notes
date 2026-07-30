@@ -75,3 +75,5 @@ export 'package:touch_targets/touch_targets.dart';
 export 'package:linked_layouts/linked_layouts.dart';
 
 export 'i18n/i18n.dart';
+export 'theme/legacy.dart';
+export 'theme/typography.dart';
