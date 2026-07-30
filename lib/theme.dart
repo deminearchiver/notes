@@ -94,6 +94,7 @@ class AppTheme {
         padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
         shadowColor: WidgetStateColor.transparent,
       ),
+      cardTheme: const CardThemeData(margin: EdgeInsets.zero),
     );
   }
 
