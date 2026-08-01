@@ -1,0 +1,71 @@
+-- import 'database.dart';
+
+CREATE TABLE notes (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  content TEXT MAPPED BY `parchmentJsonConverter` NOT NULL CHECK(json_valid(content)),
+  content_text TEXT NOT NULL,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  favorite BOOLEAN NOT NULL
+) as Note;
+
+
+CREATE VIRTUAL TABLE notes_fts using fts5(
+  title,
+  content_text,
+  tokenize = 'unicode61',
+  content = 'notes',
+  content_rowid = 'id'
+) as NoteFts;
+
+CREATE TRIGGER notes_insert AFTER INSERT ON notes BEGIN
+  INSERT INTO notes_fts (rowid, title, content_text)
+  VALUES (new.id, new.title, new.content_text);
+END;
+
+CREATE TRIGGER notes_update AFTER UPDATE ON notes BEGIN
+  INSERT INTO notes_fts (rowid, title, content_text)
+  VALUES (new.id, new.title, new.content_text);
+END;
+
+CREATE TRIGGER notes_delete AFTER DELETE ON notes BEGIN
+  DELETE FROM notes_fts WHERE rowid = old.id;
+END;
+
+CREATE TABLE todos (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  label TEXT NOT NULL,
+  details TEXT NOT NULL DEFAULT '',
+  important BOOLEAN NOT NULL DEFAULT FALSE,
+  completed BOOLEAN NOT NULL DEFAULT FALSE,
+  date DATETIME NOT NULL
+) AS Todo;
+
+CREATE VIRTUAL TABLE todos_fts USING fts5(
+  label,
+  details,
+  tokenize = 'unicode61',
+  content = 'todos',
+  content_rowid = 'id'
+) as TodoFts;
+
+CREATE TRIGGER todos_insert AFTER INSERT ON todos BEGIN
+  INSERT INTO todos_fts (rowid, label, details)
+  VALUES (new.id, new.label, new.details);
+END;
+
+CREATE TRIGGER todos_update AFTER UPDATE ON todos BEGIN
+  INSERT INTO todos_fts (rowid, label, details)
+  VALUES (new.id, new.label, new.details);
+END;
+
+CREATE TRIGGER todos_delete AFTER DELETE ON todos BEGIN
+  DELETE FROM todos_fts WHERE rowid = old.id;
+END;
+
+-- allNotes:
+SELECT * FROM notes;
+
+-- allTodos:
+SELECT * FROM todos;

@@ -1,6 +1,15 @@
 targets:
   $default:
     builders:
+      drift_dev:
+        options:
+          named_parameters: true
+          databases:
+            notes_database: lib/database/database.dart
+          sqlite:
+            modules:
+              - json1
+              - fts5
       slang_build_runner:
         enabled: false
       slang_build_runner:legacy:
