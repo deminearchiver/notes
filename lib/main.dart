@@ -37,16 +37,15 @@ void main() async {
   // Begin initialization
   await loadTimezone();
 
-  final db = File(
-    p.join(
-      (await getApplicationSupportDirectory()).path,
-      "notes_database.sqlite",
-    ),
-  );
-  if (db.existsSync()) {
-    await db.delete();
-    print("DELETED DB");
-  }
+  // final db = File(
+  //   p.join(
+  //     (await getApplicationSupportDirectory()).path,
+  //     "notes_database.sqlite",
+  //   ),
+  // );
+  // if (db.existsSync()) {
+  //   await db.delete();
+  // }
   final database = AppDatabase();
   // print(await database.allNotes().get());
 
@@ -56,7 +55,6 @@ void main() async {
 
   final packageInfo = await PackageInfo.fromPlatform();
   appVersion = packageInfo.version;
-
   // await windowManager.ensureInitialized();
 
   // const windowOptions = WindowOptions(
@@ -90,9 +88,25 @@ void main() async {
       case "dismiss":
         break;
       default:
-        runApp(App(todo: todo));
+        runApp(
+          Provider(
+            create: (_) => database,
+            dispose: (_, _) {
+              unawaited(database.close());
+            },
+            child: App(todo: todo),
+          ),
+        );
     }
   } else {
-    runApp(const App());
+    runApp(
+      Provider(
+        create: (_) => database,
+        dispose: (_, _) {
+          unawaited(database.close());
+        },
+        child: const App(),
+      ),
+    );
   }
 }

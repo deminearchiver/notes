@@ -56,11 +56,17 @@ class ViewCardState extends State<ViewCard> {
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = ColorTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+
     return SingleLayoutLeader(
       layoutLink: _layoutLink,
-      child: Card.outlined(
+      child: Surface(
         key: _cardKey,
-        shape: widget.shape,
+        clipBehavior: .antiAlias,
+        shape: shapeTheme.applyCorner(corner: shapeTheme.cornerLarge),
+        color: colorTheme.surfaceContainer,
+        // shape: widget.shape,
         child: widget.child,
       ),
     );

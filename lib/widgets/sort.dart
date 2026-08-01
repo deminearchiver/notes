@@ -27,52 +27,88 @@ class SortRow<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
+
+    final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     return Flex.horizontal(
+      spacing: 12.0,
       children: [
-        IconButton(
-          onPressed: () =>
-              onSortChanged(SortDetails(sort: selected, order: order.flipped)),
-          icon: AnimatedRotation(
-            turns: order == Sort.asc ? 0 : 0.5,
-            duration: Durations.long2,
-            curve: Curves.easeInOutCubicEmphasized,
-            child: const Icon(MaterialSymbols.north_rounded),
+        SizedTouchTarget(
+          minimumSize: const .square(48.0),
+          child: IconButton(
+            style: LegacyThemeFactory.createIconButtonStyle(
+              colorTheme: colorTheme,
+              elevationTheme: elevationTheme,
+              shapeTheme: shapeTheme,
+              stateTheme: stateTheme,
+              size: .extraSmall,
+              width: .wide,
+              color: .tonal,
+              tapTargetSize: .shrinkWrap,
+            ),
+            onPressed: () => onSortChanged(
+              SortDetails(sort: selected, order: order.flipped),
+            ),
+            icon: AnimatedRotation(
+              turns: order == Sort.asc ? 0 : 0.5,
+              duration: Durations.long2,
+              curve: Curves.easeInOutCubicEmphasized,
+              child: const Icon(MaterialSymbols.arrow_upward_rounded),
+            ),
+            tooltip: order == Sort.asc
+                ? localizations.sort_ascending
+                : localizations.sort_descending,
           ),
-          tooltip: order == Sort.asc
-              ? localizations.sort_ascending
-              : localizations.sort_descending,
         ),
-        VerticalDivider(color: theme.colorScheme.onSurface),
+
         Flexible.tight(
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             scrollDirection: Axis.horizontal,
             child: Flex.horizontal(
               mainAxisSize: MainAxisSize.min,
+              spacing: 8.0,
               children: [
                 ...types.mapIndexed(
-                  (index, type) => Padding(
-                    padding: EdgeInsets.only(
-                      left: index > 0 ? 4 : 0,
-                      right: index + 1 < types.length ? 4 : 0,
-                    ),
-                    child: ChoiceChip(
-                      onSelected: (value) => onSortChanged(
+                  (index, type) => SizedTouchTarget(
+                    minimumSize: const .square(48.0),
+                    child: FilledButton(
+                      style: LegacyThemeFactory.createButtonStyle(
+                        colorTheme: colorTheme,
+                        elevationTheme: elevationTheme,
+                        shapeTheme: shapeTheme,
+                        stateTheme: stateTheme,
+                        typescaleTheme: typescaleTheme,
+                        size: .extraSmall,
+                        color: .tonal,
+                        isSelected: selected == type.value,
+                        tapTargetSize: .shrinkWrap,
+                      ),
+                      onPressed: () => onSortChanged(
                         SortDetails(sort: type.value, order: order),
                       ),
-                      selected: selected == type.value,
-                      showCheckmark: false,
-                      avatar: type.icon != null
-                          ? IconTheme.mergeWithData(
-                              data: IconThemeDataPartial.from(
-                                color: theme.colorScheme.onSecondaryContainer,
+                      child: Flex.horizontal(
+                        spacing: 4.0,
+                        children: [
+                          if (type.icon != null)
+                            IconTheme.mergeWithData(
+                              data: .from(
+                                opticalSize: 20.0,
+                                size: 20.0,
+                                color: selected == type.value
+                                    ? colorTheme.onSecondary
+                                    : colorTheme.onSecondaryContainer,
                               ),
                               child: type.icon,
-                            )
-                          : null,
-                      label: Text(type.label),
+                            ),
+                          Text(type.label),
+                        ],
+                      ),
                     ),
                   ),
                 ),

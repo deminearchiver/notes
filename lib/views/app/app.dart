@@ -89,7 +89,12 @@ class _AppViewState extends State<AppView> {
     void Function(String value) onQueryChanged,
   ) {
     final windowWidthSizeClass = WindowWidthSizeClass.of(context);
-    final theme = Theme.of(context);
+
+    final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
 
     final localizations = AppLocalizations.of(context);
     return SliverAppBar(
@@ -98,7 +103,7 @@ class _AppViewState extends State<AppView> {
       floating: true,
       toolbarHeight: 64,
       leadingWidth: 64,
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: colorTheme.surface,
       surfaceTintColor: Colors.transparent,
       scrolledUnderElevation: 0,
       leading: windowWidthSizeClass != WindowWidthSizeClass.compact
@@ -136,22 +141,39 @@ class _AppViewState extends State<AppView> {
             // padding: const WidgetStatePropertyAll(EdgeInsets.only(
             //   right: 16, // TODO: make 4 when using trailing
             // )),
+            padding: const WidgetStatePropertyAll(.directional(end: 24.0)),
             leading: Switcher.fadeThrough(
               duration: Durations.short4,
               alignment: Alignment.centerRight,
               child: KeyedSubtree(
                 key: ValueKey(_searchFocused),
                 child: _searchFocused
-                    ? IconButton(
-                        onPressed: _unfocusSearch,
-                        icon: const Icon(MaterialSymbols.arrow_back_rounded),
+                    ? Padding(
+                        padding: const .all(8.0),
+                        child: SizedTouchTarget(
+                          minimumSize: const .square(48.0),
+                          child: IconButton(
+                            style: LegacyThemeFactory.createIconButtonStyle(
+                              colorTheme: colorTheme,
+                              elevationTheme: elevationTheme,
+                              shapeTheme: shapeTheme,
+                              stateTheme: stateTheme,
+                              color: .standard,
+                              tapTargetSize: .shrinkWrap,
+                            ),
+                            onPressed: _unfocusSearch,
+                            icon: const Icon(
+                              MaterialSymbols.chevron_backward_rounded,
+                            ),
+                          ),
+                        ),
                       )
                     : SizedBox.square(
-                        dimension:
-                            48 +
-                            theme.visualDensity.horizontal +
-                            theme.visualDensity.baseSizeAdjustment.dx,
-                        child: const Icon(MaterialSymbols.search_rounded),
+                        dimension: 56.0,
+                        child: Icon(
+                          MaterialSymbols.search_rounded,
+                          color: colorTheme.onSurfaceVariant,
+                        ),
                       ),
               ),
             ),
@@ -188,10 +210,16 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    final windowWidthSizeClass = WindowWidthSizeClass.of(context);
-    final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
-    // return ExpandedApp();
+
+    final windowWidthSizeClass = WindowWidthSizeClass.of(context);
+
+    final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     return Scaffold(
       key: _scaffoldKey,
       drawer: windowWidthSizeClass != WindowWidthSizeClass.compact
@@ -209,11 +237,11 @@ class _AppViewState extends State<AppView> {
                 //     ),
                 //     leading: Icon(
                 //       MaterialSymbols.menu_open_rounded,
-                //       color: theme.colorScheme.onSurfaceVariant,
+                //       color: colorTheme.onSurfaceVariant,
                 //     ),
                 //     title: Text("Закрыть"),
                 //     titleTextStyle: theme.textTheme.labelLarge
-                //         ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                //         ?.copyWith(color: colorTheme.onSurfaceVariant),
                 //   ),
                 // ),
                 Padding(
@@ -223,8 +251,8 @@ class _AppViewState extends State<AppView> {
                   ),
                   child: Text(
                     "Страницы",
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
+                    style: typescaleTheme.titleSmall.toTextStyle(
+                      color: colorTheme.onSurfaceVariant,
                     ),
                   ),
                 ),
@@ -252,11 +280,7 @@ class _AppViewState extends State<AppView> {
                   ),
                   label: Text(localizations.app_todos_view),
                 ),
-                Divider(
-                  color: theme.colorScheme.outline,
-                  indent: 28,
-                  endIndent: 28,
-                ),
+                Divider(color: colorTheme.outline, indent: 28, endIndent: 28),
               ],
             )
           : null,

@@ -139,7 +139,7 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
                   : SliverList.separated(
                       itemCount: todos.length,
                       separatorBuilder: (context, index) =>
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 2.0),
                       itemBuilder: (context, index) => TodoCard(
                         key: ValueKey(todos[index].id),
                         todo: todos[index],
@@ -182,8 +182,6 @@ class TodoCard extends StatefulWidget {
 
 class _TodoCardState extends State<TodoCard> {
   late Todo _todo;
-
-  final _cardKey = GlobalKey<ViewCardState>();
 
   @override
   void initState() {
@@ -239,12 +237,24 @@ class _TodoCardState extends State<TodoCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final titleTextStyle = theme.textTheme.titleMedium;
-    final subtitleTextStyle = _todo.completed
-        ? theme.textTheme.bodySmall?.copyWith(color: theme.disabledColor)
-        : theme.textTheme.bodySmall;
-    final iconColor = subtitleTextStyle?.color;
+    final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    final titleTextStyle = typescaleTheme.titleMedium.toTextStyle(
+      color: _todo.completed
+          ? colorTheme.onSurface.withValues(alpha: 0.38)
+          : colorTheme.onSurface,
+    );
+    final subtitleTextStyle = typescaleTheme.bodySmall.toTextStyle(
+      color: _todo.completed
+          ? colorTheme.onSurface.withValues(alpha: 0.38)
+          : colorTheme.onSurface,
+    );
+
+    final iconColor = subtitleTextStyle.color;
 
     final dateFormat = DateFormat.yMMMEd(
       Localizations.localeOf(context).toLanguageTag(),
@@ -253,48 +263,49 @@ class _TodoCardState extends State<TodoCard> {
       Localizations.localeOf(context).toLanguageTag(),
     );
 
-    return ViewCard(
-      key: _cardKey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: _todo.completed
-              ? theme.colorScheme.outline.withValues(alpha: 0.12)
-              : theme.colorScheme.outlineVariant,
-        ),
-      ),
+    return Surface(
+      clipBehavior: .antiAlias,
+      shape: shapeTheme.applyCorner(corner: shapeTheme.cornerLarge),
+      color: _todo.completed
+          ? colorTheme.onSurface.withValues(alpha: 0.1)
+          : colorTheme.surfaceContainer,
       child: InkWell(
-        onTap: () =>
-            _cardKey.currentState?.openView((context) => TodoView(todo: _todo)),
-        // onTap: () => Navigator.push(
-        //   context,
-        // MaterialPageRoute<void>(
-        //     child: TodoView(
-        // //      todo: _todo,
-        //     ),
-        //   ),
-        // ),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute<void>(builder: (context) => TodoView(todo: _todo)),
+        ),
         onLongPress: () => _showBottomSheet(context),
         onSecondaryTap: () => _showBottomSheet(context),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+          padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
           child: Flex.horizontal(
             children: [
-              Checkbox.bistate(
-                onCheckedChanged: (value) => _setTodo(completed: value),
-                checked: _todo.completed,
+              Stack(
+                alignment: .center,
+                children: [
+                  SizedBox.square(
+                    dimension: 40.0,
+                    child: Surface(
+                      clipBehavior: .antiAlias,
+                      shape: shapeTheme.applyCorner(
+                        corner: shapeTheme.cornerFull,
+                      ),
+                      color: colorTheme.surfaceContainer,
+                    ),
+                  ),
+                  Checkbox.bistate(
+                    onCheckedChanged: (value) => _setTodo(completed: value),
+                    checked: _todo.completed,
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
+
+              const SizedBox(width: 12.0),
               Flex.vertical(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    _todo.label,
-                    style: _todo.completed
-                        ? titleTextStyle?.copyWith(color: theme.disabledColor)
-                        : titleTextStyle,
-                  ),
+                  Text(_todo.label, style: titleTextStyle),
                   Text.rich(
                     TextSpan(
                       children: [
@@ -329,7 +340,9 @@ class _TodoCardState extends State<TodoCard> {
                 const SizedBox(width: 8),
                 Icon(
                   MaterialSymbols.priority_high_rounded,
-                  color: _todo.completed ? theme.disabledColor : Colors.red,
+                  color: _todo.completed
+                      ? colorTheme.onSurface.withValues(alpha: 0.38)
+                      : Colors.red,
                 ),
               ],
             ],
@@ -509,8 +522,8 @@ class _TodoCardState extends State<TodoCard> {
 //     // CONTENT
 
 //     final borderColor = todo.completed
-//         ? theme.colorScheme.outlineVariant
-//         : theme.colorScheme.outline;
+//         ? colorTheme.outlineVariant
+//         : colorTheme.outline;
 //     final borderColorTween = ColorTween(
 //       begin: borderColor,
 //       end: borderColor.withOpacity(0),

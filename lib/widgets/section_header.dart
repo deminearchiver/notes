@@ -1,50 +1,52 @@
 import 'package:notes/flutter.dart';
 
 class SectionHeader extends StatelessWidget {
-  const SectionHeader(
-    this.text, {
-    super.key,
-    this.icon,
-    this.enabled = true,
-    this.padding,
-  });
+  const SectionHeader(this.text, {super.key, this.icon});
 
   final Widget? icon;
   final String text;
 
-  final bool enabled;
-  final EdgeInsets? padding;
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Flex.vertical(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: padding ?? const EdgeInsets.fromLTRB(16, 12, 16, 8),
-          child: Flex.horizontal(
-            children: [
-              if (icon != null)
-                IconTheme.mergeWithData(
-                  data: IconThemeDataPartial.from(
-                    color: theme.colorScheme.primary,
+    final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    return Padding(
+      padding: const .fromSTEB(16.0, 12.0, 16.0, 8.0),
+      child: Align.centerStart(
+        child: Surface(
+          clipBehavior: .antiAlias,
+          shape: shapeTheme.applyCorner(corner: shapeTheme.cornerSmall),
+          color: colorTheme.surfaceContainerHighest,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: Flex.horizontal(
+              mainAxisSize: .min,
+              children: [
+                if (icon != null)
+                  IconTheme.mergeWithData(
+                    data: .from(
+                      opticalSize: 24.0,
+                      size: 16.0,
+                      color: colorTheme.onSurfaceVariant,
+                    ),
+                    child: icon,
                   ),
-                  child: icon,
+                if (icon != null) const SizedBox(width: 4.0),
+                Text(
+                  text,
+                  style: typescaleTheme.labelSmall.toTextStyle(
+                    color: colorTheme.onSurfaceVariant,
+                  ),
                 ),
-              if (icon != null) const SizedBox(width: 8),
-              Text(
-                text,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: enabled
-                      ? theme.colorScheme.primary
-                      : theme.disabledColor,
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

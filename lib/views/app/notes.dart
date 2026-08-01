@@ -162,7 +162,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                           : SliverList.separated(
                               itemCount: notes.length,
                               separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 2.0),
                               itemBuilder: (context, index) => NoteCard(
                                 key: ValueKey(notes[index].id),
                                 note: notes[index],
@@ -191,8 +191,6 @@ class NoteCard extends StatefulWidget {
 
 class _NoteCardState extends State<NoteCard> {
   late Note _note;
-
-  final _cardKey = GlobalKey<ViewCardState>();
 
   @override
   void initState() {
@@ -246,14 +244,24 @@ class _NoteCardState extends State<NoteCard> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
     final formatter = DateFormat.yMMMEd(localizations.localeName);
-    return ViewCard(
-      key: _cardKey,
+
+    final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
+    return Surface(
+      clipBehavior: .antiAlias,
+      shape: shapeTheme.applyCorner(corner: shapeTheme.cornerLarge),
+      color: colorTheme.surfaceContainer,
       child: InkWell(
-        onTap: () {
-          print("${_cardKey.currentState}");
-          _cardKey.currentState?.openView((context) => NoteView(note: _note));
-        },
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute<void>(builder: (context) => NoteView(note: _note)),
+        ),
         onLongPress: () => _showBottomSheet(context),
+        onSecondaryTap: () => _showBottomSheet(context),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Flex.vertical(

@@ -107,7 +107,7 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
 
   Widget _buildPadding(Widget child) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1.0),
       child: child,
     );
   }

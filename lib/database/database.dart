@@ -62,7 +62,6 @@ class AppDatabase extends _$AppDatabase {
     },
     beforeOpen: (details) async {
       if (details.wasCreated) {
-        print("Trying to migrate from Isar");
         await IsarToDriftMigrator.tryMigrate(this);
       }
       await customStatement("PRAGMA foreign_keys = ON");
