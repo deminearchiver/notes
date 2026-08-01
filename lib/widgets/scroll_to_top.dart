@@ -111,6 +111,12 @@ class _ScrollToTopState extends State<ScrollToTop>
 
     final localizations = AppLocalizations.of(context);
 
+    final colorTheme = ColorTheme.of(context);
+    final elevationTheme = ElevationTheme.of(context);
+    final shapeTheme = ShapeTheme.of(context);
+    final stateTheme = StateTheme.of(context);
+    final typescaleTheme = TypescaleTheme.of(context);
+
     return Stack(
       children: [
         widget.child,
@@ -133,9 +139,19 @@ class _ScrollToTopState extends State<ScrollToTop>
                     height: MediaQuery.paddingOf(context).top + widget.top,
                   ),
                   Align.center(
-                    child: FilledButton.tonalIcon(
+                    child: FilledButton.icon(
+                      style: LegacyThemeFactory.createButtonStyle(
+                        colorTheme: colorTheme,
+                        elevationTheme: elevationTheme,
+                        shapeTheme: shapeTheme,
+                        stateTheme: stateTheme,
+                        typescaleTheme: typescaleTheme,
+                        size: .extraSmall,
+                        shape: .square,
+                        color: .tonal,
+                      ),
                       onPressed: _scrollToTop,
-                      icon: const Icon(MaterialSymbols.north_rounded),
+                      icon: const Icon(MaterialSymbols.chevron_line_up_rounded),
                       label: Text(localizations.scroll_to_top),
                     ),
                   ),
