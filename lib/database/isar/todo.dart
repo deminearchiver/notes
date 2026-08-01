@@ -5,12 +5,15 @@ part 'todo.g.dart';
 @collection
 class Todo {
   late int id;
+
   @index
   late String label;
+
   @index
   late String details;
 
   late bool important;
+
   late bool completed;
 
   late DateTime date;

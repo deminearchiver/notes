@@ -15,6 +15,7 @@ class Note {
   late ParchmentDocument content;
 
   List<dynamic> get contentData => content.toDelta().toJson();
+
   set contentData(List<dynamic> value) {
     content = ParchmentDocument.fromJson(value);
   }
@@ -23,6 +24,7 @@ class Note {
   String get contentText => content.toPlainText();
 
   late DateTime createdAt;
+
   late DateTime updatedAt;
 
   late bool favorite;
