@@ -37,6 +37,8 @@ dependencies:
   # Hosted dependencies
   async: ^2.13.1
   collection: ^1.19.1
+  drift_flutter: ^0.3.1
+  drift: ^2.34.3
   file_selector: ^1.1.0
   fleather: ^1.27.0
   fluentui_system_icons: ^1.1.273
@@ -79,10 +81,11 @@ dev_dependencies:
   # Hosted dependencies
   build_runner: ^2.15.1
   deminearchiver_lints: ^2.1.2
+  drift_dev: ^2.34.5
   flutter_lints: ^6.0.0
   freezed: ^4.0.0-dev.3
   icons_launcher: ^3.1.0
-  json_serializable: ^6.14.0
+  json_serializable: ^6.14.1
   msix: ^3.18.0
   slang_build_runner: ^4.18.0
 
