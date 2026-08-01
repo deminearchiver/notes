@@ -259,7 +259,7 @@ abstract final class LegacyThemeFactory {
         padding: const WidgetStatePropertyAll(.symmetric(horizontal: 16)),
         shadowColor: WidgetStateColor.transparent,
       ),
-      cardTheme: const .new(margin: .zero),
+      cardTheme: const .new(margin: .zero, clipBehavior: .antiAlias),
       pageTransitionsTheme: PageTransitionsTheme(
         builders: {
           for (final value in TargetPlatform.values)
