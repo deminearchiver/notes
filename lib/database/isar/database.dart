@@ -209,7 +209,7 @@ abstract class Database {
   static Future<List<Note>> getAllNotes({
     NotesSortBy sort = NotesSortBy.updatedAt,
     Sort order = Sort.desc,
-  }) async {
+  }) {
     final where = isar.notes.where();
     final notes = switch (sort) {
       NotesSortBy.title =>
@@ -223,7 +223,7 @@ abstract class Database {
             ? where.sortByUpdatedAt()
             : where.sortByUpdatedAtDesc(),
     };
-    return notes.findAll();
+    return notes.findAllAsync();
   }
 
   static Stream<List<Note>> watchAllNotes({
@@ -288,7 +288,7 @@ abstract class Database {
   static Future<List<Todo>> getAllTodos({
     TodosSortBy sort = TodosSortBy.date,
     Sort order = Sort.asc,
-  }) async {
+  }) {
     final where = isar.todos.where();
     final todos = switch (sort) {
       TodosSortBy.label =>
@@ -296,7 +296,7 @@ abstract class Database {
       TodosSortBy.date =>
         order == Sort.asc ? where.sortByDate() : where.sortByDateDesc(),
     };
-    return todos.findAll();
+    return todos.findAllAsync();
   }
 
   static Stream<List<Todo>> watchAllTodos({
@@ -335,9 +335,7 @@ abstract class Database {
     return todos.watch(fireImmediately: true);
   }
 
-  static Future<Todo?> getTodo(int id) async {
-    return isar.todos.get(id);
-  }
+  static Future<Todo?> getTodo(int id) => isar.todos.getAsync(id);
 
   static Future<void> addTodo(Todo todo) async {
     await isar.writeAsync((isar) => isar.todos.put(todo));
