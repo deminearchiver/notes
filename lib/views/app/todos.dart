@@ -154,22 +154,19 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _reload,
-      child: ScrollToTop(
+    return ScrollToTop(
+      controller: widget.scrollController,
+      top: 96,
+      minOffset: 120,
+      child: CustomScrollView(
+        key: widget.scrollableKey,
         controller: widget.scrollController,
-        top: 96,
-        minOffset: 120,
-        child: CustomScrollView(
-          key: widget.scrollableKey,
-          controller: widget.scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            if (widget.headerBuilder != null)
-              widget.headerBuilder!(context, _setQuery),
-            widget.contentBuilder(context, _buildContent(context)),
-          ],
-        ),
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
+          if (widget.headerBuilder != null)
+            widget.headerBuilder!(context, _setQuery),
+          widget.contentBuilder(context, _buildContent(context)),
+        ],
       ),
     );
   }

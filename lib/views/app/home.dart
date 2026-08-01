@@ -115,148 +115,143 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    return RefreshIndicator(
-      onRefresh: _refresh,
-      child: ScrollToTop(
+    return ScrollToTop(
+      controller: widget.scrollController,
+      top: 96,
+      minOffset: kToolbarHeight + 28,
+      child: CustomScrollView(
+        key: widget.scrollableKey,
         controller: widget.scrollController,
-        top: 96,
-        minOffset: kToolbarHeight + 28,
-        child: CustomScrollView(
-          key: widget.scrollableKey,
-          controller: widget.scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
-          slivers: [
-            if (widget.headerBuilder != null)
-              widget.headerBuilder!(context, _setQuery),
-            widget.contentBuilder(
-              context,
-              StreamBuilder(
-                stream: _notesController.stream,
-                builder: (context, notesSnapshot) {
-                  return StreamBuilder(
-                    stream: _todosController.stream,
-                    builder: (context, todosSnapshot) {
-                      if (!notesSnapshot.hasData || !todosSnapshot.hasData) {
-                        return _buildLoadingIndicator();
-                      }
-                      final notes = notesSnapshot.data!;
-                      final todos = todosSnapshot.data!;
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
+          if (widget.headerBuilder != null)
+            widget.headerBuilder!(context, _setQuery),
+          widget.contentBuilder(
+            context,
+            StreamBuilder(
+              stream: _notesController.stream,
+              builder: (context, notesSnapshot) {
+                return StreamBuilder(
+                  stream: _todosController.stream,
+                  builder: (context, todosSnapshot) {
+                    if (!notesSnapshot.hasData || !todosSnapshot.hasData) {
+                      return _buildLoadingIndicator();
+                    }
+                    final notes = notesSnapshot.data!;
+                    final todos = todosSnapshot.data!;
 
-                      if (notes.isEmpty && todos.isEmpty) {
-                        return SliverToBoxAdapter(
-                          child: Align.center(
-                            child: Text(
-                              localizations.search_no_results,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
+                    if (notes.isEmpty && todos.isEmpty) {
+                      return SliverToBoxAdapter(
+                        child: Align.center(
+                          child: Text(
+                            localizations.search_no_results,
+                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
-                        );
-                      }
-
-                      final now = DateTime.now();
-
-                      final recentNotes = <Note>[];
-                      final otherNotes = <Note>[];
-                      for (final note in notes) {
-                        if (note.updatedAt.isAfter(
-                          now.subtract(const Duration(days: 7)),
-                        )) {
-                          recentNotes.add(note);
-                        } else {
-                          otherNotes.add(note);
-                        }
-                      }
-
-                      final overdueTodos = <Todo>[];
-                      final completedTodos = <Todo>[];
-                      final otherTodos = <Todo>[];
-                      for (final todo in todos) {
-                        if (todo.date.isBefore(now) && !todo.completed) {
-                          overdueTodos.add(todo);
-                        } else if (todo.completed) {
-                          completedTodos.add(todo);
-                        } else {
-                          otherTodos.add(todo);
-                        }
-                      }
-                      return SliverList.list(
-                        children: [
-                          if (overdueTodos.isNotEmpty)
-                            SectionHeader(
-                              localizations.app_home_view_overdue(
-                                overdueTodos.length,
-                              ),
-                              icon: const Icon(
-                                MaterialSymbols.priority_high_rounded,
-                              ),
-                            ),
-                          ...overdueTodos.map(
-                            (todo) => _buildPadding(
-                              TodoCard(key: ValueKey(todo.id), todo: todo),
-                            ),
-                          ),
-                          if (recentNotes.isNotEmpty)
-                            SectionHeader(
-                              localizations.app_home_view_recent(
-                                recentNotes.length,
-                              ),
-                              icon: const Icon(MaterialSymbols.update_rounded),
-                            ),
-                          ...recentNotes.map(
-                            (note) => _buildPadding(
-                              NoteCard(key: ValueKey(note.id), note: note),
-                            ),
-                          ),
-                          if (otherTodos.isNotEmpty)
-                            SectionHeader(
-                              localizations.app_home_view_todos(
-                                otherTodos.length,
-                              ),
-                              icon: const Icon(
-                                MaterialSymbols.radio_button_unchecked_rounded,
-                              ),
-                            ),
-                          ...otherTodos.map(
-                            (todo) => _buildPadding(
-                              TodoCard(key: ValueKey(todo.id), todo: todo),
-                            ),
-                          ),
-                          if (otherNotes.isNotEmpty)
-                            SectionHeader(
-                              localizations.app_home_view_notes(
-                                otherNotes.length,
-                              ),
-                              icon: const Icon(MaterialSymbols.notes_rounded),
-                            ),
-                          ...otherNotes.map(
-                            (note) => _buildPadding(
-                              NoteCard(key: ValueKey(note.id), note: note),
-                            ),
-                          ),
-                          if (completedTodos.isNotEmpty)
-                            SectionHeader(
-                              localizations.app_home_view_completed(
-                                completedTodos.length,
-                              ),
-                              icon: const Icon(
-                                MaterialSymbols.task_alt_rounded,
-                              ),
-                            ),
-                          ...completedTodos.map(
-                            (todo) => _buildPadding(
-                              TodoCard(key: ValueKey(todo.id), todo: todo),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                        ],
+                        ),
                       );
-                    },
-                  );
-                },
-              ),
+                    }
+
+                    final now = DateTime.now();
+
+                    final recentNotes = <Note>[];
+                    final otherNotes = <Note>[];
+                    for (final note in notes) {
+                      if (note.updatedAt.isAfter(
+                        now.subtract(const Duration(days: 7)),
+                      )) {
+                        recentNotes.add(note);
+                      } else {
+                        otherNotes.add(note);
+                      }
+                    }
+
+                    final overdueTodos = <Todo>[];
+                    final completedTodos = <Todo>[];
+                    final otherTodos = <Todo>[];
+                    for (final todo in todos) {
+                      if (todo.date.isBefore(now) && !todo.completed) {
+                        overdueTodos.add(todo);
+                      } else if (todo.completed) {
+                        completedTodos.add(todo);
+                      } else {
+                        otherTodos.add(todo);
+                      }
+                    }
+                    return SliverList.list(
+                      children: [
+                        if (overdueTodos.isNotEmpty)
+                          SectionHeader(
+                            localizations.app_home_view_overdue(
+                              overdueTodos.length,
+                            ),
+                            icon: const Icon(
+                              MaterialSymbols.priority_high_rounded,
+                            ),
+                          ),
+                        ...overdueTodos.map(
+                          (todo) => _buildPadding(
+                            TodoCard(key: ValueKey(todo.id), todo: todo),
+                          ),
+                        ),
+                        if (recentNotes.isNotEmpty)
+                          SectionHeader(
+                            localizations.app_home_view_recent(
+                              recentNotes.length,
+                            ),
+                            icon: const Icon(MaterialSymbols.update_rounded),
+                          ),
+                        ...recentNotes.map(
+                          (note) => _buildPadding(
+                            NoteCard(key: ValueKey(note.id), note: note),
+                          ),
+                        ),
+                        if (otherTodos.isNotEmpty)
+                          SectionHeader(
+                            localizations.app_home_view_todos(
+                              otherTodos.length,
+                            ),
+                            icon: const Icon(
+                              MaterialSymbols.radio_button_unchecked_rounded,
+                            ),
+                          ),
+                        ...otherTodos.map(
+                          (todo) => _buildPadding(
+                            TodoCard(key: ValueKey(todo.id), todo: todo),
+                          ),
+                        ),
+                        if (otherNotes.isNotEmpty)
+                          SectionHeader(
+                            localizations.app_home_view_notes(
+                              otherNotes.length,
+                            ),
+                            icon: const Icon(MaterialSymbols.notes_rounded),
+                          ),
+                        ...otherNotes.map(
+                          (note) => _buildPadding(
+                            NoteCard(key: ValueKey(note.id), note: note),
+                          ),
+                        ),
+                        if (completedTodos.isNotEmpty)
+                          SectionHeader(
+                            localizations.app_home_view_completed(
+                              completedTodos.length,
+                            ),
+                            icon: const Icon(MaterialSymbols.task_alt_rounded),
+                          ),
+                        ...completedTodos.map(
+                          (todo) => _buildPadding(
+                            TodoCard(key: ValueKey(todo.id), todo: todo),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
