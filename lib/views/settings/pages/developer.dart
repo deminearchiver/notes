@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:notes/database/database.dart';
+import 'package:notes/database/isar/database.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/settings/scaffold.dart';
 import 'package:notes/views/settings/widgets.dart';

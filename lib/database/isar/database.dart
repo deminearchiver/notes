@@ -1,10 +1,11 @@
 import 'package:fleather/fleather.dart';
 import 'package:isar_plus/isar_plus.dart';
-import 'package:notes/database/note.dart';
-import 'package:notes/database/todo.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:parchment/codecs.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'note.dart';
+import 'todo.dart';
 
 enum NotesSortBy { title, createdAt, updatedAt }
 

@@ -4,7 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:notes/app.dart';
 import 'package:notes/constants/images.dart';
-import 'package:notes/database/database.dart';
+import 'package:notes/database/isar/database.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/flutter.dart';

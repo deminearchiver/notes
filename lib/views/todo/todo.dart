@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:intl/intl.dart';
 import 'package:notes/constants/constants.dart';
-import 'package:notes/database/database.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/isar/database.dart';
+import 'package:notes/database/isar/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:notes/flutter.dart';

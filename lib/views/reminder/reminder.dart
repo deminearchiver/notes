@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:notes/database/database.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/isar/database.dart';
+import 'package:notes/database/isar/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/flutter.dart';
 
@@ -59,14 +59,14 @@ class _ReminderViewState extends State<ReminderView> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const Flexible.space(),
-                if (!widget.todo.important) const Icon(
-                        MaterialSymbols.notification_important_rounded,
-                        color: Colors.red,
-                        size: 36,
-                      ) else const Icon(
-                        MaterialSymbols.notifications_rounded,
-                        size: 36,
-                      ),
+                if (!widget.todo.important)
+                  const Icon(
+                    MaterialSymbols.notification_important_rounded,
+                    color: Colors.red,
+                    size: 36,
+                  )
+                else
+                  const Icon(MaterialSymbols.notifications_rounded, size: 36),
                 const SizedBox(height: 16),
                 Text(
                   widget.todo.label,

@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:intl/intl.dart';
 import 'package:isar_plus/isar_plus.dart';
-import 'package:notes/database/database.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/isar/database.dart';
+import 'package:notes/database/isar/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/app/card.dart';
 import 'package:notes/views/todo/todo.dart';

@@ -79,17 +79,11 @@ class Switcher extends StatelessWidget {
     return _isSliver
         ? SliverStack(
             // positionedAlignment: alignment,
-            children: [
-              ...previousChildren,
-              ?currentChild,
-            ],
+            children: [...previousChildren, ?currentChild],
           )
         : Stack(
             alignment: alignment,
-            children: [
-              ...previousChildren,
-              ?currentChild,
-            ],
+            children: [...previousChildren, ?currentChild],
           );
   }
 

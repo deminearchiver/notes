@@ -1,10 +1,10 @@
 import 'package:isar_plus/isar_plus.dart';
+
 part 'todo.g.dart';
 
 @collection
 class Todo {
   late int id;
-
   @index
   late String label;
   @index

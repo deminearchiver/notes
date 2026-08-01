@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:isar_plus/isar_plus.dart';
 import 'package:fleather/fleather.dart';
+import 'package:isar_plus/isar_plus.dart';
 
 part 'note.g.dart';
 

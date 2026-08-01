@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:notes/database/database.dart';
-import 'package:notes/database/note.dart';
-import 'package:notes/database/todo.dart';
+import 'package:notes/database/isar/database.dart';
+import 'package:notes/database/isar/note.dart';
+import 'package:notes/database/isar/todo.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/app/notes.dart';
 import 'package:notes/views/app/todos.dart';
