@@ -8,7 +8,6 @@ import 'package:notes/views/settings/scaffold.dart';
 import 'package:notes/views/settings/widgets.dart';
 import 'package:notes/views/about/about.dart';
 import 'package:notes/widgets/dialog/language_picker.dart';
-import 'package:provider/provider.dart';
 
 import 'package:notes/flutter.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +25,7 @@ class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final settings = context.watch<Settings>();
+    final settings = Settings.of(context);
     return SettingsScaffold.list(
       title: Text(localizations.settings_view),
       //       actions: [
@@ -217,7 +216,7 @@ class _SettingsViewState extends State<SettingsView> {
               );
               if (result == true) {
                 if (!context.mounted) return;
-                context.read<Settings>().reset();
+                Settings.of(context, listen: false).reset();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(localizations.reset_settings_success),
@@ -253,7 +252,7 @@ class SettingsViewAppearancePage extends StatelessWidget {
   const SettingsViewAppearancePage({super.key});
 
   Future<void> _chooseLanguage(BuildContext context) async {
-    final settings = context.read<Settings>();
+    final settings = Settings.of(context, listen: false);
     final result = await showLanguagePickerDialog(
       context: context,
       initialLocale: settings.locale,

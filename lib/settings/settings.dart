@@ -9,6 +9,9 @@ Future<T> sharedPreferences<T>(
 
 class Settings with ChangeNotifier {
   Settings._() {
+    if (kFlutterMemoryAllocationsEnabled) {
+      ChangeNotifier.maybeDispatchObjectCreation(this);
+    }
     unawaited(reload());
   }
 
@@ -142,6 +145,26 @@ class Settings with ChangeNotifier {
       ),
     );
   }
+
+  static const _selector = InheritedProviderSelector<Settings>();
+
+  static Settings? maybeOf(BuildContext context, {bool listen = true}) =>
+      _selector.maybeOf(context, listen: listen);
+
+  static Settings of(BuildContext context, {bool listen = true}) =>
+      _selector.of(context, listen: listen);
+
+  static T maybeAspectOf<T extends Object?>(
+    BuildContext context,
+    T Function(Settings? settings) selector, {
+    bool listen = true,
+  }) => _selector.maybeAspectOf(context, selector, listen: listen);
+
+  static T aspectOf<T extends Object?>(
+    BuildContext context,
+    T Function(Settings settings) selector, {
+    bool listen = true,
+  }) => _selector.aspectOf(context, selector, listen: listen);
 }
 
 extension EnumByName<T extends Enum> on Iterable<T> {

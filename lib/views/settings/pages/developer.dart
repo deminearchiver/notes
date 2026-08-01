@@ -4,7 +4,6 @@ import 'package:notes/database/isar/database.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/settings/scaffold.dart';
 import 'package:notes/views/settings/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart' show SliverPinnedHeader;
 import 'package:notes/flutter.dart';
 
@@ -22,7 +21,7 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final settings = context.watch<Settings>();
+    final settings = Settings.of(context);
     return SettingsScaffold.sliver(
       title: const Text("Для разработчиков"),
       slivers: [

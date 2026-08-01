@@ -2,7 +2,6 @@ import 'package:notes/l10n/l10n.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/onboarding/scaffold.dart';
-import 'package:provider/provider.dart';
 import 'package:notes/flutter.dart';
 
 class OnboardingDone extends StatelessWidget {
@@ -18,7 +17,7 @@ class OnboardingDone extends StatelessWidget {
       actions: [
         FilledButton(
           onPressed: () {
-            context.read<Settings>().firstRun = false;
+            Settings.of(context, listen: false).firstRun = false;
             OnboardingScope.of(context).close();
           },
           child: Text(localizations.onboarding_done_view_action),

@@ -11,7 +11,6 @@ import 'package:notes/settings/settings.dart';
 import 'package:notes/views/app/app.dart';
 import 'package:notes/views/onboarding/scope.dart';
 import 'package:notes/views/reminder/reminder.dart';
-import 'package:provider/provider.dart';
 import 'package:notes/flutter.dart';
 
 class App extends StatefulWidget {
@@ -80,7 +79,7 @@ class _AppState extends State<App> {
   }
 
   Widget _buildApp(BuildContext context) {
-    final settings = context.watch<Settings>();
+    final settings = Settings.of(context);
     return RawMaterialApp(
       // Debugging
       debugShowCheckedModeBanner: false,
@@ -94,7 +93,7 @@ class _AppState extends State<App> {
       localizationsDelegates: const [
         ...AppLocalizations.localizationsDelegates,
       ],
-      locale: context.watch<Settings>().locale,
+      locale: settings.locale,
       supportedLocales: AppLocalizations.supportedLocales,
       onGenerateTitle: (context) => AppLocalizations.of(context).app_name,
 
@@ -215,7 +214,8 @@ class AppThemes extends SingleChildStatelessWidget {
     BuildContext context,
   ) => SingleChildBuilder(
     builder: (context, child) {
-      final themeMode = context.select<Settings, ThemeMode>(
+      final themeMode = Settings.aspectOf<ThemeMode>(
+        context,
         (settings) => settings.themeMode,
       );
 

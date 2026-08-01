@@ -3,7 +3,6 @@ import 'package:notes/settings/settings.dart';
 import 'package:notes/widgets/dialog/language_picker.dart';
 import 'package:notes/widgets/section_header.dart';
 import 'package:notes/widgets/switcher/switcher.dart';
-import 'package:provider/provider.dart';
 import 'package:notes/flutter.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/views/onboarding/scope.dart';
@@ -20,7 +19,7 @@ class OnboardingSetup extends StatefulWidget {
 
 class _OnboardingSetupState extends State<OnboardingSetup> {
   Future<void> _chooseLanguage() async {
-    final settings = context.read<Settings>();
+    final settings = Settings.of(context, listen: false);
     final result = await showLanguagePickerDialog(
       context: context,
       initialLocale: settings.locale,
