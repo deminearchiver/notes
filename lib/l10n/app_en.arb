@@ -6,7 +6,7 @@
       "locale": {
         "description": "Locale",
         "type":"String",
-        "example": "en" 
+        "example": "en"
       }
     }
   },
@@ -142,10 +142,10 @@
 
   "onboarding_back": "Back",
   "onboarding_next": "Next",
-  
+
   "onboarding_welcome_view_title": "Welcome!",
   "onboarding_welcome_view_subtitle": "\"Notes\" is a note-taking and to-do app",
-  
+
   "onboarding_setup_view_title": "Set up",
   "onboarding_setup_view_subtitle": "Let's get you set up!",
   "onboarding_setup_view_permissions": "Permissions",

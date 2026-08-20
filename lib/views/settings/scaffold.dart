@@ -11,6 +11,7 @@ class SettingsScaffold extends StatelessWidget {
     this.actions = const [],
     required this.children,
   }) : _variant = _SettingsScaffoldVariant.list;
+
   const SettingsScaffold.sliver({
     super.key,
     this.onRefresh,
@@ -36,10 +37,9 @@ class SettingsScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final body = CustomScrollView(
       slivers: [
-        SliverAppBar.large(
+        SliverAppBar(
           pinned: true,
           toolbarHeight: 64,
-          expandedHeight: 152,
           leadingWidth: 64,
           leading: Navigator.canPop(context)
               ? IconButton(

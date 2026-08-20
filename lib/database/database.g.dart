@@ -549,7 +549,7 @@ class NotesFts extends Table
   bool get dontWriteConstraints => true;
   @override
   String get moduleAndArgs =>
-      'fts5(title, content_text, tokenize = \'unicode61\', content = \'notes\', content_rowid = \'id\')';
+      'fts5(title, content_text, tokenize = "unicode61 remove_diacritics 1 tokenchars \'-\'", content = \'notes\', content_rowid = \'id\')';
 }
 
 class NoteFts extends DataClass implements Insertable<NoteFts> {
@@ -1161,7 +1161,7 @@ class TodosFts extends Table
   bool get dontWriteConstraints => true;
   @override
   String get moduleAndArgs =>
-      'fts5(label, details, tokenize = \'unicode61\', content = \'todos\', content_rowid = \'id\')';
+      'fts5(label, details, tokenize = "unicode61 remove_diacritics 1 tokenchars \'-\'", content = \'todos\', content_rowid = \'id\')';
 }
 
 class TodoFts extends DataClass implements Insertable<TodoFts> {
@@ -1302,7 +1302,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'notes_insert',
   );
   late final Trigger notesUpdate = Trigger(
-    'CREATE TRIGGER notes_update AFTER UPDATE ON notes BEGIN INSERT INTO notes_fts ("rowid", title, content_text) VALUES (new.id, new.title, new.content_text);END',
+    'CREATE TRIGGER notes_update AFTER UPDATE ON notes BEGIN DELETE FROM notes_fts WHERE "rowid" = old.id;INSERT INTO notes_fts ("rowid", title, content_text) VALUES (new.id, new.title, new.content_text);END',
     'notes_update',
   );
   late final Trigger notesDelete = Trigger(
@@ -1316,7 +1316,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     'todos_insert',
   );
   late final Trigger todosUpdate = Trigger(
-    'CREATE TRIGGER todos_update AFTER UPDATE ON todos BEGIN INSERT INTO todos_fts ("rowid", label, details) VALUES (new.id, new.label, new.details);END',
+    'CREATE TRIGGER todos_update AFTER UPDATE ON todos BEGIN DELETE FROM todos_fts WHERE "rowid" = old.id;INSERT INTO todos_fts ("rowid", label, details) VALUES (new.id, new.label, new.details);END',
     'todos_update',
   );
   late final Trigger todosDelete = Trigger(
@@ -1369,7 +1369,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         'notes',
         limitUpdateKind: UpdateKind.update,
       ),
-      result: [TableUpdate('notes_fts', kind: UpdateKind.insert)],
+      result: [
+        TableUpdate('notes_fts', kind: UpdateKind.delete),
+        TableUpdate('notes_fts', kind: UpdateKind.insert),
+      ],
     ),
     WritePropagation(
       on: TableUpdateQuery.onTableName(
@@ -1390,7 +1393,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         'todos',
         limitUpdateKind: UpdateKind.update,
       ),
-      result: [TableUpdate('todos_fts', kind: UpdateKind.insert)],
+      result: [
+        TableUpdate('todos_fts', kind: UpdateKind.delete),
+        TableUpdate('todos_fts', kind: UpdateKind.insert),
+      ],
     ),
     WritePropagation(
       on: TableUpdateQuery.onTableName(

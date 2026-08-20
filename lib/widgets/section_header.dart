@@ -9,9 +9,7 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
-    final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
-    final stateTheme = StateTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
 
     return Padding(

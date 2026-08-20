@@ -5,12 +5,11 @@
     "placeholders": {
       "locale": {
         "description": "Locale",
-        "type":"String",
-        "example": "en" 
+        "type": "String",
+        "example": "en"
       }
     }
   },
-
   "design_system": "Система дизайна",
   "icons": "Иконки",
   "font": "Шрифт",
@@ -21,33 +20,24 @@
   "sort_ascending": "По возрастанию",
   "sort_descending": "По убыванию",
   "scroll_to_top": "Наверх",
-
   "theme_auto": "Авто",
   "theme_auto_tooltip": "Использует тему системы",
   "theme_light": "Светлая",
   "theme_light_tooltip": "Использует светлые цвета",
   "theme_dark": "Тёмная",
   "theme_dark_tooltip": "Использует тёмные цвета",
-
   "app_name": "Заметки",
   "app_author": "deminearchiver",
-
   "about_app": "О приложении",
   "about_author": "Об авторе",
-
-
   "about_view_technologies": "Технологии",
   "about_view_links": "Ссылки",
   "about_view_licenses": "Open-source лицензии",
-
   "close": "Закрыть",
   "cancel": "Отмена",
   "ok": "ОК",
-
   "current_language": "Текущий язык",
   "pick_language": "Выберите язык",
-
-
   "app_home_view": "Обзор",
   "app_home_view_search": "Поиск в заметках и задачах",
   "app_home_view_overdue": "Просроченные ({count})",
@@ -96,13 +86,11 @@
   "app_notes_view_sort_title": "Название",
   "app_notes_view_sort_created": "Дата создания",
   "app_notes_view_sort_modified": "Дата изменения",
-
   "app_todos_view": "Задачи",
   "app_todos_view_search": "Поиск в задачах",
   "app_todos_view_create": "Задача",
   "app_todos_view_sort_label": "Название",
   "app_todos_view_sort_date": "Дата",
-
   "note_view_title_hint": "Заголок",
   "todo_view_label_hint": "Название",
   "todo_view_details_hint": "Подробности",
@@ -112,7 +100,6 @@
   "todo_view_reminder": "Напоминание",
   "todo_view_reminder_date": "Дата",
   "todo_view_reminder_time": "Время",
-
   "settings_view": "Настройки",
   "settings_view_options": "Опции",
   "settings_general_view": "Основное",
@@ -133,20 +120,15 @@
   "settings_view_clear_database": "Очистить базу данных",
   "settings_view_clear_database_description": "Это действие нельзя будет отменить",
   "settings_view_clear_database_action": "Очистить",
-
   "reset_settings": "Сбросить настройки",
   "reset_settings_confirmation": "Вы уверены, что хотите сбросить ВСЕ настройки? Это действие НЕЛЬЗЯ будет отменить.",
   "reset_settings_success": "Настройки успешно сброшены",
-
   "reminder_view_dismiss": "Закрыть",
   "reminder_view_done": "Сделано",
-
   "onboarding_back": "Назад",
   "onboarding_next": "Далее",
-  
   "onboarding_welcome_view_title": "Добро пожаловать!",
   "onboarding_welcome_view_subtitle": "\"Заметки\" - это приложение для заметок и задач",
-  
   "onboarding_setup_view_title": "Настройка",
   "onboarding_setup_view_subtitle": "Настроим всё для вашего лучшего опыта",
   "onboarding_setup_view_permissions": "Разрешения",
@@ -154,7 +136,6 @@
   "onboarding_setup_view_permission_description": "Нажмите, чтобы запросить разрешение",
   "onboarding_setup_view_appearance": "Внешний вид",
   "onboarding_setup_view_theme": "Выберите тему",
-
   "onboarding_done_view_title": "Поздравляем!",
   "onboarding_done_view_subtitle": "Всё настроено и готово к работе!",
   "onboarding_done_view_action": "Поехали!"

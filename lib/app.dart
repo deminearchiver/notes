@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:notes/database/isar/database.dart';
-import 'package:notes/database/isar/todo.dart';
+import 'package:notes/database/database.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
@@ -28,15 +27,18 @@ class _AppState extends State<App> {
   Future<void> _notificationsListener(NotificationResponse details) async {
     FlutterNativeSplash.remove();
     if (details.id != null) {
-      final todo = await Database.getTodo(details.id!);
+      final database = AppDatabase.of(context, listen: false);
+      final todo = await database.todoById(details.id!).getSingleOrNull();
       if (todo == null || todo.completed) return;
 
       switch (details.actionId) {
         case "dismiss":
           break;
         case "done":
-          todo.completed = true;
-          await Database.addTodo(todo);
+          await (database.update(database.todos)
+                ..where((t) => t.id.equals(todo.id)))
+              .write(const TodosCompanion(completed: .new(true)));
+          await NotificationService.cancel(todo.id);
 
         default:
           if (mounted) {

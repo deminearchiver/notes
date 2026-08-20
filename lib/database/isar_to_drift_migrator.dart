@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:isar_plus/isar_plus.dart';
-import 'package:parchment/parchment.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -85,7 +84,7 @@ abstract final class IsarToDriftMigrator {
 
       await setMigrated(true);
       return true;
-    } on Object catch (e, s) {
+    } on Object {
       if (isar.isOpen) isar.close();
 
       return false;

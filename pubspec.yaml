@@ -81,7 +81,7 @@ dev_dependencies:
 
   # Hosted dependencies
   build_runner: ^2.15.1
-  deminearchiver_lints: ^2.1.2
+  deminearchiver_lints: ^3.1.0
   drift_dev: ^2.34.5
   flutter_lints: ^6.0.0
   freezed: ^4.0.0-dev.3

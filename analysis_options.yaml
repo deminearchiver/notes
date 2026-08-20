@@ -1,3 +1,3 @@
 include:
-  - package:deminearchiver_lints/base.yaml
-  - package:deminearchiver_lints/app.yaml
+  - package:deminearchiver_lints/analysis_options_flutter.yaml
+  - package:deminearchiver_lints/app/loose.yaml

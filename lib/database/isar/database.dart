@@ -341,10 +341,10 @@ abstract class Database {
     await isar.writeAsync((isar) => isar.todos.put(todo));
     // TODO: move this logic somewhere else
 
-    await NotificationService.cancel(todo.id);
-    if (!todo.completed) {
-      await NotificationService.scheduleTodoNotification(todo);
-    }
+    // await NotificationService.cancel(todo.id);
+    // if (!todo.completed) {
+    //   await NotificationService.scheduleTodoNotification(todo);
+    // }
   }
 
   // static Future<void> updateTodo(Todo todo) async {
@@ -358,16 +358,16 @@ abstract class Database {
 
   static Future<void> addTodos(List<Todo> todos) async {
     await isar.writeAsync((isar) => isar.todos.putAll(todos));
-    for (final todo in todos) {
-      await NotificationService.scheduleTodoNotification(todo);
-    }
+    // for (final todo in todos) {
+    //   await NotificationService.scheduleTodoNotification(todo);
+    // }
   }
 
   static Future<void> deleteTodo(int id) async {
     final todo = await getTodo(id);
     if (todo == null) return;
 
-    await NotificationService.cancel(todo.id);
+    // await NotificationService.cancel(todo.id);
 
     await isar.writeAsync((isar) => isar.todos.delete(id));
   }

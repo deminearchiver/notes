@@ -7,6 +7,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:slang/generated.dart';
+
 import 'strings.g.dart';
 
 // Path: <root>

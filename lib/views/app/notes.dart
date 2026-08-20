@@ -1,17 +1,18 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart';
 import 'package:intl/intl.dart';
 import 'package:isar_plus/isar_plus.dart';
-import 'package:notes/database/isar/database.dart';
-import 'package:notes/database/isar/note.dart';
+import 'package:notes/database/database.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:notes/views/app/card.dart';
 import 'package:notes/views/note/note.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:notes/flutter.dart';
+
+enum NotesSortBy { title, createdAt, updatedAt }
 
 class AppViewNotesPage extends StatefulWidget {
   const AppViewNotesPage({
@@ -62,21 +63,51 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
   }
 
   Future<void> _reload() async {
-    final notes = Database.watchSearchNotes(
-      _query,
-      sort: _sortBy,
-      order: _sortOrder,
-    );
+    final database = AppDatabase.of(context, listen: false);
+
+    Expression<Object> orderColumn(Notes n) => switch (_sortBy) {
+      NotesSortBy.title => n.title,
+      NotesSortBy.createdAt => n.createdAt,
+      NotesSortBy.updatedAt => n.updatedAt,
+    };
+
+    final mode = _sortOrder == Sort.asc ? OrderingMode.asc : OrderingMode.desc;
+
+    final trimmed = _query.trim();
+    final Stream<List<Note>> notesStream;
+    if (trimmed.isEmpty) {
+      notesStream =
+          (database.select(database.notes)..orderBy([
+                (t) => OrderingTerm(expression: orderColumn(t), mode: mode),
+              ]))
+              .watch();
+    } else {
+      notesStream = database
+          .searchNotes(
+            trimmed,
+            orderBy: (notesTable, notesFts) => OrderBy([
+              OrderingTerm(expression: orderColumn(notesTable), mode: mode),
+            ]),
+          )
+          .watch();
+    }
     _refreshCompleter = Completer();
 
     unawaited(_notesSubscription?.cancel());
-    _notesSubscription = notes.listen((event) {
-      _notes.add(event);
-      if (_refreshCompleter?.isCompleted ?? false) return;
-      _refreshCompleter?.complete();
-    });
+    _notesSubscription = notesStream.listen(
+      (event) {
+        _notes.add(event);
+        if (_refreshCompleter?.isCompleted ?? false) return;
+        _refreshCompleter?.complete();
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        _notes.addError(error, stackTrace);
+        if (_refreshCompleter?.isCompleted ?? false) return;
+        _refreshCompleter?.complete();
+      },
+    );
 
-    return _refreshCompleter?.future;
+    await _refreshCompleter?.future;
   }
 
   void _setQuery(String value) {
@@ -199,6 +230,14 @@ class _NoteCardState extends State<NoteCard> {
   }
 
   @override
+  void didUpdateWidget(covariant NoteCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_note != widget.note) {
+      _note = widget.note;
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
@@ -228,12 +267,18 @@ class _NoteCardState extends State<NoteCard> {
     );
     switch (result) {
       case "delete":
-        await Database.deleteNote(_note.id);
+        if (!context.mounted) break;
+        final database = AppDatabase.of(context, listen: false);
+        await (database.delete(
+          database.notes,
+        )..where((t) => t.id.equals(_note.id))).go();
       case "share":
-        await Share.share(
-          "${_note.title}\n"
-          "${_note.contentText}",
-          subject: _note.title,
+        await SharePlus.instance.share(
+          .new(
+            title: _note.title,
+            text: _note.contentText,
+            subject: _note.title,
+          ),
         );
       default:
         break;
@@ -246,10 +291,10 @@ class _NoteCardState extends State<NoteCard> {
     final formatter = DateFormat.yMMMEd(localizations.localeName);
 
     final colorTheme = ColorTheme.of(context);
-    final elevationTheme = ElevationTheme.of(context);
+    // final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
-    final stateTheme = StateTheme.of(context);
-    final typescaleTheme = TypescaleTheme.of(context);
+    // final stateTheme = StateTheme.of(context);
+    // final typescaleTheme = TypescaleTheme.of(context);
 
     return Surface(
       clipBehavior: .antiAlias,

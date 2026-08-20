@@ -1,16 +1,18 @@
 import 'dart:async';
 
+import 'package:drift/drift.dart';
 import 'package:intl/intl.dart';
 import 'package:isar_plus/isar_plus.dart';
-import 'package:notes/database/isar/database.dart';
-import 'package:notes/database/isar/todo.dart';
+import 'package:notes/database/database.dart';
+import 'package:notes/services/notifications.dart';
 import 'package:notes/l10n/l10n.dart';
-import 'package:notes/views/app/card.dart';
 import 'package:notes/views/todo/todo.dart';
 import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:notes/flutter.dart';
+
+enum TodosSortBy { label, date }
 
 class AppViewTodosPage extends StatefulWidget {
   const AppViewTodosPage({
@@ -60,19 +62,48 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
   }
 
   Future<void> _reload() async {
-    final todos = Database.watchSearchTodos(
-      _query,
-      sort: _sortBy,
-      order: _sortOrder,
-    );
+    final database = AppDatabase.of(context, listen: false);
+
+    Expression<Object> orderColumn(Todos t) => switch (_sortBy) {
+      TodosSortBy.label => t.label,
+      TodosSortBy.date => t.date,
+    };
+
+    final mode = _sortOrder == Sort.asc ? OrderingMode.asc : OrderingMode.desc;
+
+    final trimmed = _query.trim();
+    final Stream<List<Todo>> todosStream;
+    if (trimmed.isEmpty) {
+      todosStream =
+          (database.select(database.todos)..orderBy([
+                (t) => OrderingTerm(expression: orderColumn(t), mode: mode),
+              ]))
+              .watch();
+    } else {
+      todosStream = database
+          .searchTodos(
+            trimmed,
+            orderBy: (todosTable, todosFts) => OrderBy([
+              OrderingTerm(expression: orderColumn(todosTable), mode: mode),
+            ]),
+          )
+          .watch();
+    }
 
     unawaited(_todosSubscription?.cancel());
     _refreshCompleter = Completer();
-    _todosSubscription = todos.listen((event) {
-      _todos.add(event);
-      if (_refreshCompleter?.isCompleted ?? false) return;
-      _refreshCompleter?.complete();
-    });
+    _todosSubscription = todosStream.listen(
+      (event) {
+        _todos.add(event);
+        if (_refreshCompleter?.isCompleted ?? false) return;
+        _refreshCompleter?.complete();
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        _todos.addError(error, stackTrace);
+        if (_refreshCompleter?.isCompleted ?? false) return;
+        _refreshCompleter?.complete();
+      },
+    );
 
     return _refreshCompleter?.future;
   }
@@ -204,9 +235,25 @@ class _TodoCardState extends State<TodoCard> {
   }
 
   Future<void> _setTodo({bool? completed, bool? important}) async {
-    if (completed != null) _todo.completed = completed;
-    if (important != null) _todo.important = important;
-    await Database.addTodo(_todo);
+    final database = AppDatabase.of(context, listen: false);
+
+    final companion = TodosCompanion(
+      completed: completed != null ? .new(completed) : const .absent(),
+      important: important != null ? .new(important) : const .absent(),
+    );
+
+    await (database.update(
+      database.todos,
+    )..where((t) => t.id.equals(_todo.id))).write(companion);
+
+    await NotificationService.cancel(_todo.id);
+    final currentCompleted = completed ?? _todo.completed;
+    if (!currentCompleted) {
+      final updatedTodo = await database.todoById(_todo.id).getSingleOrNull();
+      if (updatedTodo != null) {
+        await NotificationService.scheduleTodoNotification(updatedTodo);
+      }
+    }
   }
 
   Future<void> _showBottomSheet(BuildContext context) async {
@@ -229,7 +276,12 @@ class _TodoCardState extends State<TodoCard> {
     );
     switch (result) {
       case "delete":
-        unawaited(Database.deleteTodo(_todo.id));
+        if (!context.mounted) break;
+        final database = AppDatabase.of(context, listen: false);
+        await NotificationService.cancel(_todo.id);
+        await (database.delete(
+          database.todos,
+        )..where((t) => t.id.equals(_todo.id))).go();
       default:
         break;
     }
@@ -238,9 +290,9 @@ class _TodoCardState extends State<TodoCard> {
   @override
   Widget build(BuildContext context) {
     final colorTheme = ColorTheme.of(context);
-    final elevationTheme = ElevationTheme.of(context);
+    // final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
-    final stateTheme = StateTheme.of(context);
+    // final stateTheme = StateTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
 
     final titleTextStyle = typescaleTheme.titleMedium.toTextStyle(

@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:notes/database/isar/database.dart';
-import 'package:notes/database/isar/note.dart';
-import 'package:notes/database/isar/todo.dart';
+import 'package:drift/drift.dart';
+import 'package:notes/database/database.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/app/notes.dart';
 import 'package:notes/views/app/todos.dart';
@@ -66,8 +65,45 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
   }
 
   Future<void> _refresh() async {
-    final notes = Database.watchSearchNotes(_query);
-    final todos = Database.watchSearchTodos(_query);
+    final database = AppDatabase.of(context, listen: false);
+
+    final Stream<List<Note>> notes;
+    final Stream<List<Todo>> todos;
+
+    final trimmed = _query.trim();
+    if (trimmed.isEmpty) {
+      notes =
+          (database.select(database.notes)..orderBy([
+                (t) => OrderingTerm(
+                  expression: t.updatedAt,
+                  mode: OrderingMode.desc,
+                ),
+              ]))
+              .watch();
+      todos =
+          (database.select(database.todos)..orderBy([
+                (t) => OrderingTerm(expression: t.date, mode: OrderingMode.asc),
+              ]))
+              .watch();
+    } else {
+      notes = database
+          .searchNotes(
+            trimmed,
+            orderBy: (n, fts) => OrderBy([
+              OrderingTerm(expression: n.updatedAt, mode: OrderingMode.desc),
+            ]),
+          )
+          .watch();
+
+      todos = database
+          .searchTodos(
+            trimmed,
+            orderBy: (t, fts) => OrderBy([
+              OrderingTerm(expression: t.date, mode: OrderingMode.asc),
+            ]),
+          )
+          .watch();
+    }
 
     unawaited(_notesSubscription?.cancel());
     unawaited(_todosSubscription?.cancel());
@@ -75,16 +111,34 @@ class _AppViewHomePageState extends State<AppViewHomePage> {
     _todosCompleter = Completer<void>();
     _notesCompleter = Completer<void>();
 
-    _notesSubscription = notes.listen((event) {
-      if (!_notesController.isClosed) _notesController.add(event);
-      if (_notesCompleter?.isCompleted ?? false) return;
-      _notesCompleter?.complete();
-    });
-    _todosSubscription = todos.listen((event) {
-      if (!_todosController.isClosed) _todosController.add(event);
-      if (_todosCompleter?.isCompleted ?? false) return;
-      _todosCompleter?.complete();
-    });
+    _notesSubscription = notes.listen(
+      (event) {
+        if (!_notesController.isClosed) _notesController.add(event);
+        if (_notesCompleter?.isCompleted ?? false) return;
+        _notesCompleter?.complete();
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        if (!_notesController.isClosed) {
+          _notesController.addError(error, stackTrace);
+        }
+        if (_notesCompleter?.isCompleted ?? false) return;
+        _notesCompleter?.complete();
+      },
+    );
+    _todosSubscription = todos.listen(
+      (event) {
+        if (!_todosController.isClosed) _todosController.add(event);
+        if (_todosCompleter?.isCompleted ?? false) return;
+        _todosCompleter?.complete();
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        if (!_todosController.isClosed) {
+          _todosController.addError(error, stackTrace);
+        }
+        if (_todosCompleter?.isCompleted ?? false) return;
+        _todosCompleter?.complete();
+      },
+    );
 
     final group = FutureGroup<void>();
     if (_notesCompleter != null) group.add(_notesCompleter!.future);

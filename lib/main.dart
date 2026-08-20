@@ -1,18 +1,14 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:notes/app.dart';
 import 'package:notes/constants/images.dart';
 import 'package:notes/database/database.dart';
-import 'package:notes/database/isar/database.dart';
 import 'package:notes/services/notifications.dart';
 import 'package:notes/settings/settings.dart';
 import 'package:notes/flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -50,7 +46,6 @@ void main() async {
   // print(await database.allNotes().get());
 
   await Settings.instance.reload();
-  await Database.init();
   await Images.init();
 
   final packageInfo = await PackageInfo.fromPlatform();
@@ -79,11 +74,13 @@ void main() async {
       launch!.didNotificationLaunchApp) {
     final details = launch.notificationResponse!;
 
-    final todo = await Database.getTodo(details.id!);
+    final todo = await database.todoById(details.id!).getSingleOrNull();
     switch (details.actionId) {
       case "done" when todo != null:
-        todo.completed = true;
-        unawaited(Database.addTodo(todo));
+        await (database.update(database.todos)
+              ..where((t) => t.id.equals(todo.id)))
+            .write(const TodosCompanion(completed: .new(true)));
+        await NotificationService.cancel(todo.id);
 
       case "dismiss":
         break;

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:notes/database/isar/todo.dart';
+import 'package:notes/database/database.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:notes/flutter.dart';
 
@@ -23,7 +23,8 @@ abstract final class NotificationService {
     if (Platform.isWindows) return;
     const initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings(
-        "notification",
+        // "notification",
+        "@mipmap/ic_launcher",
       ), // @mipmap/ic_launcher
     );
     await plugin.initialize(

@@ -42,9 +42,9 @@ class ViewCardState extends State<ViewCard> {
     await navigator.push(route);
   }
 
-  void _markNeedsBuild() {
-    setState(() {});
-  }
+  // void _markNeedsBuild() {
+  //   setState(() {});
+  // }
 
   @override
   void dispose() {
@@ -310,25 +310,25 @@ class _ViewCardRoute<T extends Object?> extends PageRoute<T> {
   }
 }
 
-class _ViewCardRouteLayout extends SingleChildRenderObjectWidget {
-  const _ViewCardRouteLayout({super.key, required Widget super.child});
+// class _ViewCardRouteLayout extends SingleChildRenderObjectWidget {
+//   const _ViewCardRouteLayout({super.key, required Widget super.child});
 
-  @override
-  _RenderViewCardRouteLayout createRenderObject(BuildContext context) => .new();
-}
+//   @override
+//   _RenderViewCardRouteLayout createRenderObject(BuildContext context) => .new();
+// }
 
-class _RenderViewCardRouteLayout extends RenderShiftedBox {
-  _RenderViewCardRouteLayout({RenderBox? child}) : super(child);
+// class _RenderViewCardRouteLayout extends RenderShiftedBox {
+//   _RenderViewCardRouteLayout({RenderBox? child}) : super(child);
 
-  @override
-  bool get sizedByParent => true;
+//   @override
+//   bool get sizedByParent => true;
 
-  @override
-  Size computeDryLayout(covariant BoxConstraints constraints) =>
-      constraints.biggest;
+//   @override
+//   Size computeDryLayout(covariant BoxConstraints constraints) =>
+//       constraints.biggest;
 
-  @override
-  void performLayout() {
-    child?.layout(constraints);
-  }
-}
+//   @override
+//   void performLayout() {
+//     child?.layout(constraints);
+//   }
+// }

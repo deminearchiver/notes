@@ -94,7 +94,7 @@ class _AppViewState extends State<AppView> {
     final elevationTheme = ElevationTheme.of(context);
     final shapeTheme = ShapeTheme.of(context);
     final stateTheme = StateTheme.of(context);
-    final typescaleTheme = TypescaleTheme.of(context);
+    // final typescaleTheme = TypescaleTheme.of(context);
 
     final localizations = AppLocalizations.of(context);
     return SliverAppBar(
@@ -215,9 +215,6 @@ class _AppViewState extends State<AppView> {
     final windowWidthSizeClass = WindowWidthSizeClass.of(context);
 
     final colorTheme = ColorTheme.of(context);
-    final elevationTheme = ElevationTheme.of(context);
-    final shapeTheme = ShapeTheme.of(context);
-    final stateTheme = StateTheme.of(context);
     final typescaleTheme = TypescaleTheme.of(context);
 
     return Scaffold(

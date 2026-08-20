@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:notes/database/isar/database.dart';
-import 'package:notes/database/isar/todo.dart';
+import 'package:notes/database/database.dart';
 import 'package:notes/l10n/l10n.dart';
+import 'package:notes/services/notifications.dart';
 import 'package:notes/flutter.dart';
 
 class ReminderView extends StatefulWidget {
@@ -30,8 +30,11 @@ class _ReminderViewState extends State<ReminderView> {
   }
 
   Future<void> _onDoneClicked() async {
-    final todo = widget.todo..completed = true;
-    unawaited(Database.addTodo(todo));
+    final database = AppDatabase.of(context, listen: false);
+    await (database.update(database.todos)
+          ..where((t) => t.id.equals(widget.todo.id)))
+        .write(const TodosCompanion(completed: .new(true)));
+    await NotificationService.cancel(widget.todo.id);
 
     _close();
   }
