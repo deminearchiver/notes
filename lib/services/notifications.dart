@@ -11,7 +11,7 @@ abstract final class NotificationService {
   static final plugin = FlutterLocalNotificationsPlugin();
 
   static Future<NotificationAppLaunchDetails?> getLaunchDetails() async {
-    if (Platform.isWindows) return null;
+    if (!Platform.isAndroid) return null;
     return plugin.getNotificationAppLaunchDetails();
   }
 
@@ -25,7 +25,8 @@ abstract final class NotificationService {
       android: AndroidInitializationSettings(
         // "notification",
         "@mipmap/ic_launcher",
-      ), // @mipmap/ic_launcher
+      ),
+      linux: LinuxInitializationSettings(defaultActionName: ""),
     );
     await plugin.initialize(
       settings: initializationSettings,

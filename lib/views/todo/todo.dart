@@ -29,6 +29,7 @@ class _TodoViewState extends State<TodoView> {
 
   bool _isSaving = false;
   bool _hasPendingSave = false;
+  bool _disposed = false;
 
   late FocusNode _labelNode;
   late FocusNode _detailsNode;
@@ -75,6 +76,9 @@ class _TodoViewState extends State<TodoView> {
 
   @override
   void dispose() {
+    _disposed = true;
+    _detailsController.removeListener(_contentListener);
+    _labelController.removeListener(_titleListener);
     unawaited(_save());
 
     _detailsController.dispose();
@@ -106,21 +110,23 @@ class _TodoViewState extends State<TodoView> {
     bool? completed,
     DateTime? date,
   }) async {
-    final nextLabel = label ?? _labelController.text;
-    final nextDetails = details ?? _detailsController.text;
+    final nextLabel = label ?? _todo.label;
+    final nextDetails = details ?? _todo.details;
     final nextImportant = important ?? _todo.important;
     final nextCompleted = completed ?? _todo.completed;
     final nextDate = date ?? _todo.date;
 
-    setState(() {
-      _todo = _todo.copyWith(
-        label: nextLabel,
-        details: nextDetails,
-        important: nextImportant,
-        completed: nextCompleted,
-        date: nextDate,
-      );
-    });
+    _todo = _todo.copyWith(
+      label: nextLabel,
+      details: nextDetails,
+      important: nextImportant,
+      completed: nextCompleted,
+      date: nextDate,
+    );
+
+    if (mounted && !_disposed) {
+      setState(() {});
+    }
 
     if (_isSaving) {
       _hasPendingSave = true;
@@ -134,8 +140,8 @@ class _TodoViewState extends State<TodoView> {
         final db = _database;
         if (db == null) return;
 
-        final currentLabel = _labelController.text;
-        final currentDetails = _detailsController.text;
+        final currentLabel = _todo.label;
+        final currentDetails = _todo.details;
         final currentImportant = _todo.important;
         final currentCompleted = _todo.completed;
         final currentDate = _todo.date;
@@ -155,10 +161,11 @@ class _TodoViewState extends State<TodoView> {
                 ),
               );
           final created = await db.todoById(id).getSingleOrNull();
-          if (created != null && mounted) {
-            setState(() {
-              _todo = created;
-            });
+          if (created != null) {
+            _todo = created;
+            if (mounted && !_disposed) {
+              setState(() {});
+            }
             _savedLabel = created.label;
             _savedDetails = created.details;
             _savedImportant = created.important;
@@ -192,10 +199,11 @@ class _TodoViewState extends State<TodoView> {
           )..where((t) => t.id.equals(_todo.id))).write(companion);
 
           final updated = await db.todoById(_todo.id).getSingleOrNull();
-          if (updated != null && mounted) {
-            setState(() {
-              _todo = updated;
-            });
+          if (updated != null) {
+            _todo = updated;
+            if (mounted && !_disposed) {
+              setState(() {});
+            }
             _savedLabel = updated.label;
             _savedDetails = updated.details;
             _savedImportant = updated.important;
