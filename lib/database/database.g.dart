@@ -1327,16 +1327,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     return customSelect(
       'SELECT * FROM notes',
       variables: [],
-      readsFrom: {notes},
-    ).asyncMap(notes.mapFromRow);
+      readsFrom: {this.notes},
+    ).asyncMap(this.notes.mapFromRow);
   }
 
   Selectable<Todo> allTodos() {
     return customSelect(
       'SELECT * FROM todos',
       variables: [],
-      readsFrom: {todos},
-    ).asyncMap(todos.mapFromRow);
+      readsFrom: {this.todos},
+    ).asyncMap(this.todos.mapFromRow);
   }
 
   @override
@@ -1408,26 +1408,24 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   ]);
 }
 
-typedef $NotesCreateCompanionBuilder =
-    NotesCompanion Function({
-      Value<int> id,
-      required String title,
-      required ParchmentDocument content,
-      required String contentText,
-      required DateTime createdAt,
-      required DateTime updatedAt,
-      required bool favorite,
-    });
-typedef $NotesUpdateCompanionBuilder =
-    NotesCompanion Function({
-      Value<int> id,
-      Value<String> title,
-      Value<ParchmentDocument> content,
-      Value<String> contentText,
-      Value<DateTime> createdAt,
-      Value<DateTime> updatedAt,
-      Value<bool> favorite,
-    });
+typedef $NotesCreateCompanionBuilder = NotesCompanion Function({
+  Value<int> id,
+  required String title,
+  required ParchmentDocument content,
+  required String contentText,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  required bool favorite,
+});
+typedef $NotesUpdateCompanionBuilder = NotesCompanion Function({
+  Value<int> id,
+  Value<String> title,
+  Value<ParchmentDocument> content,
+  Value<String> contentText,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> favorite,
+});
 
 class $NotesFilterComposer extends Composer<_$AppDatabase, Notes> {
   $NotesFilterComposer({
@@ -1613,7 +1611,12 @@ class $NotesTableManager
                 favorite: favorite,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<Notes, Note>(table),
+                  BaseReferences<_$AppDatabase, Notes, Note>(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -1634,18 +1637,16 @@ typedef $NotesProcessedTableManager =
       Note,
       PrefetchHooks Function()
     >;
-typedef $NotesFtsCreateCompanionBuilder =
-    NotesFtsCompanion Function({
-      required String title,
-      required String contentText,
-      Value<int> rowid,
-    });
-typedef $NotesFtsUpdateCompanionBuilder =
-    NotesFtsCompanion Function({
-      Value<String> title,
-      Value<String> contentText,
-      Value<int> rowid,
-    });
+typedef $NotesFtsCreateCompanionBuilder = NotesFtsCompanion Function({
+  required String title,
+  required String contentText,
+  Value<int> rowid,
+});
+typedef $NotesFtsUpdateCompanionBuilder = NotesFtsCompanion Function({
+  Value<String> title,
+  Value<String> contentText,
+  Value<int> rowid,
+});
 
 class $NotesFtsFilterComposer extends Composer<_$AppDatabase, NotesFts> {
   $NotesFtsFilterComposer({
@@ -1749,7 +1750,16 @@ class $NotesFtsTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<NotesFts, NoteFts>(table),
+                  BaseReferences<_$AppDatabase, NotesFts, NoteFts>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -1770,24 +1780,22 @@ typedef $NotesFtsProcessedTableManager =
       NoteFts,
       PrefetchHooks Function()
     >;
-typedef $TodosCreateCompanionBuilder =
-    TodosCompanion Function({
-      Value<int> id,
-      required String label,
-      Value<String> details,
-      Value<bool> important,
-      Value<bool> completed,
-      required DateTime date,
-    });
-typedef $TodosUpdateCompanionBuilder =
-    TodosCompanion Function({
-      Value<int> id,
-      Value<String> label,
-      Value<String> details,
-      Value<bool> important,
-      Value<bool> completed,
-      Value<DateTime> date,
-    });
+typedef $TodosCreateCompanionBuilder = TodosCompanion Function({
+  Value<int> id,
+  required String label,
+  Value<String> details,
+  Value<bool> important,
+  Value<bool> completed,
+  required DateTime date,
+});
+typedef $TodosUpdateCompanionBuilder = TodosCompanion Function({
+  Value<int> id,
+  Value<String> label,
+  Value<String> details,
+  Value<bool> important,
+  Value<bool> completed,
+  Value<DateTime> date,
+});
 
 class $TodosFilterComposer extends Composer<_$AppDatabase, Todos> {
   $TodosFilterComposer({
@@ -1953,7 +1961,12 @@ class $TodosTableManager
                 date: date,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<Todos, Todo>(table),
+                  BaseReferences<_$AppDatabase, Todos, Todo>(db, table, e),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
@@ -1974,18 +1987,16 @@ typedef $TodosProcessedTableManager =
       Todo,
       PrefetchHooks Function()
     >;
-typedef $TodosFtsCreateCompanionBuilder =
-    TodosFtsCompanion Function({
-      required String label,
-      required String details,
-      Value<int> rowid,
-    });
-typedef $TodosFtsUpdateCompanionBuilder =
-    TodosFtsCompanion Function({
-      Value<String> label,
-      Value<String> details,
-      Value<int> rowid,
-    });
+typedef $TodosFtsCreateCompanionBuilder = TodosFtsCompanion Function({
+  required String label,
+  required String details,
+  Value<int> rowid,
+});
+typedef $TodosFtsUpdateCompanionBuilder = TodosFtsCompanion Function({
+  Value<String> label,
+  Value<String> details,
+  Value<int> rowid,
+});
 
 class $TodosFtsFilterComposer extends Composer<_$AppDatabase, TodosFts> {
   $TodosFtsFilterComposer({
@@ -2066,16 +2077,11 @@ class $TodosFtsTableManager
               $TodosFtsOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $TodosFtsAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> label = const Value.absent(),
-                Value<String> details = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => TodosFtsCompanion(
-                label: label,
-                details: details,
-                rowid: rowid,
-              ),
+          updateCompanionCallback: ({
+            Value<String> label = const Value.absent(),
+            Value<String> details = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) => TodosFtsCompanion(label: label, details: details, rowid: rowid),
           createCompanionCallback:
               ({
                 required String label,
@@ -2087,7 +2093,16 @@ class $TodosFtsTableManager
                 rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable<TodosFts, TodoFts>(table),
+                  BaseReferences<_$AppDatabase, TodosFts, TodoFts>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
               .toList(),
           prefetchHooksCallback: null,
         ),
