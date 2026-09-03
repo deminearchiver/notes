@@ -171,7 +171,7 @@ class _AppViewState extends State<AppView> {
                     : SizedBox.square(
                         dimension: 56.0,
                         child: Icon(
-                          MaterialSymbols.search_rounded,
+                          Icons.search,
                           color: colorTheme.onSurfaceVariant,
                         ),
                       ),
