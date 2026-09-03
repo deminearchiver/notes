@@ -18,7 +18,7 @@ export 'package:flutter/rendering.dart'
         RenderFlex,
         RenderPadding;
 
-export 'package:flutter/material.dart'
+export 'package:material_ui/material_ui.dart'
     hide
         // package:layout
         // ---
