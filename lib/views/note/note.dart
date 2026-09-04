@@ -272,7 +272,7 @@ class _NoteViewState extends State<NoteView> {
                     Navigator.pop(context);
                   }
                 },
-                icon: const Icon(MaterialSymbols.arrow_back_rounded),
+                icon: const AppIcon(.arrowBack),
               ),
               expandedHeight: 112,
               title: Builder(

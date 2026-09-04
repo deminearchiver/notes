@@ -33,7 +33,7 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
     final localizations = AppLocalizations.of(context);
     return OnboardingScaffold(
       supportsBackAction: false,
-      icon: const Icon(MaterialSymbols.settings_rounded),
+      icon: const AppIcon(.settings),
       title: localizations.onboarding_setup_view_title,
       subtitle: localizations.onboarding_setup_view_subtitle,
       content: Flex.vertical(
@@ -157,9 +157,9 @@ class _OnboardingSetupState extends State<OnboardingSetup> {
             builder: (context, snapshot) {
               return FilledButton.tonal(
                 onPressed: snapshot.hasData
-                    ? () => OnboardingScope.of(
-                        context,
-                      ).next<void>(const OnboardingDone())
+                    ? () =>
+                          OnboardingScope.of(context)
+                              .next<void>(const OnboardingDone())
                     : null,
                 child: Text(localizations.onboarding_next),
               );

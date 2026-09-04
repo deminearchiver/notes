@@ -76,8 +76,9 @@ export 'package:linked_layouts/linked_layouts.dart';
 export 'package:provider/provider.dart'
     hide ReadContext, WatchContext, SelectContext;
 
-export 'constants/icons.dart';
 export 'i18n/i18n.dart';
+export 'icons/app_icons.dart';
+export 'icons/custom_icon.dart';
 export 'theme/legacy.dart';
 export 'theme/typography.dart';
 

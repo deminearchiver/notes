@@ -66,7 +66,7 @@ class _AboutViewState extends State<AboutView> {
             leadingWidth: 64,
             leading: IconButton(
               onPressed: () => Navigator.pop(context),
-              icon: const Icon(MaterialSymbols.arrow_back_rounded),
+              icon: const AppIcon(.arrowBack),
             ),
             title: Text(
               localizations.about_app,

@@ -749,7 +749,7 @@
 //                       const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
 //                   child: SizedBox(
 //                     height: 40,
-//                     child: Icon(MaterialSymbols.arrow_back),
+//                     child: AppIcon(.arrowBack),
 //                   ),
 //                 ),
 //               ),
@@ -1294,9 +1294,7 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                       ),
                                       leading: const SizedBox.square(
                                         dimension: 40,
-                                        child: Icon(
-                                          MaterialSymbols.search_rounded,
-                                        ),
+                                        child: AppIcon(.search),
                                       ),
                                       trailing: [
                                         CircleAvatar(
@@ -1402,24 +1400,19 @@ class _ExpandedAppState extends State<ExpandedApp> {
                                           border: InputBorder.none,
                                           hintText: "Give this note a title!",
                                         ),
-                                        style: DefaultTextStyle.of(
-                                          context,
-                                        ).style,
+                                        style: DefaultTextStyle.of(context)
+                                            .style,
                                       ),
                                     ),
                                     actions: [
                                       IconButton(
                                         onPressed: () {},
-                                        icon: const Icon(
-                                          MaterialSymbols.undo_rounded,
-                                        ),
+                                        icon: const AppIcon(.undo),
                                       ),
                                       const SizedBox(width: 8),
                                       IconButton(
                                         onPressed: () {},
-                                        icon: const Icon(
-                                          MaterialSymbols.redo_rounded,
-                                        ),
+                                        icon: const AppIcon(.redo),
                                       ),
                                       const SizedBox(width: 16),
                                       FilledButton.icon(

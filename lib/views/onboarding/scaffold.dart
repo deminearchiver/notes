@@ -71,7 +71,7 @@ class OnboardingScaffold extends StatelessWidget {
         leading: supportsBackAction && Navigator.canPop(context)
             ? IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(MaterialSymbols.arrow_back_rounded),
+                icon: const AppIcon(.arrowBack),
               )
             : null,
       ),

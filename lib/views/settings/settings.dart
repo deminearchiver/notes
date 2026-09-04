@@ -116,7 +116,7 @@ class _SettingsViewState extends State<SettingsView> {
                 builder: (context) => const SettingsViewGeneralPage(),
               ),
             ),
-            leading: const Icon(MaterialSymbols.settings_rounded),
+            leading: const AppIcon(.settings),
             title: Text(localizations.settings_general_view),
             subtitle: Text(localizations.settings_general_view_description),
             trailing: const Icon(MaterialSymbols.navigate_next_rounded),

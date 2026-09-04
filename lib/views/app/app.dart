@@ -109,7 +109,7 @@ class _AppViewState extends State<AppView> {
       leading: windowWidthSizeClass != WindowWidthSizeClass.compact
           ? IconButton(
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
-              icon: const Icon(MaterialSymbols.menu_rounded),
+              icon: const AppIcon(.menu),
             )
           : null,
       title: Switcher.fadeThrough(
@@ -127,7 +127,7 @@ class _AppViewState extends State<AppView> {
             context,
             MaterialPageRoute<void>(builder: (context) => const SettingsView()),
           ),
-          icon: const Icon(MaterialSymbols.settings_rounded, fill: 1),
+          icon: const AppIcon(.settings, fill: 1),
         ),
         const SizedBox(width: 16),
       ],
@@ -170,8 +170,8 @@ class _AppViewState extends State<AppView> {
                       )
                     : SizedBox.square(
                         dimension: 56.0,
-                        child: Icon(
-                          Icons.search,
+                        child: AppIcon(
+                          .search,
                           color: colorTheme.onSurfaceVariant,
                         ),
                       ),

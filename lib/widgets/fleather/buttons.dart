@@ -148,13 +148,13 @@ class FleatherHistoryButton extends StatelessWidget {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, child) {
-        final icon = _variant == _UndoRedoButtonVariant.undo
-            ? MaterialSymbols.undo_rounded
-            : MaterialSymbols.redo_rounded;
         final isEnabled = _isEnabled();
         return IconButton(
           onPressed: isEnabled ? _onPressed : null,
-          icon: Icon(icon),
+          icon: switch (_variant) {
+            .redo => const AppIcon(.redo),
+            .undo => const AppIcon(.undo),
+          },
         );
       },
     );
