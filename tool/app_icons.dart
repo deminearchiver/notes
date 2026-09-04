@@ -3,6 +3,30 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:dart_style/dart_style.dart';
 
+const _icons = <String, _Icon>{
+  "arrowBack": .new("arrow_back"),
+  "home": .new("home"),
+  "menu": .new("menu"),
+  "note": .new("note"),
+  "redo": .new("redo"),
+  "search": .new("search"),
+  "settings": .new("settings"),
+  "undo": .new("undo"),
+};
+
+class const _Icon(
+  final String name, {
+  final Map<_Font, String> overrides = const {},
+});
+
+class const _ResolvedIcon({
+  required final String identifier,
+  required String name,
+  super.overrides,
+}) extends _Icon {
+  this : super(name);
+}
+
 enum _Font({required final String className}) {
   // materialSymbols(className: "_MaterialSymbols"),
   materialSymbolsOutlined(className: "_MaterialSymbolsOutlined"),
@@ -35,28 +59,6 @@ enum _Font({required final String className}) {
     return "$className.$identifier";
   }
 }
-
-class const _Icon(
-  final String name, {
-  final Map<_Font, String> overrides = const {},
-});
-
-class const _ResolvedIcon({
-  required final String identifier,
-  required String name,
-  super.overrides,
-}) extends _Icon {
-  this : super(name);
-}
-
-const _icons = <String, _Icon>{
-  "arrowBack": .new("arrow_back"),
-  "menu": .new("menu"),
-  "search": .new("search"),
-  "settings": .new("settings"),
-  "undo": .new("undo"),
-  "redo": .new("redo"),
-};
 
 Future<void> main(List<String> arguments) async {
   final icons = _icons.entries

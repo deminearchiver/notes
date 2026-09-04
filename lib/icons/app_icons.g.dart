@@ -19,7 +19,11 @@ abstract interface class AppIconsDelegate {
 
   IconData get arrowBack;
 
+  IconData get home;
+
   IconData get menu;
+
+  IconData get note;
 
   IconData get redo;
 
@@ -35,7 +39,13 @@ class const _MaterialSymbolsOutlined() implements AppIconsDelegate {
   IconData get arrowBack => MaterialSymbols.arrow_back;
 
   @override
+  IconData get home => MaterialSymbols.home;
+
+  @override
   IconData get menu => MaterialSymbols.menu;
+
+  @override
+  IconData get note => MaterialSymbols.note;
 
   @override
   IconData get redo => MaterialSymbols.redo;
@@ -55,7 +65,13 @@ class const _MaterialSymbolsRounded() implements AppIconsDelegate {
   IconData get arrowBack => MaterialSymbols.arrow_back_rounded;
 
   @override
+  IconData get home => MaterialSymbols.home_rounded;
+
+  @override
   IconData get menu => MaterialSymbols.menu_rounded;
+
+  @override
+  IconData get note => MaterialSymbols.note_rounded;
 
   @override
   IconData get redo => MaterialSymbols.redo_rounded;
@@ -75,7 +91,13 @@ class const _MaterialSymbolsSharp() implements AppIconsDelegate {
   IconData get arrowBack => MaterialSymbols.arrow_back_sharp;
 
   @override
+  IconData get home => MaterialSymbols.home_sharp;
+
+  @override
   IconData get menu => MaterialSymbols.menu_sharp;
+
+  @override
+  IconData get note => MaterialSymbols.note_sharp;
 
   @override
   IconData get redo => MaterialSymbols.redo_sharp;
@@ -95,7 +117,13 @@ class const _GoogleSymbols() implements AppIconsDelegate {
   IconData get arrowBack => GoogleSymbols.arrow_back;
 
   @override
+  IconData get home => GoogleSymbols.home;
+
+  @override
   IconData get menu => GoogleSymbols.menu;
+
+  @override
+  IconData get note => GoogleSymbols.note;
 
   @override
   IconData get redo => GoogleSymbols.redo;
@@ -115,7 +143,13 @@ class const _GoogleSymbolsOutlined() implements AppIconsDelegate {
   IconData get arrowBack => GoogleSymbolsOutlined.arrow_back;
 
   @override
+  IconData get home => GoogleSymbolsOutlined.home;
+
+  @override
   IconData get menu => GoogleSymbolsOutlined.menu;
+
+  @override
+  IconData get note => GoogleSymbolsOutlined.note;
 
   @override
   IconData get redo => GoogleSymbolsOutlined.redo;
@@ -135,7 +169,13 @@ class const _GoogleSymbolsRounded() implements AppIconsDelegate {
   IconData get arrowBack => GoogleSymbolsRounded.arrow_back;
 
   @override
+  IconData get home => GoogleSymbolsRounded.home;
+
+  @override
   IconData get menu => GoogleSymbolsRounded.menu;
+
+  @override
+  IconData get note => GoogleSymbolsRounded.note;
 
   @override
   IconData get redo => GoogleSymbolsRounded.redo;
@@ -155,7 +195,13 @@ class const _GoogleSymbolsSharp() implements AppIconsDelegate {
   IconData get arrowBack => GoogleSymbolsSharp.arrow_back;
 
   @override
+  IconData get home => GoogleSymbolsSharp.home;
+
+  @override
   IconData get menu => GoogleSymbolsSharp.menu;
+
+  @override
+  IconData get note => GoogleSymbolsSharp.note;
 
   @override
   IconData get redo => GoogleSymbolsSharp.redo;
@@ -175,7 +221,13 @@ class const _LuminousSymbols() implements AppIconsDelegate {
   IconData get arrowBack => LuminousSymbols.arrow_back;
 
   @override
+  IconData get home => LuminousSymbols.home;
+
+  @override
   IconData get menu => LuminousSymbols.menu;
+
+  @override
+  IconData get note => LuminousSymbols.note;
 
   @override
   IconData get redo => LuminousSymbols.redo;
@@ -193,7 +245,9 @@ class const _LuminousSymbols() implements AppIconsDelegate {
 enum AppIconResolver(final IconData Function(AppIconsDelegate) _resolve)
     implements CustomIconResolver {
   arrowBack(_arrowBack),
+  home(_home),
   menu(_menu),
+  note(_note),
   redo(_redo),
   search(_search),
   settings(_settings),
@@ -204,7 +258,9 @@ enum AppIconResolver(final IconData Function(AppIconsDelegate) _resolve)
       _resolve(AppIconsScope.delegateOf(context));
 
   static IconData _arrowBack(AppIconsDelegate icons) => icons.arrowBack;
+  static IconData _home(AppIconsDelegate icons) => icons.home;
   static IconData _menu(AppIconsDelegate icons) => icons.menu;
+  static IconData _note(AppIconsDelegate icons) => icons.note;
   static IconData _redo(AppIconsDelegate icons) => icons.redo;
   static IconData _search(AppIconsDelegate icons) => icons.search;
   static IconData _settings(AppIconsDelegate icons) => icons.settings;

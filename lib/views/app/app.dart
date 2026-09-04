@@ -254,11 +254,8 @@ class _AppViewState extends State<AppView> {
                   ),
                 ),
                 NavigationDrawerDestination(
-                  icon: const Icon(MaterialSymbols.home_rounded, fill: 0),
-                  selectedIcon: const Icon(
-                    MaterialSymbols.home_rounded,
-                    fill: 1,
-                  ),
+                  icon: const AppIcon(.home, fill: 0),
+                  selectedIcon: const AppIcon(.home, fill: 1),
                   label: Text(localizations.app_home_view),
                 ),
                 NavigationDrawerDestination(
@@ -340,11 +337,8 @@ class _AppViewState extends State<AppView> {
               selectedIndex: _page,
               destinations: [
                 NavigationDestination(
-                  icon: const Icon(MaterialSymbols.home_rounded, fill: 0),
-                  selectedIcon: const Icon(
-                    MaterialSymbols.home_rounded,
-                    fill: 1,
-                  ),
+                  icon: const AppIcon(.home, fill: 0),
+                  selectedIcon: const AppIcon(.home, fill: 1),
                   label: localizations.app_home_view,
                 ),
                 NavigationDestination(

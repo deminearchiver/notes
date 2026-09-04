@@ -1174,8 +1174,8 @@ class _ExpandedAppState extends State<ExpandedApp> {
 
     const destinations = <AdaptiveDestination>[
       AdaptiveDestination(
-        icon: Icon(MaterialSymbols.home_rounded, fill: 0),
-        selectedIcon: Icon(MaterialSymbols.home_rounded, fill: 1),
+        icon: AppIcon(.home, fill: 0),
+        selectedIcon: AppIcon(.home, fill: 1),
         label: "Home",
       ),
       AdaptiveDestination(
