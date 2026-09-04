@@ -6,7 +6,6 @@ import 'package:isar_plus/isar_plus.dart';
 import 'package:notes/database/database.dart';
 import 'package:notes/l10n/l10n.dart';
 import 'package:notes/views/note/note.dart';
-import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/sort.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -126,87 +125,80 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    return ScrollToTop(
+    return CustomScrollView(
+      key: widget.scrollableKey,
       controller: widget.scrollController,
-      top: 96,
-      minOffset: 120,
-      child: CustomScrollView(
-        key: widget.scrollableKey,
-        controller: widget.scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          if (widget.headerBuilder != null)
-            widget.headerBuilder!(context, _setQuery),
-          widget.contentBuilder(
-            context,
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              sliver: MultiSliver(
-                children: [
-                  SliverToBoxAdapter(
-                    child: SortRow(
-                      onSortChanged: _setSort,
-                      selected: _sortBy,
-                      order: _sortOrder,
-                      types: [
-                        SortType(
-                          value: NotesSortBy.title,
-                          icon: const Icon(
-                            MaterialSymbols.sort_by_alpha_rounded,
-                          ),
-                          label: localizations.app_notes_view_sort_title,
-                        ),
-                        SortType(
-                          value: NotesSortBy.createdAt,
-                          icon: const AppIcon(.schedule),
-                          label: localizations.app_notes_view_sort_created,
-                        ),
-                        SortType(
-                          value: NotesSortBy.updatedAt,
-                          icon: const Icon(MaterialSymbols.history_rounded),
-                          label: localizations.app_notes_view_sort_modified,
-                        ),
-                      ],
-                    ),
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        if (widget.headerBuilder != null)
+          widget.headerBuilder!(context, _setQuery),
+        widget.contentBuilder(
+          context,
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            sliver: MultiSliver(
+              children: [
+                SliverToBoxAdapter(
+                  child: SortRow(
+                    onSortChanged: _setSort,
+                    selected: _sortBy,
+                    order: _sortOrder,
+                    types: [
+                      SortType(
+                        value: NotesSortBy.title,
+                        icon: const Icon(MaterialSymbols.sort_by_alpha_rounded),
+                        label: localizations.app_notes_view_sort_title,
+                      ),
+                      SortType(
+                        value: NotesSortBy.createdAt,
+                        icon: const AppIcon(.schedule),
+                        label: localizations.app_notes_view_sort_created,
+                      ),
+                      SortType(
+                        value: NotesSortBy.updatedAt,
+                        icon: const Icon(MaterialSymbols.history_rounded),
+                        label: localizations.app_notes_view_sort_modified,
+                      ),
+                    ],
                   ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 16)),
-                  StreamBuilder(
-                    stream: _notes.stream,
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const SliverFillRemaining(
-                          child: Align.center(
-                            child: CircularProgressIndicator(value: null),
-                          ),
-                        );
-                      }
-                      final notes = snapshot.data!;
-                      return notes.isEmpty
-                          ? SliverToBoxAdapter(
-                              child: Align.center(
-                                child: Text(
-                                  localizations.search_no_results,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
+                ),
+                const SliverToBoxAdapter(child: SizedBox(height: 16)),
+                StreamBuilder(
+                  stream: _notes.stream,
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const SliverFillRemaining(
+                        child: Align.center(
+                          child: CircularProgressIndicator(value: null),
+                        ),
+                      );
+                    }
+                    final notes = snapshot.data!;
+                    return notes.isEmpty
+                        ? SliverToBoxAdapter(
+                            child: Align.center(
+                              child: Text(
+                                localizations.search_no_results,
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
-                            )
-                          : SliverList.separated(
-                              itemCount: notes.length,
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: 2.0),
-                              itemBuilder: (context, index) => NoteCard(
-                                key: ValueKey(notes[index].id),
-                                note: notes[index],
-                              ),
-                            );
-                    },
-                  ),
-                ],
-              ),
+                            ),
+                          )
+                        : SliverList.separated(
+                            itemCount: notes.length,
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 2.0),
+                            itemBuilder: (context, index) => NoteCard(
+                              key: ValueKey(notes[index].id),
+                              note: notes[index],
+                            ),
+                          );
+                  },
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -1033,7 +1033,6 @@ import 'dart:async';
 import 'package:notes/constants/images.dart';
 import 'package:notes/icons/segoe.dart';
 import 'package:notes/native.dart';
-import 'package:notes/widgets/scroll_to_top.dart';
 import 'package:notes/widgets/title_bar/windows.dart';
 import 'package:notes/flutter.dart';
 import 'package:window_manager/window_manager.dart';
@@ -1258,119 +1257,107 @@ class _ExpandedAppState extends State<ExpandedApp> {
                         ),
                       Flexible.tight(
                         flex: adaptive.shouldUseEqualPanels ? 1 : 2,
-                        child: ScrollToTop(
+                        child: CustomScrollView(
                           controller: _scrollController,
-                          top: 72,
-                          minOffset: 120,
-                          child: CustomScrollView(
-                            controller: _scrollController,
-                            slivers: [
-                              SliverAppBar(
-                                pinned: true,
-                                // floating: true,
-                                forceElevated: true,
-                                toolbarHeight: 0,
-                                // leadingWidth: 64,
-                                // leading: IconButton(
-                                //   onPressed: () {},
-                                //   icon: Icon(MaterialSymbols.arrow_back_rounded),
-                                // ),
-                                // title: Text("Home"),
-                                bottom: PreferredSize(
-                                  preferredSize: const Size.fromHeight(72),
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      0,
-                                      0,
-                                      16,
-                                      16,
+                          slivers: [
+                            SliverAppBar(
+                              pinned: true,
+                              // floating: true,
+                              forceElevated: true,
+                              toolbarHeight: 0,
+                              // leadingWidth: 64,
+                              // leading: IconButton(
+                              //   onPressed: () {},
+                              //   icon: Icon(MaterialSymbols.arrow_back_rounded),
+                              // ),
+                              // title: Text("Home"),
+                              bottom: PreferredSize(
+                                preferredSize: const Size.fromHeight(72),
+                                child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                    0,
+                                    0,
+                                    16,
+                                    16,
+                                  ),
+                                  child: SearchBar(
+                                    focusNode: _searchNode,
+                                    // shadowColor:
+                                    //     WidgetStateColor.transparent,
+                                    padding: const WidgetStatePropertyAll(
+                                      EdgeInsets.symmetric(horizontal: 16),
                                     ),
-                                    child: SearchBar(
-                                      focusNode: _searchNode,
-                                      // shadowColor:
-                                      //     WidgetStateColor.transparent,
-                                      padding: const WidgetStatePropertyAll(
-                                        EdgeInsets.symmetric(horizontal: 16),
+                                    leading: const SizedBox.square(
+                                      dimension: 40,
+                                      child: AppIcon(.search),
+                                    ),
+                                    trailing: [
+                                      CircleAvatar(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            MaterialSymbols
+                                                .account_circle_rounded,
+                                          ),
+                                        ),
                                       ),
-                                      leading: const SizedBox.square(
-                                        dimension: 40,
-                                        child: AppIcon(.search),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SliverPadding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 16, 16),
+                              sliver: SliverList.separated(
+                                itemCount: 32,
+                                itemBuilder: (context, index) => KeyedSubtree(
+                                  key: ValueKey(index),
+                                  child: Card(
+                                    // animationDuration: Durations.short4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                        index == _selected ? 28 : 12,
                                       ),
-                                      trailing: [
-                                        CircleAvatar(
-                                          child: IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              MaterialSymbols
-                                                  .account_circle_rounded,
+                                    ),
+                                    color: index == _selected
+                                        ? theme.colorScheme.secondaryContainer
+                                        : null,
+                                    elevation: 0,
+                                    child: InkWell(
+                                      onTap: () =>
+                                          setState(() => _selected = index),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 24,
+                                        ),
+                                        child: Flex.vertical(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(
+                                              "Title",
+                                              style: theme.textTheme.titleLarge,
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SliverPadding(
-                                padding: const EdgeInsets.fromLTRB(
-                                  0,
-                                  0,
-                                  16,
-                                  16,
-                                ),
-                                sliver: SliverList.separated(
-                                  itemCount: 32,
-                                  itemBuilder: (context, index) => KeyedSubtree(
-                                    key: ValueKey(index),
-                                    child: Card(
-                                      // animationDuration: Durations.short4,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                          index == _selected ? 28 : 12,
-                                        ),
-                                      ),
-                                      color: index == _selected
-                                          ? theme.colorScheme.secondaryContainer
-                                          : null,
-                                      elevation: 0,
-                                      child: InkWell(
-                                        onTap: () =>
-                                            setState(() => _selected = index),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 24,
-                                            vertical: 24,
-                                          ),
-                                          child: Flex.vertical(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: [
-                                              Text(
-                                                "Title",
-                                                style:
-                                                    theme.textTheme.titleLarge,
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Text(
-                                                "Do duis culpa qui excepteur ex dolor enim qui aute excepteur. Ut deserunt cupidatat culpa do sint est cupidatat et cillum. Id aliquip amet adipisicing pariatur Lorem consequat mollit est ullamco laboris ea dolore est est. Officia ea sit elit est eu deserunt aliqua dolor quis nulla id culpa est est. Pariatur minim in ipsum eu dolor. Eiusmod nulla deserunt irure magna minim enim culpa dolore mollit consectetur culpa nisi nulla.",
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style:
-                                                    theme.textTheme.bodyMedium,
-                                              ),
-                                            ],
-                                          ),
+                                            const SizedBox(height: 8),
+                                            Text(
+                                              "Do duis culpa qui excepteur ex dolor enim qui aute excepteur. Ut deserunt cupidatat culpa do sint est cupidatat et cillum. Id aliquip amet adipisicing pariatur Lorem consequat mollit est ullamco laboris ea dolore est est. Officia ea sit elit est eu deserunt aliqua dolor quis nulla id culpa est est. Pariatur minim in ipsum eu dolor. Eiusmod nulla deserunt irure magna minim enim culpa dolore mollit consectetur culpa nisi nulla.",
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: theme.textTheme.bodyMedium,
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
                                   ),
-                                  separatorBuilder: (context, index) =>
-                                      const SizedBox(height: 8),
                                 ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 8),
                               ),
-                              // const SliverToBoxAdapter(child: SizedBox(height: 1000)),
-                            ],
-                          ),
+                            ),
+                            // const SliverToBoxAdapter(child: SizedBox(height: 1000)),
+                          ],
                         ),
                       ),
                       const SizedBox(width: 8),
