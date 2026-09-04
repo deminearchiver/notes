@@ -259,11 +259,8 @@ class _AppViewState extends State<AppView> {
                   label: Text(localizations.app_home_view),
                 ),
                 NavigationDrawerDestination(
-                  icon: const Icon(MaterialSymbols.notes_rounded, fill: 0),
-                  selectedIcon: const Icon(
-                    MaterialSymbols.notes_rounded,
-                    fill: 1,
-                  ),
+                  icon: const AppIcon(.notes, fill: 0),
+                  selectedIcon: const AppIcon(.notes, fill: 1),
                   label: Text(localizations.app_notes_view),
                 ),
                 NavigationDrawerDestination(
@@ -342,19 +339,13 @@ class _AppViewState extends State<AppView> {
                   label: localizations.app_home_view,
                 ),
                 NavigationDestination(
-                  icon: const Icon(MaterialSymbols.notes_rounded, fill: 0),
-                  selectedIcon: const Icon(
-                    MaterialSymbols.notes_rounded,
-                    fill: 1,
-                  ),
+                  icon: const AppIcon(.notes, fill: 0),
+                  selectedIcon: const AppIcon(.notes, fill: 1),
                   label: localizations.app_notes_view,
                 ),
                 NavigationDestination(
-                  icon: const Icon(MaterialSymbols.task_alt_rounded, fill: 0),
-                  selectedIcon: const Icon(
-                    MaterialSymbols.task_alt_rounded,
-                    fill: 1,
-                  ),
+                  icon: const AppIcon(.taskAlt, fill: 0),
+                  selectedIcon: const AppIcon(.taskAlt, fill: 1),
                   label: localizations.app_todos_view,
                 ),
               ],

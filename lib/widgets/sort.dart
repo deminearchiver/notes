@@ -58,7 +58,7 @@ class SortRow<T> extends StatelessWidget {
               turns: order == Sort.asc ? 0 : 0.5,
               duration: Durations.long2,
               curve: Curves.easeInOutCubicEmphasized,
-              child: const Icon(MaterialSymbols.arrow_upward_rounded),
+              child: const AppIcon(.arrowUpward),
             ),
             tooltip: order == Sort.asc
                 ? localizations.sort_ascending

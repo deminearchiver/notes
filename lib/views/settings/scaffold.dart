@@ -44,7 +44,7 @@ class SettingsScaffold extends StatelessWidget {
           leading: Navigator.canPop(context)
               ? IconButton(
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(MaterialSymbols.arrow_back_rounded),
+                  icon: const AppIcon(.arrowBack),
                 )
               : null,
           title: title,

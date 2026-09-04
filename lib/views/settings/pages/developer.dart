@@ -340,8 +340,8 @@ class _SettingsViewDeveloperPageState extends State<SettingsViewDeveloperPage> {
                   horizontal: 24,
                   vertical: 8,
                 ),
-                leading: Icon(
-                  MaterialSymbols.code_rounded,
+                leading: AppIcon(
+                  .codeBlocks,
                   color: theme.colorScheme.onSecondaryContainer,
                 ),
                 title: Text(

@@ -119,7 +119,7 @@ class _SettingsViewState extends State<SettingsView> {
             leading: const AppIcon(.settings),
             title: Text(localizations.settings_general_view),
             subtitle: Text(localizations.settings_general_view_description),
-            trailing: const Icon(MaterialSymbols.navigate_next_rounded),
+            trailing: const AppIcon(.chevronForward),
           ),
         SettingsListTile.topLevel(
           onTap: () => Navigator.push(
@@ -131,7 +131,7 @@ class _SettingsViewState extends State<SettingsView> {
           leading: const Icon(MaterialSymbols.brush_rounded, fill: 1),
           title: Text(localizations.settings_appearance_view),
           subtitle: Text(localizations.settings_appearance_view_description),
-          trailing: const Icon(MaterialSymbols.navigate_next_rounded),
+          trailing: const AppIcon(.chevronForward),
         ),
         SettingsSectionHeader(localizations.settings_view_other),
         SettingsListTile.topLevel(
@@ -139,10 +139,10 @@ class _SettingsViewState extends State<SettingsView> {
             context,
             MaterialPageRoute<void>(builder: (context) => const AboutView()),
           ),
-          leading: const Icon(MaterialSymbols.info_rounded),
+          leading: const AppIcon(.info),
           title: Text(localizations.settings_view_about),
           subtitle: Text(localizations.settings_view_about_description),
-          trailing: const Icon(MaterialSymbols.navigate_next_rounded),
+          trailing: const AppIcon(.chevronForward),
         ),
         // SettingsListTile(
         //   onTap: () => settings.developerMode = !settings.developerMode,
@@ -183,10 +183,10 @@ class _SettingsViewState extends State<SettingsView> {
               builder: (context) => const SettingsViewDeveloperPage(),
             ),
           ),
-          leading: const Icon(MaterialSymbols.code_rounded),
+          leading: const AppIcon(.codeBlocks),
           title: const Text("Для разработчиков"),
           subtitle: const Text("Продвинутая функциональность"),
-          trailing: const Icon(MaterialSymbols.navigate_next_rounded),
+          trailing: const AppIcon(.chevronForward),
         ),
         const SizedBox(height: 16),
         Align.center(

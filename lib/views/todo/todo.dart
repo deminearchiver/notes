@@ -252,7 +252,7 @@ class _TodoViewState extends State<TodoView> {
                     Navigator.pop(context);
                   }
                 },
-                icon: const Icon(MaterialSymbols.arrow_back_rounded),
+                icon: const AppIcon(.arrowBack),
               ),
               title: Builder(
                 builder: (context) => TextField(
@@ -376,16 +376,16 @@ class _TodoViewState extends State<TodoView> {
                                   children: [
                                     Text(
                                       localizations.todo_view_reminder,
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.titleLarge,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
                                       _format(),
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge,
                                     ),
                                   ],
                                 ),
@@ -441,9 +441,7 @@ class _TodoViewState extends State<TodoView> {
                                       );
                                     }
                                   },
-                                  icon: const Icon(
-                                    MaterialSymbols.schedule_rounded,
-                                  ),
+                                  icon: const AppIcon(.schedule),
                                   label: Text(
                                     localizations.todo_view_reminder_time,
                                   ),

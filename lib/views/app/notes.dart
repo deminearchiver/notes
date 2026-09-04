@@ -158,7 +158,7 @@ class _AppViewNotesPageState extends State<AppViewNotesPage> {
                         ),
                         SortType(
                           value: NotesSortBy.createdAt,
-                          icon: const Icon(MaterialSymbols.schedule_rounded),
+                          icon: const AppIcon(.schedule),
                           label: localizations.app_notes_view_sort_created,
                         ),
                         SortType(
@@ -253,7 +253,7 @@ class _NoteCardState extends State<NoteCard> {
         children: [
           ListTile(
             onTap: () => Navigator.pop(context, "share"),
-            leading: const Icon(MaterialSymbols.share_rounded, fill: 1),
+            leading: const AppIcon(.share, fill: 1),
             title: Text(localizations.share),
           ),
           ListTile(

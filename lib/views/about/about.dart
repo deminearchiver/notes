@@ -171,9 +171,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(SimpleIcons.flutter),
                         title: const Text("Flutter"),
                         subtitle: Text(localizations.framework),
-                        trailing: const Icon(
-                          MaterialSymbols.open_in_new_rounded,
-                        ),
+                        trailing: const AppIcon(.openInNew),
                       ),
                       ListTile(
                         onTap: () =>
@@ -183,9 +181,7 @@ class _AboutViewState extends State<AboutView> {
                         ),
                         title: const Text("Material Design"),
                         subtitle: Text(localizations.design_system),
-                        trailing: const Icon(
-                          MaterialSymbols.open_in_new_rounded,
-                        ),
+                        trailing: const AppIcon(.openInNew),
                       ),
                       ListTile(
                         onTap: () => launchUrl(
@@ -194,9 +190,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(SimpleIcons.materialdesignicons),
                         title: const Text("Material Symbols"),
                         subtitle: Text(localizations.icons),
-                        trailing: const Icon(
-                          MaterialSymbols.open_in_new_rounded,
-                        ),
+                        trailing: const AppIcon(.openInNew),
                       ),
                       // if (settings.developerMode)
                       //   ListTile(
@@ -216,9 +210,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(SimpleIcons.github),
                         title: const Text("GitHub"),
                         subtitle: const Text("deminearchiver/notes"),
-                        trailing: const Icon(
-                          MaterialSymbols.open_in_new_rounded,
-                        ),
+                        trailing: const AppIcon(.openInNew),
                       ),
                       ListTile(
                         onTap: () => Navigator.push(
@@ -240,9 +232,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(MaterialSymbols.license_rounded),
                         subtitle: const Text(copyright),
                         title: Text(localizations.about_view_licenses),
-                        trailing: const Icon(
-                          MaterialSymbols.navigate_next_rounded,
-                        ),
+                        trailing: const AppIcon(.chevronForward),
                       ),
                     ],
                   ),
@@ -307,9 +297,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(SimpleIcons.github),
                         title: const Text("GitHub"),
                         subtitle: const Text("deminearchiver"),
-                        trailing: const Icon(
-                          MaterialSymbols.open_in_new_rounded,
-                        ),
+                        trailing: const AppIcon(.openInNew),
                       ),
                       ListTile(
                         onTap: () => launchUrl(
@@ -318,9 +306,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(SimpleIcons.youtube),
                         title: const Text("YouTube"),
                         subtitle: const Text("@deminearchiver"),
-                        trailing: const Icon(
-                          MaterialSymbols.open_in_new_rounded,
-                        ),
+                        trailing: const AppIcon(.openInNew),
                       ),
                       ListTile(
                         onTap: () => launchUrl(
@@ -329,9 +315,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(SimpleIcons.twitch),
                         title: const Text("Twitch"),
                         subtitle: const Text("deminearchiver"),
-                        trailing: const Icon(
-                          MaterialSymbols.open_in_new_rounded,
-                        ),
+                        trailing: const AppIcon(.openInNew),
                       ),
                       ListTile(
                         onTap: () async {
@@ -349,9 +333,7 @@ class _AboutViewState extends State<AboutView> {
                         leading: const Icon(SimpleIcons.discord),
                         title: const Text("Discord"),
                         subtitle: const Text("@deminearchiver"),
-                        trailing: const Icon(
-                          MaterialSymbols.content_copy_rounded,
-                        ),
+                        trailing: const AppIcon(.contentCopy),
                       ),
                       // ListTile(
                       //   onTap: () =>

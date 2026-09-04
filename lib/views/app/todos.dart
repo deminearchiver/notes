@@ -140,7 +140,7 @@ class _AppViewTodosPageState extends State<AppViewTodosPage> {
                 ),
                 SortType(
                   value: TodosSortBy.date,
-                  icon: const Icon(MaterialSymbols.schedule_rounded),
+                  icon: const AppIcon(.schedule),
                   label: localizations.app_todos_view_sort_date,
                 ),
               ],
@@ -373,8 +373,8 @@ class _TodoCardState extends State<TodoCard> {
                         TextSpan(text: " ${dateFormat.format(_todo.date)} "),
                         WidgetSpan(
                           alignment: PlaceholderAlignment.middle,
-                          child: Icon(
-                            MaterialSymbols.schedule_rounded,
+                          child: AppIcon(
+                            .schedule,
                             opticalSize: 20,
                             size: 16,
                             color: iconColor,

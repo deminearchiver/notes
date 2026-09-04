@@ -1179,13 +1179,13 @@ class _ExpandedAppState extends State<ExpandedApp> {
         label: "Home",
       ),
       AdaptiveDestination(
-        icon: Icon(MaterialSymbols.notes_rounded, fill: 0),
-        selectedIcon: Icon(MaterialSymbols.notes_rounded, fill: 1),
+        icon: AppIcon(.notes, fill: 0),
+        selectedIcon: AppIcon(.notes, fill: 1),
         label: "Notes",
       ),
       AdaptiveDestination(
-        icon: Icon(MaterialSymbols.task_alt_rounded, fill: 0),
-        selectedIcon: Icon(MaterialSymbols.task_alt_rounded, fill: 1),
+        icon: AppIcon(.taskAlt, fill: 0),
+        selectedIcon: AppIcon(.taskAlt, fill: 1),
         label: "To-dos",
       ),
     ];

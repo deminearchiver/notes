@@ -244,9 +244,7 @@ class _MenuFloatingActionButtonRoute<T extends Object?> extends PopupRoute<T> {
                                       ? exitOpacityTween.evaluate(animation)
                                       : enterOpacityTween.evaluate(animation),
                                   child: animation.value >= 0.5
-                                      ? const Icon(
-                                          MaterialSymbols.arrow_back_rounded,
-                                        )
+                                      ? const AppIcon(.arrowBack)
                                       : icon,
                                 ),
                               ),
