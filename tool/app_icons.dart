@@ -74,7 +74,7 @@ Future<void> main(List<String> arguments) async {
   final buffer = StringBuffer();
 
   {
-    buffer.writeln("part of 'app_icons.dart';");
+    buffer.writeln("import 'package:notes/flutter.dart';");
   }
 
   buffer
@@ -139,7 +139,9 @@ Future<void> main(List<String> arguments) async {
 
   final packageRoot = Platform.script.resolve("../");
 
-  final path = packageRoot.resolve("lib/icons/app_icons.g.dart").toFilePath();
+  final path = packageRoot
+      .resolve("lib/icons/app_icons_delegate.dart")
+      .toFilePath();
   final file = File(path);
   await file.create(recursive: true);
   await file.writeAsString(code);

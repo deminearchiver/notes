@@ -78,6 +78,7 @@ export 'package:provider/provider.dart'
 
 export 'i18n/i18n.dart';
 export 'icons/app_icons.dart';
+export 'icons/app_icons_delegate.dart';
 export 'icons/custom_icon.dart';
 export 'theme/legacy.dart';
 export 'theme/typography.dart';

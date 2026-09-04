@@ -1,4 +1,4 @@
-part of 'app_icons.dart';
+import 'package:notes/flutter.dart';
 
 abstract interface class AppIconsDelegate {
   const factory materialSymbolsOutlined() = _MaterialSymbolsOutlined;

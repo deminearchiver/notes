@@ -1,7 +1,5 @@
 import 'package:notes/flutter.dart';
 
-part 'app_icons.g.dart';
-
 class const AppIconsScope({
   super.key,
   required final AppIconsDelegate delegate,
